@@ -9,11 +9,13 @@ import {
 import Footer from "./components/Footer.jsx";
 import Cart from "./pages/Cart.jsx";
 import { productsData } from "./api/Api.js";
+import Product from "./components/Product.jsx";
 
 const Layout = () => {
   return (
     <div>
       <Header />
+      <ScrollRestoration />
       <Outlet />
       <Footer />
     </div>
@@ -29,6 +31,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
         loader: productsData,
+      },
+      {
+        path: "/product/:id",
+        element: <Product />,
       },
       {
         path: "/cart",
