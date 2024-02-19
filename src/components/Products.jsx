@@ -1,6 +1,6 @@
 import ProductCard from "./ProductCard"
 
-const Products = () => {
+const Products = ({ products }) => {
     return (
         <div className="py-10">
             <div className="flex flex-col items-center gap-4">
@@ -10,8 +10,12 @@ const Products = () => {
                     El Shisha is the most luxurious vape brand in the world offering a whole new vape concept - a refined ritual called shisha vaping. All El Shisha models are developed by our talented engineers utilizing latest generation technologies and the highest-grade materials to deliver an unmatched user experience.
                 </p>
             </div>
-            <div className="max-w-screen-xl mx-au">
-                <ProductCard />
+            <div className="max-w-screen-xl mx-auto py-10 grid grid-cols-4 gap-10">
+                {
+                    products.map((item) => (
+                        <ProductCard key={item._id} product={item} />
+                    ))
+                }
             </div>
         </div>
     )

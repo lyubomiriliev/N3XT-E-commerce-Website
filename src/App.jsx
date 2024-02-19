@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Footer from "./components/Footer.jsx";
 import Cart from "./pages/Cart.jsx";
+import { productsData } from "./api/Api.js";
 
 const Layout = () => {
   return (
@@ -27,12 +28,12 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+        loader: productsData,
       },
       {
         path: "/cart",
         element: <Cart />,
-
-      }
+      },
     ]
   }
 ])
