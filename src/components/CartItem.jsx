@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
 import { Link } from "react-router-dom";
 
-const CartItem = () => {
+const CartItem = (item) => {
 
     const dispatch = useDispatch()
 
@@ -13,7 +13,7 @@ const CartItem = () => {
     return (
         <div className="w-2/3 pr-10">
             <div className="w-full">
-                <h2 className="text-2xl">Shopping Cart</h2>
+                {productData.length > 0 ? <h2 className="text-2xl">Shopping Cart</h2> : <h1 className="text-2xl text-red-600">Your cart is empty. Please go back to shopping and add products to the cart.</h1>}
             </div>
             <div>
                 {productData.map((item) => (
@@ -56,7 +56,7 @@ const CartItem = () => {
                     </div>
                 ))}
             </div>
-            <button onClick={() => dispatch(resetCart()) & toast.error("Your cart is empty!")} className="bg-red-500 text-white mt-8 ml-7 py-1 px-6 hover:bg-red-800">Empty cart</button>
+            {productData.length > 0 ? <button onClick={() => dispatch(resetCart()) & toast.error("Your cart is empty!")} className="bg-red-500 text-white mt-8 ml-7 py-1 px-6 hover:bg-red-800">Empty cart</button> : null}
             <Link to="/">
                 <button className="mt-8 ml-7 flex items-center gap-1 text-gray-400 hover:text-black duration-300 ">
                     <span>

@@ -10,6 +10,7 @@ import Footer from "./components/Footer.jsx";
 import Cart from "./pages/Cart.jsx";
 import { productsData } from "./api/Api.js";
 import Product from "./components/Product.jsx";
+import Login from "./pages/Login.jsx";
 
 const Layout = () => {
   return (
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         path: "/cart",
         element: <Cart />,
       },
+      {
+        path: "/login",
+        element: <Login />,
+      }
     ]
   }
 ])

@@ -28,11 +28,12 @@ export default function Header() {
                             <span className="w-6 font-semibold top-2 left-0 items-center justify-center">{productData.length}</span>
                         </div>
                     </Link>
-                    <img
-                        className="w-8 h-8 rounded-full"
-                        src="https://images.pexels.com/photos/1587009/pexels-photo-1587009.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt="userLogo"
-                    />
+                    <Link to="/login">
+                        <img
+                            className="w-8 h-8 rounded-full"
+                            src="https://images.pexels.com/photos/1587009/pexels-photo-1587009.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                            alt="userLogo"
+                        /></Link>
                 </div>
             </div>
         </div>
