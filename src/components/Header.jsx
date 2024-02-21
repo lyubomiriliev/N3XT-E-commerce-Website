@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 export default function Header() {
 
     const productData = useSelector((state) => state.shisha.productData);
+    const userInfo = useSelector((state) => state.shisha.userInfo);
+    console.log(userInfo)
 
     return (
         <div className="w-full h-20 bg-white border-b-[1px] border-b-gray-300 sticky top-0 z-50">
@@ -31,9 +33,12 @@ export default function Header() {
                     <Link to="/login">
                         <img
                             className="w-8 h-8 rounded-full"
-                            src="https://images.pexels.com/photos/1587009/pexels-photo-1587009.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                            src={userInfo ? userInfo.image : "https://img.freepik.com/premium-vector/user-customer-avatar-vector-illustration_276184-160.jpg?w=740"}
                             alt="userLogo"
                         /></Link>
+                    {
+                        userInfo && <p className="text-base font-semibold underline underline-offset-2">{userInfo.name}</p>
+                    }
                 </div>
             </div>
         </div>

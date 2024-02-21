@@ -7,16 +7,29 @@ import {
     signInWithPopup,
     signOut,
 } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { addUser, removeUser } from "../redux/shishaSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const auth = getAuth()
     const provider = new GoogleAuthProvider();
     const handleGoogleLogin = (e) => {
         e.preventDefault()
         signInWithPopup(auth, provider).then((result) => {
             const user = result.user;
-            console.log(user);
+            dispatch(addUser({
+                _id: user.uid,
+                name: user.displayName,
+                email: user.email,
+                image: user.photoURL,
+            }));
+            setTimeout(() => {
+                navigate("/")
+            }, 1500)
         }).catch((error) => {
             console.log(error);
         })
@@ -25,6 +38,7 @@ const Login = () => {
     const handleSignOut = () => {
         signOut(auth).then(() => {
             toast.success("Log Out Succsessfully");
+            dispatch(removeUser())
         }).catch((error) => {
             console.log(error);
         });

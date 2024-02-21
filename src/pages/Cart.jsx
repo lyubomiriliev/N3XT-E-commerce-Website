@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CartItem from '../components/CartItem'
+import { ToastContainer, toast } from 'react-toastify';
+import StripeCheckout from 'react-stripe-checkout';
 
 const Cart = () => {
-    const productData = useSelector((state) => state.shisha.productData)
+    const productData = useSelector((state) => state.shisha.productData);
+    const userInfo = useSelector((state) => state.shisha.userInfo);
     const [totalAmount, setTotalAmount] = useState("");
+    const [payNow, setPayNow] = useState(false);
 
     useEffect(() => {
         let price = 0;
@@ -13,7 +17,15 @@ const Cart = () => {
             return price
         })
         setTotalAmount(price.toFixed(2))
-    }, [productData])
+    }, [productData]);
+
+    const handleCheckout = () => {
+        if (userInfo) {
+            setPayNow(true)
+        } else {
+            toast.error("Please sign in to Checkout")
+        }
+    }
 
     return (
 
@@ -44,9 +56,37 @@ const Cart = () => {
                                 $ {totalAmount}
                             </span>
                         </p>
-                        <button className='text-base bg-black text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300'>Proceed to checkout.</button>
+                        <button onClick={handleCheckout} className='text-base bg-black text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300'>Proceed to checkout.</button>
+                        {
+                            payNow &&
+
+                            <div className='w-full mt-6 flex items-center justify-center'>
+                                <StripeCheckout
+                                    stripeKey='pk_test_51OmBj8GcPfJpi1e0eCSHHyxM3rjygJLC7LmM6X2dlJj2D1o1aYeRutuTSno97SkDTvvExzInPTkoHhIrSGxtVqqH00esPuLY5a'
+                                    name='El Shisha'
+                                    amount={totalAmount * 100}
+                                    label='Payment to El Shisha'
+                                    description={`Your payment amount is $${totalAmount}`}
+                                    // token={payment}
+                                    email={userInfo.email}
+                                />
+                            </div>
+                        }
                     </div> : null}
+
             </div>
+            <ToastContainer
+                position="top-left"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
         </div>
     )
 }
