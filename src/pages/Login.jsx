@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../redux/shishaSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
 
@@ -59,6 +59,12 @@ const Login = () => {
                     <span className="text-sm text-gray-900">Sign in</span>
                 </div>
                 <button className="bg-black text-white text-base py-3 px-8 tracking-wide rounded-md hover:bg-gray-800 duration-300">Sign Out</button>
+            </div>
+            <div>
+                <Link to="/register">
+                    <button className="bg-black text-white text-base py-3 px-8 tracking-wide rounded-md hover:bg-gray-800 duration-300">Don't have an account? Register</button>
+
+                </Link>
             </div>
             <ToastContainer
                 position="top-left"

@@ -11,6 +11,7 @@ import Cart from "./pages/Cart.jsx";
 import { productsData } from "./api/Api.js";
 import Product from "./components/Product.jsx";
 import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
 
 const Layout = () => {
   return (
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />
       }
     ]
   }
