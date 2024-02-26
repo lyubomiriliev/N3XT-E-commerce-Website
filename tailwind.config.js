@@ -2,7 +2,17 @@
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        "loop-scroll": "loop-scroll 15s linear infinite",
+      },
+      keyframes: {
+        "loop-scroll": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateY(-100%)" },
+        },
+      },
+    },
   },
   plugins: [],
 };
