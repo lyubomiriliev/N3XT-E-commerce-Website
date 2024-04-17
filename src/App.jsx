@@ -12,6 +12,7 @@ import { productsData } from "./api/Api.js";
 import Product from "./components/Product.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import Sale from "./components/Sale.jsx";
 
 const Layout = () => {
   return (
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />
+      },
+      {
+        path: "/sale",
+        element: <Sale />
       }
     ]
   }

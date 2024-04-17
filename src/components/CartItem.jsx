@@ -13,7 +13,10 @@ const CartItem = (item) => {
     return (
         <div className="w-2/3 pr-10">
             <div className="w-full">
-                {productData.length > 0 ? <h2 className="text-2xl">Shopping Cart</h2> : <h1 className="text-2xl text-red-600">Your cart is empty. Please go back to shopping and add products to the cart.</h1>}
+                <div>
+                    {productData.length > 0 ? <h2 className="text-2xl">Shopping Cart</h2> : <h1 className="text-2xl text-red-600">Your cart is empty. Please go back to shopping and add products to the cart.</h1>}
+
+                </div>
             </div>
             <div>
                 {productData.map((item) => (
