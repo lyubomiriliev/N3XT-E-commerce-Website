@@ -1,4 +1,4 @@
-import { GoldShishaLogo, PaymentLogo } from "../assets";
+import { PaymentLogo, nextLogo, nextLogoWhite } from "../assets";
 import {
     FaFacebookF,
     FaTwitter,
@@ -12,8 +12,8 @@ const Footer = () => {
         <div className="bg-black text-[#949494] py-20">
             <div className="max-w-screen-xl mx-auto grid grid-cols-4">
                 <div className="flex flex-col gap-4">
-                    <img className="w-36" src={GoldShishaLogo} alt="" />
-                    <p className="w-60">&copy; 2024 ALL RIGHTS RESERVED PRINCEPS GROUP</p>
+                    <img className="w-36" src={nextLogoWhite} alt="" />
+                    <p className="w-60">&copy; 2024 ALL RIGHTS RESERVED N3XT BRAND</p>
                     <img className="w-36" src={PaymentLogo} alt="" />
                     <div className="flex items-center gap-4 text-lg text-gray-400">
                         <FaFacebookF className="hover:text-white duration-300 cursor-pointer" />

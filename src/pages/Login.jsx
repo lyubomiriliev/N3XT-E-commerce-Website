@@ -1,6 +1,5 @@
 import { ToastContainer, toast } from "react-toastify";
-import { GoogleLogo } from "../assets";
-import { ShishaLogo } from "../assets";
+import { GoogleLogo, nextLogo } from "../assets";
 import {
     GoogleAuthProvider,
     getAuth,
@@ -55,7 +54,7 @@ const Login = () => {
             </div>
             <div className="w-full flex items-center justify-center gap-10">
                 <div className="text-base w-60 h-12 tracking-wide border-[1px] border-gray-400 rounded-md flex items-center justify-center gap-2 hover:border-blue-600 cursor-pointer duration-300">
-                    <img className="w-10" src={ShishaLogo} alt="" />
+                    <img className="w-10" src={nextLogo} alt="" />
                     <span className="text-sm text-gray-900">Sign in</span>
                 </div>
                 <button className="bg-black text-white text-base py-3 px-8 tracking-wide rounded-md hover:bg-gray-800 duration-300">Sign Out</button>

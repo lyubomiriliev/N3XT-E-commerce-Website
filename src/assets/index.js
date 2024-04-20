@@ -1,6 +1,6 @@
-import ShishaLogo from "../assets/elLogo.png";
-import GoldShishaLogo from "../assets/gold-logo.png";
 import PaymentLogo from "../assets/paymentLogo.png";
 import GoogleLogo from "../assets/googleLogo.png";
+import nextLogo from "../assets/nextLogoPNG.png";
+import nextLogoWhite from "../assets/nextLogoPNGwhite.png";
 
-export { ShishaLogo, GoldShishaLogo, PaymentLogo, GoogleLogo };
+export { PaymentLogo, GoogleLogo, nextLogo, nextLogoWhite };

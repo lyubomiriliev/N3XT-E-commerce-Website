@@ -1,6 +1,24 @@
+import { useEffect, useState } from "react";
 import { GoogleLogo } from "../assets";
+import axios from "axios";
 
 const Register = () => {
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get("https://fakestoreapiserver.reactbd.com/products");
+                setProducts(response.data)
+            } catch (error) {
+                console.error("Error fetching products", error);
+            }
+        };
+
+        fetchProducts();
+    }, [])
+
     return (
         <div>
             <div className=" max-w-screen-xl mx-auto py-20 flex ">
@@ -35,26 +53,14 @@ const Register = () => {
                 </div>
                 <div className=" overflow-hidden">
                     <div className="gap-3 ml-10 grid grid-cols-3 animate-loop-scroll">
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
+                        {products.slice(0, 9).map((product, index) => (
+                            <img key={index} src={product.image} className="w-60 h-60 object-cover" alt={`Product ${index}`} />
+                        ))}
                     </div>
                     <div className="gap-3 mt-3 ml-10 grid grid-cols-3 animate-loop-scroll aria-hidden:">
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
-                        <img className='w-60 h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
+                        {products.slice(9, 18).map((product, index) => (
+                            <img key={index} src={product.image} className="w-60 h-60 object-cover" alt={`Product ${index}`} />
+                        ))}
                     </div>
                 </div>
 

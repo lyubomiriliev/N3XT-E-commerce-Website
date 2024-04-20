@@ -6,10 +6,10 @@ import { FaAngleLeft } from "react-icons/fa6";
 const Banner = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const data = [
-        "https://i.imgur.com/bZwUqaN.jpg",
-        "https://i.imgur.com/u9R9U53.jpg",
-        "https://i.imgur.com/wMI6Vej.jpg",
-        "https://i.imgur.com/ft91ruS.jpg"
+        "https://images.pexels.com/photos/3755706/pexels-photo-3755706.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "https://i.imgur.com/bZTSFkE.png",
+        "https://i.imgur.com/RA3VRAM.jpeg"
     ];
 
     const prevSlide = () => {
@@ -31,7 +31,7 @@ const Banner = () => {
 
     return (
         <div className=" w-full h-auto overflow-x-hidden">
-            <div className="w-screen h-[650px] relative">
+            <div className="w-screen h-[800px] relative">
                 <div style={{ transform: `translateX(-${currentSlide * 100}vw)` }} className="w-[400vw] h-full flex transition-transform duration-700">
                     <img className="w-screen h-full object-cover" src={data[0]} alt="Banner1" loading="priority" />
                     <img className="w-screen h-full object-cover" src={data[1]} alt="Banner2" loading="priority" />
