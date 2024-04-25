@@ -10,7 +10,9 @@ const HeaderSubmenu = () => {
             {links.map((link) => (
                 <div>
                     <div className="px-3 text-left md:cursor-pointer group">
-                        <h1 className="py-4 hover:scale-110 font-bold  decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">{link.name}</h1>
+                        <h1 className="py-4 hover:scale-110 font-bold  decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                            <Link to={link.dir}>{link.name}</Link>
+                        </h1>
                         {link.submenu &&
                             <div>
                                 <div className="absolute top-12 hidden group-hover:block hover:block">

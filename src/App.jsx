@@ -13,6 +13,11 @@ import Product from "./components/Product.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Sale from "./components/Sale.jsx";
+import Clothing from "./pages/ProductsPages/Clothing.jsx";
+import Shoes from "./pages/ProductsPages/Shoes.jsx";
+import Jewellery from "./pages/ProductsPages/Jewellery.jsx";
+import Bags from "./pages/ProductsPages/Bags.jsx";
+import Accessories from "./pages/ProductsPages/Accessories.jsx";
 
 const Layout = () => {
   return (
@@ -38,6 +43,26 @@ const router = createBrowserRouter([
       {
         path: "/product/:id",
         element: <Product />,
+      },
+      {
+        path: "/products/clothing",
+        element: <Clothing />
+      },
+      {
+        path: "/products/shoes",
+        element: <Shoes />
+      },
+      {
+        path: "/products/accessories",
+        element: <Accessories />
+      },
+      {
+        path: "/products/bags",
+        element: <Bags />
+      },
+      {
+        path: "/products/Jewellery",
+        element: <Jewellery />
       },
       {
         path: "/cart",
