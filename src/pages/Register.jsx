@@ -24,7 +24,7 @@ const Register = () => {
             <div className=" max-w-screen-xl mx-auto py-20 flex ">
                 <div className="w-1/3 pr-10">
                     <div className="w-full">
-                        <h1 className="text-4xl font-bold">The only shisha site you need.</h1>
+                        <h1 className="text-4xl font-bold">N3XT | Your only fashion world.</h1>
                         <div className="mt-6">
                             <div className="flex flex-col">
                                 <label className="mb-2">Email</label>
