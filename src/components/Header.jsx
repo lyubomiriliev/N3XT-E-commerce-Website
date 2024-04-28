@@ -3,8 +3,6 @@ import { nextLogo } from "../assets";
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import { useSelector } from "react-redux";
-import { useState } from "react";
-import axios from "axios";
 import HeaderSubmenu from "./HeaderSubmenu";
 
 export default function Header() {
@@ -12,43 +10,6 @@ export default function Header() {
     const productData = useSelector((state) => state.shisha.productData);
     const userInfo = useSelector((state) => state.shisha.userInfo);
     console.log(userInfo)
-
-    const submenuItems = {
-        Clothing: ['Jackets', 'T-Shirts', 'Jeans', 'Skirts', 'Hoodies', 'Tops', 'Formal'],
-        Shoes: ['Sneakers', 'Boots', 'High-heels', 'Loafers', 'Sandals'],
-        Accessories: ['Hats', 'Belts', 'Scarves', 'Sunglasses'],
-        Bags: ['Backpacks', 'Shoulder Bags', 'Messenger Bags', 'Clutch Bags']
-    };
-
-    const [openSubMenu, setOpenSubMenu] = useState(null);
-
-    const handleHeaderClick = (menu) => {
-        if (openSubMenu === menu) {
-            setOpenSubMenu(null);
-        } else {
-            setOpenSubMenu(menu);
-        }
-    };
-
-    // const [products, setProducts] = useState([]);
-
-    // const fetchProductsByCategory = async (category) => {
-    //     try {
-    //         const response = await axios.get(`https://fakestoreapi.com/products/category/${category}`);
-    //         setProducts(response.data);
-    //     } catch (error) {
-    //         console.error("Error fetching products by category", error);
-    //     }
-    // };
-
-    // const handleWomenClick = () => {
-    //     fetchProductsByCategory("women");
-    // };
-
-    // const handleMenClick = () => {
-    //     fetchProductsByCategory("men");
-    // };
-
 
     return (
 
