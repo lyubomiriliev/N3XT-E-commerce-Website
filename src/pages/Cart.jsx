@@ -5,8 +5,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import StripeCheckout from 'react-stripe-checkout';
 
 const Cart = () => {
-    const productData = useSelector((state) => state.shisha.productData);
-    const userInfo = useSelector((state) => state.shisha.userInfo);
+    const productData = useSelector((state) => state.next.productData);
+    const userInfo = useSelector((state) => state.next.userInfo);
+
+
     const [totalAmount, setTotalAmount] = useState("");
     const [payNow, setPayNow] = useState(false);
 
@@ -63,9 +65,9 @@ const Cart = () => {
                             <div className='w-full mt-6 flex items-center justify-center'>
                                 <StripeCheckout
                                     stripeKey='pk_test_51OmBj8GcPfJpi1e0eCSHHyxM3rjygJLC7LmM6X2dlJj2D1o1aYeRutuTSno97SkDTvvExzInPTkoHhIrSGxtVqqH00esPuLY5a'
-                                    name='El Shisha'
+                                    name='Next E-Commerce'
                                     amount={totalAmount * 100}
-                                    label='Payment to El Shisha'
+                                    label='Next Apparel Clothing'
                                     description={`Your payment amount is $${totalAmount}`}
                                     // token={payment}
                                     email={userInfo.email}

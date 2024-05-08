@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import { decrementQuantity, deleteItem, incrementQuantity, resetCart } from "../redux/shishaSlice";
+import { decrementQuantity, deleteItem, incrementQuantity, resetCart } from "../redux/nextSlice";
 import { ToastContainer, toast } from "react-toastify";
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
 import { Link } from "react-router-dom";
@@ -9,7 +9,7 @@ const CartItem = (item) => {
 
     const dispatch = useDispatch()
 
-    const productData = useSelector((state) => state.shisha.productData)
+    const productData = useSelector((state) => state.next.productData)
     return (
         <div className="w-2/3 pr-10">
             <div className="w-full">

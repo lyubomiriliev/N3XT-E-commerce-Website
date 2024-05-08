@@ -1,7 +1,7 @@
 import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { addToCart } from '../redux/shishaSlice';
+import { addToCart } from '../redux/nextSlice';
 import { ToastContainer, toast } from 'react-toastify';
 
 const ProductCard = ({ product }) => {

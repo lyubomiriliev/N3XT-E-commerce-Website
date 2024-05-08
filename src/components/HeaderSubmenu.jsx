@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom";
-
 import { links } from "../components/HeaderLinks"
 
 const HeaderSubmenu = () => {
 
-
     return (
         <>
-            {links.map((link) => (
-                <div>
+            {links.map((link, index) => (
+                <div key={index}>
                     <div className="px-3 text-left md:cursor-pointer group">
                         <h1 className="py-4 hover:scale-110 font-bold  decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                             <Link to={link.dir}>{link.name}</Link>
@@ -22,8 +20,8 @@ const HeaderSubmenu = () => {
                                     </div>
                                     <div className="bg-white p-4 px-10">
                                         {
-                                            link.sublinks.map((sublink) => (
-                                                <h1 className="text-sm text-gray-600 my-3">
+                                            link.sublinks.map((sublink, subIndex) => (
+                                                <h1 key={subIndex} className="text-sm text-gray-600 my-3">
                                                     <Link to={sublink.link} className="hover:text-yellow-600 px-2">{sublink.name}</Link>
                                                 </h1>
                                             ))

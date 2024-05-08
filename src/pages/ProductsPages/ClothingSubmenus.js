@@ -1,4 +1,4 @@
-export const clothingSubmenus = [
+export const clothingSubmenusMen = [
   {
     name: "Jackets",
     submenu: true,
@@ -9,42 +9,39 @@ export const clothingSubmenus = [
   },
   {
     name: "T-Shirts",
-    submenu: true,
-    sublinks: [
-      { name: "Coats", link: "/coats/" },
-      { name: "Trench", link: "/trench/" },
-    ],
+    link: "/products/t-shirts",
   },
   {
-    name: "Tops",
+    name: "Hoodies",
     submenu: true,
     sublinks: [
-      { name: "Coats", link: "/coats/" },
-      { name: "Trench", link: "/trench/" },
+      { name: "With zipper", link: "/products/hoodies-zipper/" },
+      { name: "Kangaroo", link: "/products/hoodies-kangaroo/" },
     ],
   },
   {
     name: "Jeans",
     submenu: true,
     sublinks: [
-      { name: "Coats", link: "/coats/" },
-      { name: "Trench", link: "/trench/" },
+      { name: "Skinny fit", link: "/products/jeans-skinny-fit/" },
+      { name: "Slim fit", link: "/products/jeans-slim-fit/" },
+      { name: "Loose fit", link: "/products/jeans-lose-fit/" },
     ],
   },
   {
     name: "Skirts",
     submenu: true,
     sublinks: [
-      { name: "Coats", link: "/coats/" },
-      { name: "Trench", link: "/trench/" },
+      { name: "Short", link: "/products/skirts-short/" },
+      { name: "Long", link: "/products/skirts-long/" },
     ],
   },
   {
     name: "Formal",
     submenu: true,
     sublinks: [
-      { name: "Coats", link: "/coats/" },
-      { name: "Trench", link: "/trench/" },
+      { name: "Suits", link: "/products/formal-suits/" },
+      { name: "Tuxedos", link: "/products/formal-tuxedos/" },
     ],
   },
 ];

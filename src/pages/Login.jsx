@@ -7,7 +7,7 @@ import {
     signOut,
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { addUser, removeUser } from "../redux/shishaSlice";
+import { addUser, removeUser } from "../redux/nextSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {

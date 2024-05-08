@@ -5,15 +5,14 @@ const initialState = {
   userInfo: null,
 };
 
-export const shishaSlice = createSlice({
-  name: "shisha",
+export const nextSlice = createSlice({
+  name: "next",
   initialState,
   reducers: {
     addToCart: (state, action) => {
       const item = state.productData.find(
         (item) => item._id === action.payload._id
       );
-
       if (item) {
         item.quantity += action.payload.quantity;
       } else {
@@ -63,5 +62,5 @@ export const {
   decrementQuantity,
   addUser,
   removeUser,
-} = shishaSlice.actions;
-export default shishaSlice.reducer;
+} = nextSlice.actions;
+export default nextSlice.reducer;

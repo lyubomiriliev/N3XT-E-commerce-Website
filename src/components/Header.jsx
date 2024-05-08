@@ -7,8 +7,8 @@ import HeaderSubmenu from "./HeaderSubmenu";
 
 export default function Header() {
 
-    const productData = useSelector((state) => state.shisha.productData);
-    const userInfo = useSelector((state) => state.shisha.userInfo);
+    const productData = useSelector((state) => state.next.productData);
+    const userInfo = useSelector((state) => state.next.userInfo);
     console.log(userInfo)
 
     return (
@@ -30,11 +30,20 @@ export default function Header() {
                     <input className="w-full h-10 border-[1px] px-4 rounded-md" type="text" placeholder="Search..." />
                 </div>
                 <div className="flex items-center gap-10 mx-10">
-                    <Link to="/wishlist">
-                        <div className=" hover:text-orange-300 hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
-                            <FavoriteBorderOutlinedIcon />
-                        </div>
-                    </Link>
+                    {userInfo === null ?
+                        <Link to="/register">
+                            <div className=" hover:text-orange-300 hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                                <FavoriteBorderOutlinedIcon />
+                            </div>
+                        </Link>
+                        :
+                        <Link to="/wishlist">
+                            <div className=" hover:text-orange-300 hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                                <FavoriteBorderOutlinedIcon />
+                            </div>
+                        </Link>
+                    }
+
                     <Link to="/cart">
                         <div className=" hover:text-orange-300 hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                             <ShoppingBagOutlinedIcon />

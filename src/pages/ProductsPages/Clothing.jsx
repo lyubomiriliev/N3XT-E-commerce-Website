@@ -4,12 +4,12 @@ import ProductCard from "../../components/ProductCard";
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 
-import { clothingSubmenus } from "./ClothingSubmenus";
+import { clothingSubmenusMen } from "./ClothingSubmenus";
+import { ShoesSubmenusMen } from "./ShoesSubmenu";
 
-const Clothing = () => {
+const Clothing = ({ category }) => {
 
     const [products, setProducts] = useState([]);
-
     const [activeSubMenu, setActiveSubMenu] = useState(null);
 
     const data = useLoaderData()
@@ -17,6 +17,13 @@ const Clothing = () => {
         setProducts(data.data)
     }, [data])
 
+    const toggleSubMenu = (clothName) => {
+        setActiveSubMenu((prevActiveSubmenu) => {
+            return prevActiveSubmenu === clothName ? null : clothName;
+        })
+    }
+
+    const submenus = category === 'clothing' ? clothingSubmenusMen : ShoesSubmenusMen
 
     return (
         <div className="w-full flex-col ml-20 mt-8">
@@ -27,7 +34,7 @@ const Clothing = () => {
                 <div className="flex items-center" >
                     <ArrowForwardIosOutlinedIcon className=" scale-75 text-gray-600" />
                 </div>
-                <h1 className="uppercase text-sm text-gray-600">Men</h1>
+                <h1 className="uppercase text-sm text-gray-600">Clothing</h1>
             </div>
             <div>
                 <h1 className="text-3xl uppercase font-bold mt-6">Men apparel</h1>
@@ -37,17 +44,19 @@ const Clothing = () => {
                     <div>
                         <h1 className="font-bold text-2xl py-4">Clothing</h1>
                         <div className="flex-col">
-                            {clothingSubmenus.map((cloth) => (
-                                <div className="">
-                                    <h1 className="py-4 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s"
-                                        onClick={() => setActiveSubMenu(cloth.name)}
-                                    >{cloth.name}</h1>
+                            {submenus.map((product) => (
+                                <div key={product.name}>
+                                    <div onClick={() => toggleSubMenu(product.name)} >
+                                        <Link to={product.link}>
+                                            <h1 className="py-4 decoration-[1px] cursor-pointer hover:bg-gray-300 duration-100 ease-out 0.3s">{product.name}</h1>
+                                        </Link>
+                                    </div>
                                     {
-                                        activeSubMenu === cloth.name && cloth.sublinks && <div>
+                                        activeSubMenu === product.name && product.sublinks && <div>
                                             <div>
-                                                {cloth.sublinks.map((sublink) => (
-                                                    <h1 className="text-sm text-gray-600 my-3">
-                                                        <Link to={sublink.link} className="hover:text-yellow-600 px-2 ml-2">{sublink.name}</Link>
+                                                {product.sublinks.map((sublink) => (
+                                                    <h1 key={sublink.name} className="hover:scale-110 duration-100 text-sm text-gray-600 my-3">
+                                                        <Link to={sublink.link} className=" px-2 ml-2">{sublink.name}</Link>
                                                     </h1>
                                                 ))}
                                             </div>

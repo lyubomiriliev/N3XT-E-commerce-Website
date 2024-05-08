@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import shishaReducer from "./shishaSlice";
+import nextReducer from "./nextSlice";
 
 import {
   persistStore,
@@ -19,10 +19,10 @@ const persistConfig = {
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, shishaReducer);
+const persistedReducer = persistReducer(persistConfig, nextReducer);
 
 export const store = configureStore({
-  reducer: { shisha: persistedReducer },
+  reducer: { next: persistedReducer },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

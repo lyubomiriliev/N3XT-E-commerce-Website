@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom"
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/shishaSlice";
+import { addToCart } from "../redux/nextSlice";
 import { ToastContainer, toast } from "react-toastify";
 
 const Product = () => {

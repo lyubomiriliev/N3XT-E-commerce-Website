@@ -19,9 +19,8 @@ export const links = [
     sublinks: [
       { name: "Sneakers", link: "/products/sneakers" },
       { name: "Boots", link: "/products/boots" },
-      { name: "Loafers", link: "/products/loafers" },
+      { name: "Mocassins", link: "/products/loafers" },
       { name: "Sandals", link: "/products/sandals" },
-      { name: "Formal", link: "/products/shoes/formal" },
     ],
   },
   {
@@ -69,5 +68,9 @@ export const links = [
       { name: "Balmain", link: "/brands/balmain" },
       { name: "Dsquared2", link: "/brands/" },
     ],
+  },
+  {
+    name: "SALE",
+    dir: "/sale",
   },
 ];
