@@ -12,17 +12,37 @@ import { productsData } from "./api/Api.js";
 import Product from "./components/Product.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
-import Sale from "./components/Sale.jsx";
 import Clothing from "./pages/ProductsPages/Clothing.jsx";
 import Shoes from "./pages/ProductsPages/Shoes.jsx";
 import Jewellery from "./pages/ProductsPages/Jewellery.jsx";
 import Bags from "./pages/ProductsPages/Bags.jsx";
 import Accessories from "./pages/ProductsPages/Accessories.jsx";
+import { ToastContainer } from "react-toastify";
+import { useEffect, useState } from "react";
+import Shop from "./components/Shop/Shop.jsx";
+import ProductsCenter from "./pages/ProductsPages/ProductsCenter.jsx";
+import Brands from "./components/Brands/Brands.jsx";
 
 const Layout = () => {
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await productsData();
+        setProducts(data.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <div>
-      <Header />
+      <Header products={products} />
       <ScrollRestoration />
       <Outlet />
       <Footer />
@@ -45,13 +65,42 @@ const router = createBrowserRouter([
         element: <Product />,
       },
       {
+        path: "/products/clothing/product/:id",
+        element: <Product />,
+      },
+      {
+        path: "/shop",
+        element: <Shop />,
+        loader: productsData,
+      },
+      {
         path: "/products/clothing",
+        element: <Clothing category="clothing" />,
+        loader: productsData,
+      },
+      {
+        path: "/products/jackets",
         element: <Clothing category="clothing" />,
         loader: productsData,
       },
       {
         path: "/products/shoes",
         element: <Clothing category="shoes" />,
+        loader: productsData,
+      },
+      {
+        path: "/products/accessories",
+        element: <Clothing category="accessories" />,
+        loader: productsData,
+      },
+      {
+        path: "/products/bags",
+        element: <Clothing category="bags" />,
+        loader: productsData,
+      },
+      {
+        path: "/products/jewellery",
+        element: <Clothing category="jewellery" />,
         loader: productsData,
       },
       {
@@ -71,6 +120,10 @@ const router = createBrowserRouter([
         element: <Jewellery />
       },
       {
+        path: "/brands/",
+        element: <Brands />
+      },
+      {
         path: "/cart",
         element: <Cart />,
       },
@@ -84,7 +137,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/sale",
-        element: <Sale />
+        element: <ProductsCenter />,
+        loader: productsData,
       }
     ]
   }

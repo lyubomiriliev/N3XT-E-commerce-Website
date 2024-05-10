@@ -1,10 +1,11 @@
 export const clothingSubmenusMen = [
   {
     name: "Jackets",
+    link: "/products/jackets",
     submenu: true,
     sublinks: [
-      { name: "Coats", link: "/products/coats/" },
-      { name: "Trench", link: "/products/trench/" },
+      { name: "Coats", link: "/products/jackets/coats/" },
+      { name: "Trench", link: "/products/jackets/trench/" },
     ],
   },
   {

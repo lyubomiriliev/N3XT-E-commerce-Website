@@ -1,15 +1,48 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { nextLogo } from "../assets";
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import { useSelector } from "react-redux";
 import HeaderSubmenu from "./HeaderSubmenu";
+import { FaSearch } from "react-icons/fa";
+import { useEffect, useRef, useState } from "react";
 
-export default function Header() {
+export default function Header({ products }) {
 
     const productData = useSelector((state) => state.next.productData);
     const userInfo = useSelector((state) => state.next.userInfo);
-    console.log(userInfo)
+
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const navigate = useNavigate()
+    const ref = useRef();
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (ref.current && !ref.current.contains(event.target)) {
+                setFilteredProducts([]);
+                setSearchQuery("");
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        }
+    }, [ref]);
+
+
+    const [filteredProducts, setFilteredProducts] = useState([]);
+
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value)
+    }
+
+    useEffect(() => {
+        const filtered = products?.filter((product) => product.title.toLowerCase().includes(searchQuery.toLocaleLowerCase()));
+        setFilteredProducts(filtered);
+    }, [searchQuery])
 
     return (
 
@@ -26,8 +59,53 @@ export default function Header() {
                         </ul>
                     </div>
                 </div>
-                <div className="flex w-1/3">
-                    <input className="w-full h-10 border-[1px] px-4 rounded-md" type="text" placeholder="Search..." />
+                <div ref={ref} className="relative w-full lg:w-[600px] h-[50px] text-base bg-white flex items-center gap-2 justify-between px-6 rounded-xl">
+                    <FaSearch className="w-5 h-5" />
+                    <input
+                        className="w-full h-10 border-[1px] px-4 rounded-md"
+                        type="text"
+                        onChange={handleSearch}
+                        value={searchQuery}
+                        placeholder="Search products here"
+                    />
+                    {searchQuery && (
+                        <div className={`w-full mx-auto h-96 bg-white top-16 absolute left-0 z-999 overflow-y-scroll shadow-2xl scrollbar-hide cursor-pointer`}>
+                            {searchQuery && filteredProducts.map((product) => (
+                                <div onClick={() => navigate(`/product/${product.title
+                                    .toLowerCase()
+                                    .split(" ")
+                                    .join("")}`,
+                                    {
+                                        state: {
+                                            product: product,
+                                        },
+                                    }
+                                ) &
+                                    setShowSearchBar(true) &
+                                    setSearchQuery("")
+                                }
+                                    key={product._id}
+                                    className="max-w-[600px] h-28 bg-gray-100 mb-3 flex items-center gap-3"
+                                >
+                                    <img className="w-24" src={product.image} alt="productImg" />
+                                    <div className="flex flex-col gap-1">
+                                        <p className="font-semibold text-lg">
+                                            {product.title}
+                                        </p>
+                                        <p className="text-xs">
+                                            {product.description.length > 100 ? `${product.description.slice(0, 100)}...` : product.description}
+                                        </p>
+                                        <p className="text-sm">
+                                            Price:{" "}
+                                            <span className="font-semibold">
+                                                ${product.price}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
                 <div className="flex items-center gap-10 mx-10">
                     {userInfo === null ?
@@ -61,9 +139,8 @@ export default function Header() {
                     }
                 </div>
             </div>
-            <div className='w-full mt-5 border-b-gray-300 flex justify-center bg-white sticky top-0 z-50 transition-all duration-300'>
+            <div className='w-full mt-5 border-b-gray-300 flex justify-center bg-white sticky top-0 -z-50 transition-all duration-300'>
                 <HeaderSubmenu />
-
             </div>
         </div>
     );

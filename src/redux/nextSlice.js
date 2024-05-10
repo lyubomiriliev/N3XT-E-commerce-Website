@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   productData: [],
+  checkedBrands: [],
+  checkedCategorys: [],
   userInfo: null,
 };
 
@@ -51,6 +53,35 @@ export const nextSlice = createSlice({
     removeUser: (state) => {
       state.userInfo = null;
     },
+    toggleBrand: (state, action) => {
+      const brand = action.payload;
+      const isBrandChecked = state.checkedBrands.some(
+        (b) => b._id === brand._id
+      );
+
+      if (isBrandChecked) {
+        state.checkedBrands = state.checkedBrands.filter(
+          (b) => b._id !== brand._id
+        );
+      } else {
+        state.checkedBrands.push(brand);
+      }
+    },
+
+    toggleCategory: (state, action) => {
+      const category = action.payload;
+      const isCategoryChecked = state.checkedCategorys.some(
+        (b) => b._id === category._id
+      );
+
+      if (isCategoryChecked) {
+        state.checkedCategorys = state.checkedCategorys.filter(
+          (b) => b._id !== category._id
+        );
+      } else {
+        state.checkedCategorys.push(category);
+      }
+    },
   },
 });
 
@@ -62,5 +93,7 @@ export const {
   decrementQuantity,
   addUser,
   removeUser,
+  toggleCategory,
+  toggleBrand,
 } = nextSlice.actions;
 export default nextSlice.reducer;

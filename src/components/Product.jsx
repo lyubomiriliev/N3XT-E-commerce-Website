@@ -8,9 +8,13 @@ import { ToastContainer, toast } from "react-toastify";
 const Product = () => {
 
     const dispatch = useDispatch()
+
     let [baseQuantity, setBaseQuantity] = useState(1);
+
     const [details, setDetails] = useState({});
+
     const location = useLocation();
+
     useEffect(() => {
         setDetails(location.state.item)
     }, [])

@@ -1,4 +1,4 @@
-export const ShoesSubmenusMen = [
+export const shoesSubmenusMen = [
   {
     name: "Boots",
     submenu: true,
