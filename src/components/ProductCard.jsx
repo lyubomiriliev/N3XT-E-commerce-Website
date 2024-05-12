@@ -16,10 +16,11 @@ const ProductCard = ({ product }) => {
     const handleDetails = () => {
         navigate(`product/${rootId}`, {
             state: {
-                item: product,
+                product: product,
             }
         })
     }
+
     return (
         <div className="group relative">
             <div onClick={handleDetails} className="w-full h-96 cursor-pointer overflow-hidden">

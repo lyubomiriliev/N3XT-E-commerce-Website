@@ -11,6 +11,7 @@ export const clothingSubmenusMen = [
   {
     name: "T-Shirts",
     link: "/products/t-shirts",
+    submenu: true,
   },
   {
     name: "Hoodies",

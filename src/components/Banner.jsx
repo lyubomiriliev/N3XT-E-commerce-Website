@@ -19,7 +19,6 @@ const Banner = () => {
     const nextSlide = () => {
         setCurrentSlide(currentSlide === 3 ? 0 : (prev) => prev + 1)
     }
-    console.log(currentSlide)
 
     useEffect(() => {
         const interval = setInterval(() => {

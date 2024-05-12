@@ -16,14 +16,16 @@ const Product = () => {
     const location = useLocation();
 
     useEffect(() => {
-        setDetails(location.state.item)
-    }, [])
+        setDetails(location.state.product)
+    }, [location])
+
+    console.log(location.state.product)
 
     return (
         <div>
             <div className="max-w-screen-xl mx-auto my-10 flex gap-10">
                 <div className="w-2/5 relative">
-                    <img className="w-full h-[550px] object-cover" src={details.image} alt="productImg" />
+                    <img className="w-full h-[550px] object-cover" src={details?.image} alt="productImg" />
                     <div className="absolute top-4 right-0">
                         {details.isNew && (
                             <p className="bg-black text-white font-semibold px-8 py-1">

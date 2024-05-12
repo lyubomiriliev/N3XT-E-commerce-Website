@@ -16,7 +16,7 @@ const FeaturedProductCard = ({ product }) => {
     const handleDetails = () => {
         navigate(`product/${rootId}`, {
             state: {
-                item: product,
+                product: product,
             }
         })
     }

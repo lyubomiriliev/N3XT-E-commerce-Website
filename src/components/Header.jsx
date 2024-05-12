@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { nextLogo } from "../assets";
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import HeaderSubmenu from "./HeaderSubmenu";
 import { FaSearch } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
@@ -12,7 +12,12 @@ export default function Header({ products }) {
     const productData = useSelector((state) => state.next.productData);
     const userInfo = useSelector((state) => state.next.userInfo);
 
+    const dispatch = useDispatch()
+
     const [searchQuery, setSearchQuery] = useState("");
+    const [showSearchBar, setShowSearchBar] = useState(false);
+
+
 
     const navigate = useNavigate()
     const ref = useRef();
@@ -44,6 +49,15 @@ export default function Header({ products }) {
         setFilteredProducts(filtered);
     }, [searchQuery])
 
+
+    const [sexCategory, setSexCategory] = useState("women");
+
+    const handleSexCategoryChange = (sexCategory) => {
+        navigate(`${sexCategory}`)
+        dispatch(setSexCategory("sexCategory"));
+    }
+
+
     return (
 
         <div className='w-full h-40 bg-white border-b-[1px] border-b-gray-300 sticky top-0 z-50 transition-all duration-300'>
@@ -54,8 +68,8 @@ export default function Header({ products }) {
                     </Link>
                     <div className="flex items-center gap-8">
                         <ul className="w-full flex items-center justify-center gap-10">
-                            <li className="text-black font-bold hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s"> Women</li>
-                            <li className=" text-black font-bold hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">Men</li>
+                            <li onClick={() => handleSexCategoryChange("women")} className="text-black font-bold hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s"> Women</li>
+                            <li onClick={() => handleSexCategoryChange("men")} className=" text-black font-bold hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">Men</li>
                         </ul>
                     </div>
                 </div>
@@ -76,7 +90,8 @@ export default function Header({ products }) {
                                     .split(" ")
                                     .join("")}`,
                                     {
-                                        state: {
+                                        state:
+                                        {
                                             product: product,
                                         },
                                     }

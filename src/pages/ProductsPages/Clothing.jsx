@@ -12,8 +12,9 @@ import { bagsSubmenus } from "./Submenus/bagsSubmenus";
 import { jewellerySubmenus } from "./Submenus/jewellerySubmenus";
 import ProductsCenter from "./ProductsCenter";
 import Pagination from "../../components/Shop/Pagination";
+import { useSelector } from "react-redux";
 
-const Clothing = ({ category, sex }) => {
+const Clothing = ({ category }) => {
 
     const [products, setProducts] = useState([]);
 
@@ -24,6 +25,10 @@ const Clothing = ({ category, sex }) => {
         setFilteredProducts(data.data)
     }, [setProducts])
 
+    const sexCategory = useSelector((state) => state.next.sexCategory)
+
+    console.log(sexCategory)
+
     const [activeSubMenu, setActiveSubMenu] = useState(null);
     const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -32,14 +37,38 @@ const Clothing = ({ category, sex }) => {
             return prevActiveSubmenu === clothName ? null : clothName;
         });
 
-        if (clothName === "Jackets") {
-            const jackets = products.filter(item => item.title.toLowerCase().includes('jacket'))
-            setFilteredProducts(jackets);
-        } else {
-            setFilteredProducts([]);
+        let filtered = [];
+
+        switch (clothName) {
+            case "Jackets":
+                filtered = products.filter(item => item.title.toLowerCase().includes('jacket'));
+                setFilteredProducts(filtered)
+                break;
+            case "T-Shirts":
+                filtered = products.filter(item => item.title.toLowerCase().includes('shirt'));
+                setFilteredProducts(filtered)
+                break;
+            case "Hoodies":
+                filtered = products.filter(item => item.title.toLowerCase().includes('hood'));
+                setFilteredProducts(filtered)
+                break;
+            case "Jeans":
+                filtered = products.filter(item => item.title.toLowerCase().includes('jean'));
+                setFilteredProducts(filtered)
+                break;
+            case "Skirts":
+                filtered = products.filter(item => item.title.toLowerCase().includes('skirt'));
+                setFilteredProducts(filtered)
+                break;
+            case "Formal":
+                filtered = products.filter(item => item.title.toLowerCase().includes('formal'));
+                setFilteredProducts(filtered)
+                break;
+            default:
+                filtered = products;
+                break;
         }
     }
-    console.log(filteredProducts)
 
     const closeSubMenu = () => {
         setFilteredProducts(products)
@@ -63,8 +92,6 @@ const Clothing = ({ category, sex }) => {
                     category === 'bags' ? "Bags" :
                         category === 'jewellery' ? "Jewellery" : []
 
-    const sexCategory = sex === "women" ? "Women" : "Men"
-
     return (
         <div className="max-w-screen-2xl flex-col mx-auto mt-5">
 
@@ -81,8 +108,8 @@ const Clothing = ({ category, sex }) => {
 
             {/* Breadcrumbs end */}
 
-            <div>
-                <h1 className="text-3xl uppercase font-bold mt-6">{sexCategory} apparel</h1>
+            <div className="border-b-2 w-24">
+                <h1 className="text-4xl  uppercase font-bold mt-6">{sexCategory}</h1>
             </div>
             <div className="flex w-full">
                 <div className="flex-col">

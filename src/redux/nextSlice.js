@@ -5,6 +5,7 @@ const initialState = {
   checkedBrands: [],
   checkedCategorys: [],
   userInfo: null,
+  sexCategory: "ho",
 };
 
 export const nextSlice = createSlice({
@@ -82,6 +83,9 @@ export const nextSlice = createSlice({
         state.checkedCategorys.push(category);
       }
     },
+    sexCategory: (state, action) => {
+      state.sexCategory = action.payload;
+    },
   },
 });
 
@@ -95,5 +99,6 @@ export const {
   removeUser,
   toggleCategory,
   toggleBrand,
+  sexCategory,
 } = nextSlice.actions;
 export default nextSlice.reducer;
