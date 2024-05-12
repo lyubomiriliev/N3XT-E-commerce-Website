@@ -25,9 +25,9 @@ const Clothing = ({ category }) => {
         setFilteredProducts(data.data)
     }, [setProducts])
 
-    const sexCategory = useSelector((state) => state.next.sexCategory)
+    const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 
-    console.log(sexCategory)
+    console.log(selectedSexCategory)
 
     const [activeSubMenu, setActiveSubMenu] = useState(null);
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -109,7 +109,7 @@ const Clothing = ({ category }) => {
             {/* Breadcrumbs end */}
 
             <div className="border-b-2 w-24">
-                <h1 className="text-4xl  uppercase font-bold mt-6">{sexCategory}</h1>
+                <h1 className="text-4xl  uppercase font-bold mt-6">{selectedSexCategory}</h1>
             </div>
             <div className="flex w-full">
                 <div className="flex-col">

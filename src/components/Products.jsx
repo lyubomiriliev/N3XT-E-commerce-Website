@@ -1,10 +1,8 @@
 import ProductCard from "./ProductCard"
 
-const Products = ({ products }) => {
+const Products = ({ products, category }) => {
 
-    const filteredProducts = products.filter((item) => item.category === "men")
-
-    console.log(filteredProducts);
+    const filteredProducts = category ? products.filter((item) => item.category === category) : products;
 
 
     return (

@@ -1,9 +1,8 @@
 import FeaturedProductCard from "./FeaturedProductCard"
 
-const FeaturedProducts = ({ products }) => {
+const FeaturedProducts = ({ products, category }) => {
 
-    const filteredProducts = products.filter((item) => item.category === "men")
-
+    const filteredProducts = category ? products.filter((item) => item.category === category) : products;
 
     return (
         <div className="py-10">

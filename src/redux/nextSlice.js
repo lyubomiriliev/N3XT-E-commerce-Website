@@ -83,7 +83,7 @@ export const nextSlice = createSlice({
         state.checkedCategorys.push(category);
       }
     },
-    sexCategory: (state, action) => {
+    setSexCategory: (state, action) => {
       state.sexCategory = action.payload;
     },
   },
@@ -99,6 +99,6 @@ export const {
   removeUser,
   toggleCategory,
   toggleBrand,
-  sexCategory,
+  setSexCategory,
 } = nextSlice.actions;
 export default nextSlice.reducer;

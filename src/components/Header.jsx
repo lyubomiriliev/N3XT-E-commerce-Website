@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import HeaderSubmenu from "./HeaderSubmenu";
 import { FaSearch } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
+import { setSexCategory } from "../redux/nextSlice";
 
 export default function Header({ products }) {
 
@@ -13,11 +14,15 @@ export default function Header({ products }) {
     const userInfo = useSelector((state) => state.next.userInfo);
 
     const dispatch = useDispatch()
+    const selectedSexCategory = useSelector((state) => state.next.selectSexCategory)
+
+    const handleSexCategoryChange = (sexCategory) => {
+        dispatch(setSexCategory(sexCategory))
+        navigate(`/${sexCategory}`)
+    }
 
     const [searchQuery, setSearchQuery] = useState("");
     const [showSearchBar, setShowSearchBar] = useState(false);
-
-
 
     const navigate = useNavigate()
     const ref = useRef();
@@ -48,14 +53,6 @@ export default function Header({ products }) {
         const filtered = products?.filter((product) => product.title.toLowerCase().includes(searchQuery.toLocaleLowerCase()));
         setFilteredProducts(filtered);
     }, [searchQuery])
-
-
-    const [sexCategory, setSexCategory] = useState("women");
-
-    const handleSexCategoryChange = (sexCategory) => {
-        navigate(`${sexCategory}`)
-        dispatch(setSexCategory("sexCategory"));
-    }
 
 
     return (
