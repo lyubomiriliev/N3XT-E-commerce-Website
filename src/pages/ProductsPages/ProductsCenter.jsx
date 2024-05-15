@@ -1,16 +1,22 @@
 import { useLoaderData } from "react-router-dom"
 import ProductCard from "../../components/ProductCard"
-import { LouisVuittonBags } from "../../fakeAPI/fakeAPI"
+import { LouisVuittonBags, WomenJackets } from "../../fakeAPI/fakeAPI"
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const ProductsCenter = ({ filteredProducts }) => {
 
     const [products, setProducts] = useState([]);
+    const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 
     const data = useLoaderData()
     useEffect(() => {
         setProducts(data.data)
     }, [data])
+
+    const filteredWomenJackets = WomenJackets.filter(
+        (item) => item.category === selectedSexCategory
+    );
 
     return (
         <div>
@@ -22,6 +28,9 @@ const ProductsCenter = ({ filteredProducts }) => {
                                 <ProductCard key={item._id} product={item} />
                             ))
                         }
+                        {filteredWomenJackets.map((item) => (
+                            <ProductCard key={item._id} product={item} />
+                        ))}
                     </div>
                     : <div className="w-5/6 mx-auto py-10 grid grid-cols-4 gap-10">
                         {

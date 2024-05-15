@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 
@@ -17,20 +17,19 @@ import { useSelector } from "react-redux";
 const Clothing = ({ category }) => {
 
     const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
 
     const data = useLoaderData()
-
-    useEffect(() => {
-        setProducts(data.data)
-        setFilteredProducts(data.data)
-    }, [setProducts])
-
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 
-    console.log(selectedSexCategory)
+
+    useEffect(() => {
+        const filteredByCategory = data.data.filter((item) => item.category === selectedSexCategory?.toLowerCase())
+        setProducts(filteredByCategory)
+        setFilteredProducts(filteredByCategory)
+    }, [selectedSexCategory])
 
     const [activeSubMenu, setActiveSubMenu] = useState(null);
-    const [filteredProducts, setFilteredProducts] = useState([]);
 
     const toggleSubMenu = (clothName) => {
         setActiveSubMenu((prevActiveSubmenu) => {
@@ -41,23 +40,23 @@ const Clothing = ({ category }) => {
 
         switch (clothName) {
             case "Jackets":
-                filtered = products.filter(item => item.title.toLowerCase().includes('jacket'));
+                filtered = products.filter(item => item.title.toLowerCase().includes('jacket') && item.category === selectedSexCategory?.toLowerCase());
                 setFilteredProducts(filtered)
                 break;
             case "T-Shirts":
-                filtered = products.filter(item => item.title.toLowerCase().includes('shirt'));
+                filtered = products.filter(item => item.title.toLowerCase().includes('shirt') && item.category === selectedSexCategory?.toLowerCase());
                 setFilteredProducts(filtered)
                 break;
             case "Hoodies":
-                filtered = products.filter(item => item.title.toLowerCase().includes('hood'));
+                filtered = products.filter(item => item.title.toLowerCase().includes('hood') && item.category === selectedSexCategory.toLowerCase());
                 setFilteredProducts(filtered)
                 break;
             case "Jeans":
-                filtered = products.filter(item => item.title.toLowerCase().includes('jean'));
+                filtered = products.filter(item => item.title.toLowerCase().includes('jean') && item.category === selectedSexCategory.toLowerCase());
                 setFilteredProducts(filtered)
                 break;
             case "Skirts":
-                filtered = products.filter(item => item.title.toLowerCase().includes('skirt'));
+                filtered = products.filter(item => item.title.toLowerCase().includes('skirt') && item.category === selectedSexCategory.toLowerCase());
                 setFilteredProducts(filtered)
                 break;
             case "Formal":
@@ -75,14 +74,13 @@ const Clothing = ({ category }) => {
         setActiveSubMenu(null);
     }
 
-    const submenus =
-        category === 'clothing' ? clothingSubmenusMen :
-            category === 'shoes' ? shoesSubmenusMen :
-                category === 'accessories' ? acessoriesSubmenus :
-                    category === 'bags' ? bagsSubmenus :
-                        category === 'jewellery' ? jewellerySubmenus : []
-
-
+    const submenus = {
+        clothing: clothingSubmenusMen,
+        shoes: shoesSubmenusMen,
+        accessories: acessoriesSubmenus,
+        bags: bagsSubmenus,
+        jewellery: jewellerySubmenus
+    }[category];
 
 
     const productCategory =
@@ -105,8 +103,8 @@ const Clothing = ({ category }) => {
                 </div>
                 <h1 className="uppercase text-sm text-gray-600">{productCategory}</h1>
             </div>
-
             {/* Breadcrumbs end */}
+
 
             <div className="border-b-2 w-24">
                 <h1 className="text-4xl  uppercase font-bold mt-6">{selectedSexCategory}</h1>
@@ -114,16 +112,12 @@ const Clothing = ({ category }) => {
             <div className="flex w-full">
                 <div className="flex-col">
                     <div>
-                        <Link to="/products/clothing">
-                            <h1 onClick={closeSubMenu} className="font-bold cursor-pointer text-2xl py-4 mr-10">{productCategory}</h1>
-                        </Link>
+                        <h1 onClick={closeSubMenu} className="font-bold cursor-pointer text-2xl py-4 mr-10">{productCategory}</h1>
                         <div className="flex-col">
                             {submenus.map((product) => (
                                 <div key={product.name}>
                                     <div onClick={() => toggleSubMenu(product.name)} >
-                                        <Link to={product.link}>
-                                            <h1 className="border-b-[1px] py-4 border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300">{product.name}</h1>
-                                        </Link>
+                                        <h1 className="border-b-[1px] py-4 border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300">{product.name}</h1>
                                     </div>
                                     {
                                         activeSubMenu === product.name && product.sublinks && <div>

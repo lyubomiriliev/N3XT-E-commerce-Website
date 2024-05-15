@@ -12,19 +12,19 @@ export default function Header({ products }) {
 
     const productData = useSelector((state) => state.next.productData);
     const userInfo = useSelector((state) => state.next.userInfo);
+    const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 
+    const navigate = useNavigate()
     const dispatch = useDispatch()
-    const selectedSexCategory = useSelector((state) => state.next.selectSexCategory)
 
-    const handleSexCategoryChange = (sexCategory) => {
-        dispatch(setSexCategory(sexCategory))
-        navigate(`/${sexCategory}`)
+    const handleSexChange = (sex) => {
+        dispatch(setSexCategory(sex))
+        navigate(`/${sex}`)
     }
 
     const [searchQuery, setSearchQuery] = useState("");
     const [showSearchBar, setShowSearchBar] = useState(false);
 
-    const navigate = useNavigate()
     const ref = useRef();
 
     useEffect(() => {
@@ -46,12 +46,14 @@ export default function Header({ products }) {
     const [filteredProducts, setFilteredProducts] = useState([]);
 
     const handleSearch = (e) => {
-        setSearchQuery(e.target.value)
+        setSearchQuery(e.target.value);
+
     }
 
     useEffect(() => {
         const filtered = products?.filter((product) => product.title.toLowerCase().includes(searchQuery.toLocaleLowerCase()));
         setFilteredProducts(filtered);
+
     }, [searchQuery])
 
 
@@ -60,13 +62,13 @@ export default function Header({ products }) {
         <div className='w-full h-40 bg-white border-b-[1px] border-b-gray-300 sticky top-0 z-50 transition-all duration-300'>
             <div className="flex items-center justify-evenly">
                 <div className="flex justify-center items-center gap-10">
-                    <Link to="/">
+                    <Link to="/women">
                         <img className="w-40 mt-1" src={nextLogo} alt="ElShisha" />
                     </Link>
                     <div className="flex items-center gap-8">
                         <ul className="w-full flex items-center justify-center gap-10">
-                            <li onClick={() => handleSexCategoryChange("women")} className="text-black font-bold hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s"> Women</li>
-                            <li onClick={() => handleSexCategoryChange("men")} className=" text-black font-bold hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">Men</li>
+                            <li onClick={() => handleSexChange("women")} className="text-black font-bold hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s"> Women</li>
+                            <li onClick={() => handleSexChange("men")} className=" text-black font-bold hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">Men</li>
                         </ul>
                     </div>
                 </div>

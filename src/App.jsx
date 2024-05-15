@@ -22,10 +22,13 @@ import { useEffect, useState } from "react";
 import Shop from "./components/Shop/Shop.jsx";
 import ProductsCenter from "./pages/ProductsPages/ProductsCenter.jsx";
 import Brands from "./components/Brands/Brands.jsx";
+import { useSelector } from "react-redux";
+import { clothingSubmenusMen } from "./pages/ProductsPages/Submenus/clothingSubmenus.js";
 
 const Layout = () => {
 
     const [products, setProducts] = useState([]);
+    const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 
     useEffect(() => {
         async function fetchData() {
@@ -40,134 +43,102 @@ const Layout = () => {
         fetchData();
     }, []);
 
+
     return (
         <div>
             <Header products={products} />
             <ScrollRestoration />
-            <Outlet />
+            <Outlet >
+                <Home category={`${selectedSexCategory}`} />
+            </Outlet>
             <Footer />
         </div>
     );
 };
 
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Layout />,
-        children: [
-            {
-                path: "/",
-                element: <Home />,
-                loader: productsData,
-            },
-            {
-                path: "/women",
-                element: <Home category="women" />,
-                loader: productsData,
-            },
-            {
-                path: "/men",
-                element: <Home category="men" />,
-                loader: productsData,
-            },
-            {
-                path: "/product/:id",
-                element: <Product />,
-            },
-            {
-                path: "/products/:category/:id",
-                element: <Clothing />,
-                loader: productsData,
-            },
-            {
-                path: "/products/clothing/product/:id",
-                element: <Product />,
-            },
-            {
-                path: "/shop",
-                element: <Shop />,
-                loader: productsData,
-            },
-            {
-                path: "/products/clothing",
-                element: <Clothing category="clothing" />,
-                loader: productsData,
-            },
-            {
-                path: "/products/jackets",
-                element: <Clothing category="clothing" />,
-                loader: productsData,
-            },
-            {
-                path: "/products/t-shirts",
-                element: <Clothing category="clothing" />,
-                loader: productsData,
-            },
-            {
-                path: "/products/shoes",
-                element: <Clothing category="shoes" />,
-                loader: productsData,
-            },
-            {
-                path: "/products/accessories",
-                element: <Clothing category="accessories" />,
-                loader: productsData,
-            },
-            {
-                path: "/products/bags",
-                element: <Clothing category="bags" />,
-                loader: productsData,
-            },
-            {
-                path: "/products/jewellery",
-                element: <Clothing category="jewellery" />,
-                loader: productsData,
-            },
-            {
-                path: "/products/shoes",
-                element: <Shoes />
-            },
-            {
-                path: "/products/accessories",
-                element: <Accessories />
-            },
-            {
-                path: "/products/bags",
-                element: <Bags />
-            },
-            {
-                path: "/products/Jewellery",
-                element: <Jewellery />
-            },
-            {
-                path: "/brands/",
-                element: <Brands />
-            },
-            {
-                path: "/cart",
-                element: <Cart />,
-            },
-            {
-                path: "/login",
-                element: <Login />,
-            },
-            {
-                path: "/register",
-                element: <Register />
-            },
-            {
-                path: "/sale",
-                element: <ProductsCenter />,
-                loader: productsData,
+const AppRouter = () => {
+
+    const [products, setProducts] = useState([]);
+    const selectedSexCategory = useSelector((state) => state.next.sexCategory);
+
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const data = await productsData();
+                setProducts(data.data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
             }
-        ]
-    }
-])
+        }
+
+        fetchData();
+    }, []);
+
+    const submenuOptions = ['clothing', 'shoes', 'bags', 'accessories', 'jewellery']
+
+    const generateSubmenuRoutes = () => {
+        return submenuOptions.map((submenuOption) => ({
+            path: `/${selectedSexCategory.toLowerCase()}/${submenuOption}`,
+            element: <Clothing category={submenuOption} />,
+            loader: productsData,
+        }));
+    };
+
+    const router = createBrowserRouter([
+        {
+            path: "/",
+            element: <Layout />,
+            children: [
+                {
+                    path: '/women',
+                    element: <Home products={products} />,
+                },
+                {
+                    path: '/men',
+                    element: <Home products={products} />,
+                },
+                ...generateSubmenuRoutes(),
+                {
+                    path: "/product/:id",
+                    element: <Product />,
+                },
+
+                {
+                    path: `/${selectedSexCategory}/brands`,
+                    element: <Brands />
+                },
+                {
+                    path: "/cart",
+                    element: <Cart />,
+                },
+                {
+                    path: "/login",
+                    element: <Login />,
+                },
+                {
+                    path: "/register",
+                    element: <Register />
+                },
+                {
+                    path: `/${selectedSexCategory}/sale`,
+                    element: <ProductsCenter />,
+                    loader: productsData,
+                }
+            ]
+        }
+    ]);
+
+    return <RouterProvider router={router} />
+
+}
+
+
 
 function App() {
 
     return (
-        <RouterProvider router={router} />
+        <AppRouter />
     )
 }
 

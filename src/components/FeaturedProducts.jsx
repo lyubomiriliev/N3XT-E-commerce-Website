@@ -1,8 +1,12 @@
+import { useSelector } from "react-redux";
 import FeaturedProductCard from "./FeaturedProductCard"
 
-const FeaturedProducts = ({ products, category }) => {
+const FeaturedProducts = ({ products }) => {
 
-    const filteredProducts = category ? products.filter((item) => item.category === category) : products;
+    const selectedSexCategory = useSelector((state) => state.next.sexCategory)
+
+
+    const filteredProducts = selectedSexCategory ? products.filter((item) => item.category === selectedSexCategory) : products;
 
     return (
         <div className="py-10">

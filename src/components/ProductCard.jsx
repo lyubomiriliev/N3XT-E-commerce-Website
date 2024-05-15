@@ -1,5 +1,5 @@
 import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { addToCart } from '../redux/nextSlice';
 import { ToastContainer, toast } from 'react-toastify';
@@ -7,6 +7,9 @@ import { ToastContainer, toast } from 'react-toastify';
 const ProductCard = ({ product }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
+
+    const selectedSexCategory = useSelector((state) => state.next.sexCategory)
+
     const _id = product.title;
     const idString = (_id) => {
         return String(_id).toLowerCase().split(" ").join("");
@@ -14,7 +17,9 @@ const ProductCard = ({ product }) => {
     const rootId = idString(_id)
 
     const handleDetails = () => {
-        navigate(`product/${rootId}`, {
+        const currentPath = window.location.pathname;
+        const newPath = `/product/${rootId}`;
+        navigate(newPath, {
             state: {
                 product: product,
             }

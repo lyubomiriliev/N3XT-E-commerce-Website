@@ -1,16 +1,34 @@
 import { useEffect, useState } from "react";
 import { FaAngleRight } from "react-icons/fa6";
 import { FaAngleLeft } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import { mBanner1, mBanner2, mBanner3, mBanner4, wBanner1, wBanner2, wBanner3, wBanner4 } from "../assets";
 
 
 const Banner = () => {
+
+
+    const selectedSexCategory = useSelector((state) => state.next.sexCategory)
+
     const [currentSlide, setCurrentSlide] = useState(0);
-    const data = [
-        "https://images.pexels.com/photos/3755706/pexels-photo-3755706.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        "https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        "https://i.imgur.com/bZTSFkE.png",
-        "https://i.imgur.com/RA3VRAM.jpeg"
+
+    const womenBanners = [
+        wBanner1,
+        wBanner2,
+        wBanner3,
+        wBanner4,
+
     ];
+
+    const menBanners = [
+        mBanner1,
+        mBanner2,
+        mBanner3,
+        mBanner4,
+
+    ];
+
+    const banners = selectedSexCategory === "women" ? womenBanners : menBanners;
 
     const prevSlide = () => {
         setCurrentSlide(currentSlide === 0 ? 3 : (prev) => prev - 1)
@@ -30,12 +48,17 @@ const Banner = () => {
 
     return (
         <div className=" w-full h-auto overflow-x-hidden">
-            <div className="w-screen h-[800px] relative">
+            <div className="w-screen h-[700px] relative">
                 <div style={{ transform: `translateX(-${currentSlide * 100}vw)` }} className="w-[400vw] h-full flex transition-transform duration-700">
-                    <img className="w-screen h-full object-cover" src={data[0]} alt="Banner1" loading="priority" />
-                    <img className="w-screen h-full object-cover" src={data[1]} alt="Banner2" loading="priority" />
-                    <img className="w-screen h-full object-cover" src={data[2]} alt="Banner3" loading="priority" />
-                    <img className="w-screen h-full object-cover" src={data[3]} alt="Banner4" loading="priority" />
+                    {banners.map((banner, index) => (
+                        <img
+                            key={index}
+                            src={banner}
+                            alt={`Banner${index + 1}`}
+                            loading="priority"
+                            className="w-screen h-full object-cover"
+                        />
+                    ))}
                 </div>
                 <div className="absolute w-fit left-0 right-0 mx-auto flex gap-8 bottom-20">
                     <div onClick={prevSlide} className="w-10 h-10 border-[1px] rounded-md text-white border-gray-700 flex items-center justify-center hover:cursor-pointer hover:bg-gray-700 hover:text-white active:bg-gray-900 duration-300">
@@ -47,7 +70,7 @@ const Banner = () => {
                     </div>
                 </div>
                 <div className="absolute w-fit left-0 right-0 mx-auto flex gap-4 bottom-10">
-                    {data.map((_, index) => (
+                    {banners.map((_, index) => (
                         <div
                             key={index}
                             className={`w-3 h-3 border-[1px] rounded-full ${currentSlide === index ? 'bg-gray-100' : 'border-gray-300'} hover:cursor-pointer duration-300`}

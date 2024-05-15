@@ -1,21 +1,21 @@
 export const links = [
   {
     name: "Clothing",
-    dir: "/products/clothing",
+    dir: "/clothing",
     submenu: true,
     sublinks: [
-      { name: "Jackets", link: "/products/jackets" },
-      { name: "T-Shirts", link: "/products/tshirts" },
-      { name: "Jeans", link: "/products/jeans" },
-      { name: "Skirts", link: "/products/skirts" },
-      { name: "Tops", link: "/products/tops" },
-      { name: "Formal", link: "/products/clothing/formal" },
+      { name: "Jackets", link: "/clothing" },
+      { name: "T-Shirts", link: "/clothing" },
+      { name: "Jeans", link: "/clothing" },
+      { name: "Skirts", link: "/clothing" },
+      { name: "Tops", link: "/clothing" },
+      { name: "Formal", link: "/clothing" },
     ],
   },
   {
     name: "Shoes",
     submenu: true,
-    dir: "/products/shoes",
+    dir: "/shoes",
     sublinks: [
       { name: "Sneakers", link: "/products/sneakers" },
       { name: "Boots", link: "/products/boots" },
@@ -26,7 +26,7 @@ export const links = [
   {
     name: "Accessories",
     submenu: true,
-    dir: "/products/accessories",
+    dir: "/accessories",
     sublinks: [
       { name: "Hats", link: "/products/hats" },
       { name: "Belts", link: "/products/belts" },
@@ -38,7 +38,7 @@ export const links = [
   {
     name: "Bags",
     submenu: true,
-    dir: "/products/bags",
+    dir: "/bags",
     sublinks: [
       { name: "Shoulder Bag", link: "/products/shoulder-bags" },
       { name: "Backpacks", link: "/products/backpacks" },
@@ -49,7 +49,7 @@ export const links = [
   {
     name: "Jewellery",
     submenu: true,
-    dir: "/products/jewellery",
+    dir: "/jewellery",
     sublinks: [
       { name: "Rings", link: "/products/rings" },
       { name: "Bracelets", link: "/products/bracelets" },

@@ -66,3 +66,52 @@ export const LouisVuittonBags = [
     category: "bags",
   },
 ];
+
+export const WomenJackets = [
+  {
+    _id: 100,
+    title: "Prada Re-Nylon Down Jacket",
+    isNew: true,
+    oldPrice: "1200",
+    price: 780,
+    description:
+      "A mirror of Prada's eco-friendly approach, this padded jacket thrives in its recycled polyamide fabrication. Arriving in a classic black hue, the garment is simply accented with the signature enamel triangle logo.",
+    material:
+      "Lining: Recycled Polyamide 100%, Polyester 43%, Recycled Polyester 35%, Goose Down 22% Outer: Recycled Polyamide 100%",
+    category: "women",
+    brand: "Prada",
+    image:
+      "https://cdn-images.farfetch-contents.com/19/00/37/22/19003722_41435809_2048.jpg",
+    rating: 4,
+  },
+  {
+    _id: 101,
+    title: "Burberry Check Lapel Trench Coat",
+    isNew: true,
+    oldPrice: "2700",
+    price: 2300,
+    description:
+      "In English-woven cotton gabardine, this trench coat showcases Burberry's ability to deliver timeless wardrobe staples season after season. A design that is associated with the brand, the trench coat was created by the house founder Thomas Burberry over one hundred years ago and epitomises quintessential British elegance. It is finished with a signature Vintage Check-pattern lining.",
+    material: "Outer: Cotton 100% Lining: Cupro 100%, Cotton 100%",
+    category: "women",
+    brand: "Burberry",
+    image:
+      "https://cdn-images.farfetch-contents.com/17/40/44/28/17404428_36178104_1000.jpg",
+    rating: 5,
+  },
+  {
+    _id: 102,
+    title: "Balmain Notched-lapels Leather Jacket",
+    isNew: true,
+    oldPrice: "2100",
+    price: 1300,
+    description:
+      "Stand-out details and structured silhouettes are returning elements of Balmain's designs. Crafted from smooth nappa leather, this biker jacket features a wide collar and sharp shoulders while the branded gold-tone hardware channels the refined essence of the maison.",
+    material: "Outer: Calf Leather 100% Lining: Viscose 52%, Cotton 48%",
+    category: "women",
+    brand: "Balmain",
+    image:
+      "https://cdn-images.farfetch-contents.com/21/55/57/89/21555789_52140888_1000.jpg",
+    rating: 3,
+  },
+];

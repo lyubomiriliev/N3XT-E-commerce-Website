@@ -1,28 +1,47 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/nextSlice";
 import { ToastContainer, toast } from "react-toastify";
+
+import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
+
 
 const Product = () => {
 
     const dispatch = useDispatch()
-
-    let [baseQuantity, setBaseQuantity] = useState(1);
-
-    const [details, setDetails] = useState({});
-
     const location = useLocation();
+    let [baseQuantity, setBaseQuantity] = useState(1);
+    const [details, setDetails] = useState({});
+    const [lastSegment, setLastSegment] = useState("");
+
+    console.log(location.pathname.split("/"))
 
     useEffect(() => {
+        const segments = location.pathname.split("/");
+        const lastSegment = segments[segments.length - 2];
+        setLastSegment(lastSegment)
+
         setDetails(location.state.product)
     }, [location])
 
-    console.log(location.state.product)
+
+
 
     return (
-        <div>
+        <div className="flex-col w-full mx-auto mt-10">
+            <div className="flex gap-5 w-2/5 justify-center ml-9">
+                <Link to="/">
+                    <h1 className="uppercase text-sm text-gray-600">Home page</h1>
+                </Link>
+                <div className="flex items-center" >
+                    <ArrowForwardIosOutlinedIcon className=" scale-75 text-gray-600" />
+                </div>
+                <Link to="/men/clothing">
+                    <h1 className="uppercase text-sm text-gray-600">{lastSegment}</h1>
+                </Link>
+            </div>
             <div className="max-w-screen-xl mx-auto my-10 flex gap-10">
                 <div className="w-2/5 relative">
                     <img className="w-full h-[550px] object-cover" src={details?.image} alt="productImg" />
