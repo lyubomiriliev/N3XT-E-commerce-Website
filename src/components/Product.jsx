@@ -20,13 +20,14 @@ const Product = () => {
 
     useEffect(() => {
         const segments = location.pathname.split("/");
-        const lastSegment = segments[segments.length - 2];
+        const lastSegment = segments[segments.length - 1];
         setLastSegment(lastSegment)
 
         setDetails(location.state.product)
     }, [location])
 
-
+    const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu)
+    const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 
 
     return (
@@ -38,9 +39,13 @@ const Product = () => {
                 <div className="flex items-center" >
                     <ArrowForwardIosOutlinedIcon className=" scale-75 text-gray-600" />
                 </div>
-                <Link to="/men/clothing">
-                    <h1 className="uppercase text-sm text-gray-600">{lastSegment}</h1>
+                <Link to={`/${selectedSexCategory}/${selectedSubheaderMenu.toLowerCase()}`}>
+                    <h1 className="uppercase text-sm text-gray-600">{selectedSubheaderMenu}</h1>
                 </Link>
+                <div className="flex items-center" >
+                    <ArrowForwardIosOutlinedIcon className=" scale-75 text-gray-600" />
+                </div>
+                <h1 className="uppercase text-sm text-gray-600">{lastSegment}</h1>
             </div>
             <div className="max-w-screen-xl mx-auto my-10 flex gap-10">
                 <div className="w-2/5 relative">

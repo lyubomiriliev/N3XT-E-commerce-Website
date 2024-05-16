@@ -401,7 +401,7 @@ export const Formal = [
     title: "Semsem sequinned formal blazer formal",
     isNew: true,
     oldPrice: "2300",
-    price: 1.854,
+    price: 1854,
     description:
       "Purple stripe sequinned formal blazer from Semsem featuring structured shoulders, peaked lapels, a double breasted front fastening, front flap pockets and a chest pocket.",
     material: "",
@@ -505,7 +505,7 @@ export const Mocassins = [
       "Crafted in the brand's signature brushed leather, these refined mocassins are quintessential to the brand's timeless aesthetic. The iconic enamel triangle logo in tonal black design accents the front, for an instantly recognisable design.",
     material: "Sole: Rubber 100%, Calf Leather 100%",
     category: "men",
-    type: "clothing",
+    type: "shoes",
     brand: "Prada",
     image:
       "https://cdn-images.farfetch-contents.com/17/87/53/98/17875398_37658534_1000.jpg",
@@ -662,7 +662,7 @@ export const SportsShoes = [
   },
   {
     _id: 1001,
-    title: "Plein Sport",
+    title: "Plein Sport Gold shoes",
     isNew: true,
     oldPrice: "1000",
     price: 562,
@@ -678,7 +678,7 @@ export const SportsShoes = [
   },
   {
     _id: 1002,
-    title: "Plein Sport Lo-Top logo-patch sneakers",
+    title: "Plein Sport Lo-Top logo-patch sports sneakers",
     isNew: true,
     oldPrice: "350",
     price: 123,
@@ -693,7 +693,7 @@ export const SportsShoes = [
   },
   {
     _id: 1003,
-    title: "Plein Sport Lo-Top logo-print sneakers",
+    title: "Plein Sport Lo-Top logo-print sports sneakers",
     isNew: true,
     oldPrice: "250",
     price: 112,
@@ -742,7 +742,7 @@ export const Hats = [
   },
   {
     _id: 1102,
-    title: "Off-White Arrows-motif baseball cap",
+    title: "Off-White Arrows-motif baseball cap hat",
     isNew: true,
     oldPrice: "350",
     price: 245,
@@ -757,7 +757,7 @@ export const Hats = [
   },
   {
     _id: 1103,
-    title: "Balenciaga Political Campaign Destroyed cap",
+    title: "Balenciaga Political Campaign Destroyed cap hat",
     isNew: true,
     oldPrice: "550",
     price: 395,
@@ -829,7 +829,7 @@ export const Belts = [
     price: 250,
     description: " DG-logo leather belt",
     material: "CALFSKIN 100%",
-    category: "men",
+    category: "women",
     type: "accessories",
     brand: "Dolce & Gabbana",
     image:
@@ -971,7 +971,7 @@ export const Sunglasses = [
 export const Watches = [
   {
     _id: 1500,
-    title: "FENDI Forever Fendi 29mm",
+    title: "FENDI Forever Fendi watch 29mm",
     isNew: true,
     oldPrice: "1500",
     price: 1010,
@@ -987,14 +987,14 @@ export const Watches = [
   },
   {
     _id: 1501,
-    title: "CHANEL 1980s première M 20mm",
+    title: "CHANEL watch 1980s première M 20mm",
     isNew: true,
     oldPrice: "5100",
     price: 3081,
     description:
       "First debuted in 1987, Chanel's appropriately named Première timepiece was the French brand's initial dive into the world of watches. Many years later and this instantly recognisable 1980s pre-owned Première 20mm design is still loved by watch enthusiasts worldwide, thanks to the signature chain and leather strap that can also be seen across its handbag collections.",
     material: "Gold Plated, Leather",
-    category: "men",
+    category: "women",
     type: "accessories",
     brand: "CHANEL",
     image:
@@ -1003,7 +1003,7 @@ export const Watches = [
   },
   {
     _id: 1502,
-    title: "Hublot Classic Fusion 42mm",
+    title: "Hublot watch Classic Fusion 42mm",
     isNew: true,
     oldPrice: "28900",
     price: 23763,
@@ -1018,7 +1018,7 @@ export const Watches = [
   },
   {
     _id: 1503,
-    title: "Audemars Piguet Royal Oak 36mm",
+    title: "Audemars Piguet watch Royal Oak 36mm",
     isNew: true,
     oldPrice: "45200",
     price: 36696,

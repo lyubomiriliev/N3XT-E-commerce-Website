@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { links } from "../components/HeaderLinks"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { setHeaderSubmenu } from "../redux/nextSlice";
 
 const HeaderSubmenu = () => {
 
@@ -17,6 +18,11 @@ const HeaderSubmenu = () => {
         setHoveredLink(null);
     };
 
+    const dispatch = useDispatch();
+
+    const handleSubmenuChange = (submenuName) => {
+        dispatch(setHeaderSubmenu(submenuName))
+    }
 
 
     return (
@@ -24,9 +30,15 @@ const HeaderSubmenu = () => {
             {links.map((link, index) => (
                 <div key={index}>
                     <div className="px-3 text-left md:cursor-pointer group" onMouseEnter={() => handleMouseEnter(index)} onMouseLeave={handleMouseLeave}>
-                        <h1 className="py-4 hover:scale-110 font-bold  decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                        <h1 className="py-4 hover:scale-110 font-bold  decoration-[1px] cursor-pointer duration-300 ease-out 0.3s"
+                        >
                             {link.name ? (
-                                <Link to={`${selectedSexCategory?.toLowerCase()}${link.dir}`}>{link.name}</Link>
+                                <Link
+                                    onClick={() => handleSubmenuChange(link.name)}
+                                    to={`${selectedSexCategory?.toLowerCase()}${link.dir}`}
+                                >
+                                    {link.name}
+                                </Link>
                             ) : (
                                 <Link to={link.dir}>{link.name}</Link>
                             )}

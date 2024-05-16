@@ -8,8 +8,8 @@ export const shoesSubmenu = [
     ],
   },
   {
-    name: "Мoccasins",
-    link: "/products/moccasins",
+    name: "Mocassins",
+    link: "/products/mocassins",
   },
   {
     name: "Sneakers",

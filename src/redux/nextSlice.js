@@ -6,6 +6,8 @@ const initialState = {
   checkedCategorys: [],
   userInfo: null,
   sexCategory: "women",
+  productCategory: "",
+  headerSubmenu: "",
 };
 
 export const nextSlice = createSlice({
@@ -86,6 +88,12 @@ export const nextSlice = createSlice({
     setSexCategory: (state, action) => {
       state.sexCategory = action.payload;
     },
+    setProductCategory: (state, action) => {
+      state.productCategory = action.payload;
+    },
+    setHeaderSubmenu: (state, action) => {
+      state.headerSubmenu = action.payload;
+    },
   },
 });
 
@@ -100,5 +108,7 @@ export const {
   toggleCategory,
   toggleBrand,
   setSexCategory,
+  setProductCategory,
+  setHeaderSubmenu,
 } = nextSlice.actions;
 export default nextSlice.reducer;

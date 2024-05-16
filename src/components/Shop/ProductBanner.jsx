@@ -57,10 +57,10 @@ const ProductBanner = ({ itemsPerPageFromBanner }) => {
 						onChange={(e) => itemsPerPageFromBanner(+e.target.value)}
 						id="countries"
 						className="w-32 md:w-52 border-[1px] border-gray-200 py-1 px-4 cursor-pointer text-gray-800 text-base block dark:placeholder-gray-400 appearance-none focus-within:outline-none focus-visible:border-gray-800">
-						<option value="12">Best Sellers</option>
-						<option value="24">New arrival</option>
-						<option value="36">Featured</option>
-						<option value="48">Final Offer</option>
+						<option value="12">Price: High to Low</option>
+						<option value="24">Price: Low to High</option>
+						<option value="36">Our picks</option>
+						<option value="48">Newest first</option>
 					</select>
 					<span className="absolute text-sm right-2 md:right-4 top-2.5">
 						<GoTriangleDown />

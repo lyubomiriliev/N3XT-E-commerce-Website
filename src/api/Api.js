@@ -49,6 +49,6 @@ export async function allProductsData() {
     })),
     ...Watches.map((product) => ({ ...product, itemCategory: "watches" })),
 
-    ...products.data,
+    ...products.data.map((product) => ({ ...product, type: "clothing" })),
   ];
 }

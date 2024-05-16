@@ -1,35 +1,54 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
-const Price = () => {
+const Price = ({ products, setFilteredProducts }) => {
   const priceList = [
     {
       _id: 950,
-      priceOne: 0.0,
-      priceTwo: 49.99,
+      priceOne: 0,
+      priceTwo: 99,
     },
     {
       _id: 951,
-      priceOne: 50.0,
-      priceTwo: 99.99,
+      priceOne: 99,
+      priceTwo: 300,
     },
     {
       _id: 952,
-      priceOne: 100.0,
-      priceTwo: 199.99,
+      priceOne: 300,
+      priceTwo: 700,
     },
     {
       _id: 953,
-      priceOne: 200.0,
-      priceTwo: 399.99,
+      priceOne: 700,
+      priceTwo: 1200,
     },
     {
       _id: 954,
-      priceOne: 400.0,
-      priceTwo: 599.99,
+      priceOne: 1200,
+      priceTwo: 3000,
+    },
+    {
+      _id: 954,
+      priceOne: 3000,
+      priceTwo: 50000,
     },
   ];
 
+
   const [showPrices, setShowPrices] = useState(true);
+
+  const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu)
+  console.log(selectedSubheaderMenu.toLowerCase())
+
+  const filteredProductsByPriceRange = (priceOne, priceTwo) => {
+    const filteredProducts = products.filter((product) => product.price >= priceOne && product.price <= priceTwo && product.type === selectedSubheaderMenu.toLowerCase());
+    setFilteredProducts(filteredProducts)
+    setActivePrice(!activePrice)
+    console.log(filteredProducts)
+    console.log(activePrice)
+  }
+
 
 
   return (
@@ -45,6 +64,7 @@ const Price = () => {
               <li
                 key={item._id}
                 className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300"
+                onClick={() => filteredProductsByPriceRange(item.priceOne, item.priceTwo)}
               >
                 ${item.priceOne.toFixed(2)} - ${item.priceTwo.toFixed(2)}
               </li>
