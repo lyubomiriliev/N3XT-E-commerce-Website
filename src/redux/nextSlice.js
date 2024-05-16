@@ -5,7 +5,7 @@ const initialState = {
   checkedBrands: [],
   checkedCategorys: [],
   userInfo: null,
-  sexCategory: "ho",
+  sexCategory: "women",
 };
 
 export const nextSlice = createSlice({

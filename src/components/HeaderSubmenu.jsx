@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { links } from "../components/HeaderLinks"
 import { useSelector } from "react-redux";
 import { useState } from "react";
@@ -17,7 +17,6 @@ const HeaderSubmenu = () => {
         setHoveredLink(null);
     };
 
-    const navigate = useNavigate()
 
 
     return (
@@ -50,7 +49,7 @@ const HeaderSubmenu = () => {
                                         })
                                             .map((sublink, subIndex) => (
                                                 <h1 key={subIndex} className="text-sm text-gray-600 my-3">
-                                                    <Link to={`${selectedSexCategory}/${link.name.toLowerCase()}`} className="hover:text-yellow-600 px-2">{sublink.name}</Link>
+                                                    <Link to={`${selectedSexCategory}/${link.name.toLowerCase()}/${sublink.name.toLowerCase()}`} className="hover:text-yellow-600 px-2">{sublink.name}</Link>
                                                 </h1>
                                             ))
                                         }

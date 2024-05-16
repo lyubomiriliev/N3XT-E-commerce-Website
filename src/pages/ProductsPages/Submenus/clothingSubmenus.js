@@ -1,4 +1,4 @@
-export const clothingSubmenusMen = [
+export const clothingSubmenu = [
   {
     name: "Jackets",
     submenu: true,
@@ -7,6 +7,7 @@ export const clothingSubmenusMen = [
   {
     name: "T-Shirts",
     submenu: true,
+    sublinks: [{ name: "Short sleeve" }, { name: "Tank tops" }],
   },
   {
     name: "Hoodies",

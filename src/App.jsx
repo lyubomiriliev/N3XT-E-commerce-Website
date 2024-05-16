@@ -13,17 +13,12 @@ import Product from "./components/Product.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Clothing from "./pages/ProductsPages/Clothing.jsx";
-import Shoes from "./pages/ProductsPages/Shoes.jsx";
-import Jewellery from "./pages/ProductsPages/Jewellery.jsx";
-import Bags from "./pages/ProductsPages/Bags.jsx";
-import Accessories from "./pages/ProductsPages/Accessories.jsx";
-import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
-import Shop from "./components/Shop/Shop.jsx";
 import ProductsCenter from "./pages/ProductsPages/ProductsCenter.jsx";
 import Brands from "./components/Brands/Brands.jsx";
 import { useSelector } from "react-redux";
-import { clothingSubmenusMen } from "./pages/ProductsPages/Submenus/clothingSubmenus.js";
+import { links } from "./components/HeaderLinks.js";
+import ShopCategory from "./components/ShopCategory.jsx";
 
 const Layout = () => {
 
@@ -85,6 +80,20 @@ const AppRouter = () => {
         }));
     };
 
+
+    const linksMenuRoute = () => {
+        return links.flatMap((link) => {
+            if (link.submenu) {
+                return link.sublinks.map((sublink) => ({
+                    path: `/${selectedSexCategory.toLowerCase()}${link.dir}/${sublink.name.toLowerCase()}`,
+                    element: <ShopCategory />,
+                }))
+            } else {
+                return []
+            }
+        })
+    }
+
     const router = createBrowserRouter([
         {
             path: "/",
@@ -99,11 +108,15 @@ const AppRouter = () => {
                     element: <Home products={products} />,
                 },
                 ...generateSubmenuRoutes(),
+                ...linksMenuRoute(),
                 {
                     path: "/product/:id",
                     element: <Product />,
                 },
-
+                {
+                    path: `/${selectedSexCategory}/brands`,
+                    element: <Brands />
+                },
                 {
                     path: `/${selectedSexCategory}/brands`,
                     element: <Brands />

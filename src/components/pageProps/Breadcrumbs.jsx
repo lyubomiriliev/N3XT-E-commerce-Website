@@ -1,23 +1,24 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 
-const Breadcrumbs = ({ prevLocation, title }) => {
-  const location = useLocation();
+const Breadcrumbs = ({ category }) => {
 
-  const [locationPath, setLocationPath] = useState("");
-
-  useEffect(() => {
-    setLocationPath(location.pathname.split("/"[1]));
-  }, [location]);
+  const productCategory =
+    category === 'clothing' ? "Clothing" :
+      category === 'shoes' ? "Shoes" :
+        category === 'accessories' ? "Accessories" :
+          category === 'bags' ? "Bags" :
+            category === 'jewellery' ? "Jewellery" : []
 
   return (
-    <div className="w-full py-10 xl:py-10 flex flex-col gap-3">
-      <h1 className="text-4xl font-bold">{title}</h1>
-      <p className="text-sm font-normal capitalize flex items-center">
-        <span>{prevLocation === "" ? "Home" : prevLocation}</span>
-
-        <span className="capitalize font-semibold">{locationPath}</span>
-      </p>
+    <div className="flex gap-5">
+      <Link to="/">
+        <h1 className="uppercase text-sm text-gray-600">Home page</h1>
+      </Link>
+      <div className="flex items-center" >
+        <ArrowForwardIosOutlinedIcon className=" scale-75 text-gray-600" />
+      </div>
+      <h1 className="uppercase text-sm text-gray-600">{productCategory}</h1>
     </div>
   );
 };

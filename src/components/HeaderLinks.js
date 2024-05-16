@@ -6,6 +6,7 @@ export const links = [
     sublinks: [
       { name: "Jackets", link: "/clothing" },
       { name: "T-Shirts", link: "/clothing" },
+      { name: "Hoodies", link: "/clothing" },
       { name: "Jeans", link: "/clothing" },
       { name: "Skirts", link: "/clothing" },
       { name: "Tops", link: "/clothing" },
