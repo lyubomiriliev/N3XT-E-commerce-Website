@@ -1,4 +1,4 @@
-import { Link, useLoaderData, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { clothingSubmenu } from "./Submenus/clothingSubmenus";
@@ -13,39 +13,25 @@ import ProductsCenter from "./ProductsCenter";
 import Pagination from "../../components/Shop/Pagination";
 import { useSelector } from "react-redux";
 import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
-import { Bags, Belts, Boots, Formal, Hats, Hoodies, Jackets, Jeans, Mocassins, Sandals, Scarves, Sneakers, SportsShoes, Sunglasses, Watches } from "../../fakeAPI/fakeAPI";
+import { allProductsData } from "../../api/Api";
 
 const Clothing = ({ category }) => {
 
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [activeSubMenu, setActiveSubMenu] = useState(null);
+    const [allProducts, setAllProducts] = useState([]);
 
-    const data = useLoaderData()
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 
-    const allProducts = [
-        ...Bags.map(product => ({ ...product, itemCategory: 'bags' })),
-        ...Jackets.map(product => ({ ...product, itemCategory: 'jackets' })),
-        ...Hoodies.map(product => ({ ...product, itemCategory: 'hoodies' })),
-        ...Jeans.map(product => ({ ...product, itemCategory: 'jeans' })),
-        ...Formal.map(product => ({ ...product, itemCategory: 'formal' })),
-        ...Boots.map(product => ({ ...product, itemCategory: 'boots' })),
-        ...Mocassins.map(product => ({ ...product, itemCategory: 'mocassins' })),
-        ...Sneakers.map(product => ({ ...product, itemCategory: 'sneakers' })),
-        ...Sandals.map(product => ({ ...product, itemCategory: 'sandals' })),
-        ...SportsShoes.map(product => ({ ...product, itemCategory: 'sportShoes' })),
-        ...Hats.map(product => ({ ...product, itemCategory: 'hats' })),
-        ...Belts.map(product => ({ ...product, itemCategory: 'belts' })),
-        ...Scarves.map(product => ({ ...product, itemCategory: 'scarves' })),
-        ...Sunglasses.map(product => ({ ...product, itemCategory: 'sunglasses' })),
-        ...Watches.map(product => ({ ...product, itemCategory: 'watches' })),
-        ...data.data
-    ];
-
     useEffect(() => {
-        const filteredByCategory = allProducts.filter((item) => item.category === selectedSexCategory?.toLowerCase())
-        setFilteredProducts(filteredByCategory)
+        const fetchData = async () => {
+            const products = await allProductsData();
+            setAllProducts(products)
+            setFilteredProducts(products.filter((item) => item.category === selectedSexCategory.toLowerCase()));
+        };
+
+        fetchData();
     }, [selectedSexCategory])
 
 
