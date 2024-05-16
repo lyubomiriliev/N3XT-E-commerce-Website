@@ -179,7 +179,7 @@ const Clothing = ({ category }) => {
                                 if (selectedSexCategory === "women") {
                                     return !submenu.name.toLowerCase().includes('mocassins')
                                 } else if (selectedSexCategory === "men") {
-                                    return !submenu.name.toLowerCase().includes('skirts') && !submenu.name.toLowerCase().includes('clutch bags')
+                                    return !submenu.name.toLowerCase().includes('skirts') && !submenu.name.toLowerCase().includes('clutch bags') && !submenu.name.toLowerCase().includes('necklaces') && !submenu.name.toLowerCase().includes('earrings');
                                 }
                                 return true;
                             })

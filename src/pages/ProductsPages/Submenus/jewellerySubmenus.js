@@ -12,7 +12,7 @@ export const jewellerySubmenus = [
     link: "/products/necklaces",
   },
   {
-    name: "Earrrings",
+    name: "Earrings",
     link: "/products/earrrings",
   },
 ];

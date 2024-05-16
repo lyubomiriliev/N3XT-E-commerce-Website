@@ -53,7 +53,7 @@ const HeaderSubmenu = () => {
                                     <div className="bg-white p-4 px-10">
                                         {link.sublinks.filter((sublink) => {
                                             if (selectedSexCategory === 'men') {
-                                                return !sublink.name.toLowerCase().includes('skirts') && !sublink.name.toLowerCase().includes('clutch bags');
+                                                return !sublink.name.toLowerCase().includes('skirts') && !sublink.name.toLowerCase().includes('clutch bags') && !sublink.name.toLowerCase().includes('necklaces') && !sublink.name.toLowerCase().includes('earrings');
                                             } else if (selectedSexCategory === 'women') {
                                                 return !sublink.name.toLocaleLowerCase().includes('mocassins');
                                             }
