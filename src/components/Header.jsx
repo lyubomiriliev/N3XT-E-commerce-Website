@@ -7,6 +7,7 @@ import HeaderSubmenu from "./HeaderSubmenu";
 import { FaSearch } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import { setSexCategory } from "../redux/nextSlice";
+import { allProductsData } from "../api/Api";
 
 export default function Header({ products }) {
 
@@ -22,10 +23,20 @@ export default function Header({ products }) {
         navigate(`/${sex}`)
     }
 
+    const [allProducts, setAllProducts] = useState([]);
+
     const [searchQuery, setSearchQuery] = useState("");
     const [showSearchBar, setShowSearchBar] = useState(false);
-
     const ref = useRef();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const products = await allProductsData();
+            setAllProducts(products)
+        };
+
+        fetchData();
+    }, [selectedSexCategory])
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -51,7 +62,7 @@ export default function Header({ products }) {
     }
 
     useEffect(() => {
-        const filtered = products?.filter((product) => product.title.toLowerCase().includes(searchQuery.toLocaleLowerCase()));
+        const filtered = allProducts?.filter((product) => product.title.toLowerCase().includes(searchQuery.toLocaleLowerCase()));
         setFilteredProducts(filtered);
 
     }, [searchQuery])

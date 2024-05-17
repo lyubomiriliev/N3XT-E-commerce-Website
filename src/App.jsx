@@ -13,7 +13,6 @@ import Product from "./components/Product.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Clothing from "./pages/ProductsPages/Clothing.jsx";
-import { useEffect, useState } from "react";
 import ProductsCenter from "./pages/ProductsPages/ProductsCenter.jsx";
 import Brands from "./components/Brands/Brands.jsx";
 import { useSelector } from "react-redux";
@@ -22,29 +21,13 @@ import ShopCategory from "./components/ShopCategory.jsx";
 
 const Layout = () => {
 
-    const [products, setProducts] = useState([]);
-    const selectedSexCategory = useSelector((state) => state.next.sexCategory)
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const data = await productsData();
-                setProducts(data.data);
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            }
-        }
-
-        fetchData();
-    }, []);
-
 
     return (
         <div>
-            <Header products={products} />
+            <Header />
             <ScrollRestoration />
             <Outlet >
-                <Home category={`${selectedSexCategory}`} />
+                <Home />
             </Outlet>
             <Footer />
         </div>
@@ -53,22 +36,7 @@ const Layout = () => {
 
 const AppRouter = () => {
 
-    const [products, setProducts] = useState([]);
     const selectedSexCategory = useSelector((state) => state.next.sexCategory);
-
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const data = await productsData();
-                setProducts(data.data);
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            }
-        }
-
-        fetchData();
-    }, []);
 
     const submenuOptions = ['clothing', 'shoes', 'bags', 'accessories', 'jewellery']
 
@@ -76,7 +44,6 @@ const AppRouter = () => {
         return submenuOptions.map((submenuOption) => ({
             path: `/${selectedSexCategory.toLowerCase()}/${submenuOption}`,
             element: <Clothing category={submenuOption} />,
-            loader: productsData,
         }));
     };
 
@@ -101,11 +68,11 @@ const AppRouter = () => {
             children: [
                 {
                     path: '/women',
-                    element: <Home products={products} />,
+                    element: <Home />,
                 },
                 {
                     path: '/men',
-                    element: <Home products={products} />,
+                    element: <Home />,
                 },
                 ...generateSubmenuRoutes(),
                 ...linksMenuRoute(),
@@ -145,7 +112,6 @@ const AppRouter = () => {
     return <RouterProvider router={router} />
 
 }
-
 
 
 function App() {
