@@ -1208,7 +1208,7 @@ export const Earrings = [
     description:
       "Saint Laurent's stud earrings honour the brand's iconic YSL monogram that was created in 1961. Here, a gleaming gold-tone version adorns two lustrous glass pearls.",
     material: "Brass, Pearl",
-    category: "men",
+    category: "women",
     type: "jewellery",
     brand: "Saint Laurent",
     image:

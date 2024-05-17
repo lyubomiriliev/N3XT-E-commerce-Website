@@ -8,16 +8,15 @@ import {
 } from "react-router-dom";
 import Footer from "./components/Footer.jsx";
 import Cart from "./pages/Cart.jsx";
-import { productsData } from "./api/Api.js";
 import Product from "./components/Product.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Clothing from "./pages/ProductsPages/Clothing.jsx";
-import ProductsCenter from "./pages/ProductsPages/ProductsCenter.jsx";
 import Brands from "./components/Brands/Brands.jsx";
 import { useSelector } from "react-redux";
 import { links } from "./components/HeaderLinks.js";
 import ShopCategory from "./components/ShopCategory.jsx";
+import Sale from "./pages/Sale.jsx";
 
 const Layout = () => {
 
@@ -102,8 +101,7 @@ const AppRouter = () => {
                 },
                 {
                     path: `/${selectedSexCategory}/sale`,
-                    element: <ProductsCenter />,
-                    loader: productsData,
+                    element: <Sale />,
                 }
             ]
         }

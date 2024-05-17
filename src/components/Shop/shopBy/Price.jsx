@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const Price = ({ products, setFilteredProducts }) => {
   const priceList = [
@@ -29,24 +30,41 @@ const Price = ({ products, setFilteredProducts }) => {
       priceTwo: 3000,
     },
     {
-      _id: 954,
+      _id: 955,
       priceOne: 3000,
       priceTwo: 50000,
     },
   ];
 
+  const location = useLocation()
+  const pathname = location.pathname;
+  const lastSegment = pathname.substring(pathname.lastIndexOf("/") + 1)
 
   const [showPrices, setShowPrices] = useState(true);
+  const [activePrice, setActivePrice] = useState(null);
 
+
+
+  const selectedSexCategory = useSelector((state) => state.next.sexCategory)
   const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu)
-  console.log(selectedSubheaderMenu.toLowerCase())
 
-  const filteredProductsByPriceRange = (priceOne, priceTwo) => {
-    const filteredProducts = products.filter((product) => product.price >= priceOne && product.price <= priceTwo && product.type === selectedSubheaderMenu.toLowerCase());
-    setFilteredProducts(filteredProducts)
-    setActivePrice(!activePrice)
-    console.log(filteredProducts)
-    console.log(activePrice)
+  const filteredProductsByPriceRange = (priceOne, priceTwo, id) => {
+
+    if (activePrice === id) {
+      setFilteredProducts(products.filter((product) => product.type === lastSegment && product.category === selectedSexCategory.toLowerCase()))
+      setActivePrice(null)
+    } else {
+      const filteredProducts = products.filter
+        ((product) =>
+          product.price >= priceOne &&
+          product.price <= priceTwo &&
+          product.category === selectedSexCategory.toLowerCase()
+          && product.type === lastSegment
+        );
+      setFilteredProducts(filteredProducts)
+      setActivePrice(id)
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
 
@@ -59,12 +77,13 @@ const Price = ({ products, setFilteredProducts }) => {
       </div>
       {showPrices && (
         <div>
-          <ul className="flex flex-col gap-4 text-sm lg:text-base text-[#767676]">
+          <ul className="flex flex-col gap-3 text-sm mb-10 lg:text-base text-[#767676]">
             {priceList.map((item) => (
               <li
                 key={item._id}
-                className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300"
-                onClick={() => filteredProductsByPriceRange(item.priceOne, item.priceTwo)}
+                className={`border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-gray-800 hover:border-gray-600 duration-300 ${activePrice === item._id ? ' text-red-600 border-gray-400' : ''
+                  }`}
+                onClick={() => filteredProductsByPriceRange(item.priceOne, item.priceTwo, item._id)}
               >
                 ${item.priceOne.toFixed(2)} - ${item.priceTwo.toFixed(2)}
               </li>

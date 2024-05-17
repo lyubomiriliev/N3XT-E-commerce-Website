@@ -25,121 +25,143 @@ const Clothing = ({ category }) => {
 
     const location = useLocation()
     const pathname = location.pathname;
-
     const lastSegment = pathname.substring(pathname.lastIndexOf("/") + 1)
 
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
-
     const selectedProductCategory = useSelector((state) => state.next.productCategory)
+    const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu)
+    const checkedBrands = useSelector((state) => state.next.checkedBrands);
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         const fetchData = async () => {
             const products = await allProductsData();
             setAllProducts(products)
-            setFilteredProducts(products.filter((item) => item.category === selectedSexCategory.toLowerCase()));
+            filterProducts(products, selectedSexCategory, lastSegment, selectedProductCategory, checkedBrands)
         };
 
         fetchData();
     }, [selectedSexCategory])
 
-
-    const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu)
-
     useEffect(() => {
-        const filterProductsByLocation = () => {
-            const filtered = allProducts.filter((item) => item.type === lastSegment && item.category === selectedSexCategory)
-            setFilteredProducts(filtered);
+        filterProducts(allProducts, selectedSexCategory, lastSegment, selectedProductCategory, checkedBrands);
+    }, [selectedSexCategory, lastSegment, selectedProductCategory, checkedBrands, allProducts])
+
+    const filterProducts = (products, sexCategory, type, productCategory, brands) => {
+        let filtered = products.filter(item => item.category === sexCategory.toLowerCase());
+
+        if (type) {
+            filtered = filtered.filter(item => item.type === type)
         }
-        filterProductsByLocation()
-    }, [lastSegment, allProducts, selectedSexCategory])
 
-    useEffect(() => {
-        toggleSubMenu(selectedProductCategory)
-    }, [selectedProductCategory])
+        if (productCategory) {
+            switch (productCategory) {
+                case "Jackets":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('jacket') && item.category === selectedSexCategory?.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "T-Shirts":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('shirt') && item.category === selectedSexCategory?.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Hoodies":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('hood') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Jeans":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('jeans') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Skirts":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('skirt') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Formal":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('formal') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Boots":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('boot') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Mocassins":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('mocassins') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Sneakers":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('sneakers') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Flip flops & Sandals":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('sandals') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Sports shoes":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('sport') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Hats":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('hat') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Belts":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('belt') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Scarves":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('scarf') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Sunglasses":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('sunglass') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Watches":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('watch') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Rings":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('ring') && !item.title.toLowerCase().includes('ear') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Bracelets":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('bracelet') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Necklaces":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('necklace') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
+                case "Earrings":
+                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('earring') && item.category === selectedSexCategory.toLowerCase());
+                    setFilteredProducts(filtered)
+                    break;
 
+                default:
+                    filtered = allProducts;
+                    break;
+            }
+
+        }
+
+        if (brands.length > 0) {
+            filtered = filtered.filter(item => brands.some(brand => item.brand === brand.title))
+        }
+
+        setFilteredProducts(filtered)
+    }
 
     const toggleSubMenu = (selectedProductCategory) => {
         setActiveSubMenu((prevActiveSubmenu) => {
             return prevActiveSubmenu === selectedProductCategory ? null : selectedProductCategory
         });
 
-        let filtered = [];
-
-        switch (selectedProductCategory) {
-            case "Jackets":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('jacket') && item.category === selectedSexCategory?.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "T-Shirts":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('shirt') && item.category === selectedSexCategory?.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Hoodies":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('hood') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Jeans":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('jeans') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Skirts":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('skirt') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Formal":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('formal') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Boots":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('boot') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Mocassins":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('mocassins') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Sneakers":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('sneakers') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Flip flops & Sandals":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('sandals') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Sports shoes":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('sport') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Hats":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('hat') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Belts":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('belt') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Scarves":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('scarf') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Sunglasses":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('sunglass') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            case "Watches":
-                filtered = allProducts.filter(item => item.title.toLowerCase().includes('watch') && item.category === selectedSexCategory.toLowerCase());
-                setFilteredProducts(filtered)
-                break;
-            default:
-                filtered = allProducts;
-                break;
-        }
-        console.log(filtered)
-
+        filterProducts(allProducts, selectedSexCategory, lastSegment, selectedProductCategory, checkedBrands);
     }
 
     const closeSubMenu = () => {
-        setFilteredProducts(allProducts.filter((product) => product.type === lastSegment && product.category === selectedSexCategory))
+        setFilteredProducts(allProducts.filter((product) => product.type === lastSegment && product.category === selectedSexCategory));
         setSelectedCategory(null)
         setActiveSubMenu(null);
     }
@@ -152,16 +174,14 @@ const Clothing = ({ category }) => {
         jewellery: jewellerySubmenus
     }[category];
 
-
-
-    const dispatch = useDispatch()
-
     const handleCategoryChange = (category) => {
-        dispatch(setProductCategory(category))
-        console.log(category)
-
+        if (activeSubMenu === category) {
+            closeSubMenu();
+        } else {
+            dispatch(setProductCategory(category))
+            toggleSubMenu(category);
+        }
     }
-
 
     return (
         <div className="max-w-screen-2xl flex-col mx-auto mt-5">

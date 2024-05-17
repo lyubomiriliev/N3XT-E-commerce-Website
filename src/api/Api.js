@@ -3,12 +3,16 @@ import {
   Bags,
   Belts,
   Boots,
+  Bracelets,
+  Earrings,
   Formal,
   Hats,
   Hoodies,
   Jackets,
   Jeans,
   Mocassins,
+  Necklaces,
+  Rings,
   Sandals,
   Scarves,
   Sneakers,
@@ -48,7 +52,10 @@ export async function allProductsData() {
       itemCategory: "sunglasses",
     })),
     ...Watches.map((product) => ({ ...product, itemCategory: "watches" })),
-
+    ...Rings.map((product) => ({ ...product, itemCategory: "rings" })),
+    ...Bracelets.map((product) => ({ ...product, itemCategory: "bracelets" })),
+    ...Necklaces.map((product) => ({ ...product, itemCategory: "necklaces" })),
+    ...Earrings.map((product) => ({ ...product, itemCategory: "earrings" })),
     ...products.data.map((product) => ({ ...product, type: "clothing" })),
   ];
 }

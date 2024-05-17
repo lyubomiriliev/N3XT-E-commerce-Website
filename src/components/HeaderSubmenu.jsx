@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 import { links } from "../components/HeaderLinks"
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { setHeaderSubmenu } from "../redux/nextSlice";
+import { setHeaderSubmenu, setProductCategory } from "../redux/nextSlice";
 
 const HeaderSubmenu = () => {
 
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
+    const selectedProductCategory = useSelector((state) => state.next.productCategory)
+    const selectedSubmenu = useSelector((state) => state.next.HeaderSubmenu)
 
     const [hoveredLink, setHoveredLink] = useState(null);
 
@@ -21,6 +23,7 @@ const HeaderSubmenu = () => {
     const dispatch = useDispatch();
 
     const handleSubmenuChange = (submenuName) => {
+        dispatch(setProductCategory(null))
         dispatch(setHeaderSubmenu(submenuName))
     }
 

@@ -57,17 +57,17 @@ export const nextSlice = createSlice({
       state.userInfo = null;
     },
     toggleBrand: (state, action) => {
-      const brand = action.payload;
+      const brandTitle = action.payload;
       const isBrandChecked = state.checkedBrands.some(
-        (b) => b._id === brand._id
+        (b) => b.title === brandTitle
       );
 
       if (isBrandChecked) {
         state.checkedBrands = state.checkedBrands.filter(
-          (b) => b._id !== brand._id
+          (b) => b.title !== brandTitle
         );
       } else {
-        state.checkedBrands.push(brand);
+        state.checkedBrands.push({ title: brandTitle });
       }
     },
 
