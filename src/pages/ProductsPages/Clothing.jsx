@@ -237,7 +237,7 @@ const Clothing = ({ category }) => {
                     <div className="w-5/6 ml-20 justify-between flex items-center gap-2 md:gap-6 mt-4 md:mt-0">
                         <ProductBanner />
                     </div>
-                    <ProductsCenter filteredProducts={filteredProducts} selectedCategory={selectedCategory} />
+                    <ProductsCenter filteredProducts={filteredProducts} />
                     {/* <Pagination /> */}
                 </div>
 

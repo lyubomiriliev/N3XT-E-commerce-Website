@@ -7,8 +7,6 @@ import { setHeaderSubmenu, setProductCategory } from "../redux/nextSlice";
 const HeaderSubmenu = () => {
 
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
-    const selectedProductCategory = useSelector((state) => state.next.productCategory)
-    const selectedSubmenu = useSelector((state) => state.next.HeaderSubmenu)
 
     const [hoveredLink, setHoveredLink] = useState(null);
 

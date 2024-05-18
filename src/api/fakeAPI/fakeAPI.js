@@ -93,7 +93,7 @@ export const Bags = [
     material: "100% leather",
     category: "women",
     type: "bags",
-    Image:
+    image:
       "https://eu.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-speedy-bandouli%C3%A8re-20-monogram-canvas-handbags--M46234_PM1_Worn%20view.png?wid=1090&hei=1090",
     color: "Brown",
     rating: 5,
@@ -802,7 +802,8 @@ export const Belts = [
     category: "men",
     type: "accessories",
     brand: "Gucci",
-    image: "",
+    image:
+      "https://cdn-images.farfetch-contents.com/12/13/24/45/12132445_42726926_2048.jpg",
     rating: 5,
   },
   {
@@ -949,7 +950,8 @@ export const Sunglasses = [
     category: "men",
     type: "accessories",
     brand: "Ray-Ban",
-    image: "",
+    image:
+      "https://cdn-images.farfetch-contents.com/16/07/93/06/16079306_30630337_2048.jpg",
     rating: 5,
   },
   {
@@ -963,7 +965,8 @@ export const Sunglasses = [
     category: "men",
     type: "accessories",
     brand: "Saint Laurent",
-    image: "",
+    image:
+      "https://cdn-images.farfetch-contents.com/16/70/56/87/16705687_32758786_2048.jpg",
     rating: 5,
   },
 ];

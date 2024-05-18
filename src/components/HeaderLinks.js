@@ -38,14 +38,9 @@ export const links = [
   },
   {
     name: "Bags",
-    submenu: true,
+    submenu: false,
     dir: "/bags",
-    sublinks: [
-      { name: "Shoulder Bag", link: "/products/shoulder-bags" },
-      { name: "Backpacks", link: "/products/backpacks" },
-      { name: "Messenger Bags", link: "/products/messenger-bags" },
-      { name: "Clutch Bags", link: "/products/clutch-bags" },
-    ],
+    sublinks: [],
   },
   {
     name: "Jewellery",
