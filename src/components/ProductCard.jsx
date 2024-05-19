@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { addToCart } from '../redux/nextSlice';
 import { ToastContainer, toast } from 'react-toastify';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, view }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
 
@@ -27,17 +27,22 @@ const ProductCard = ({ product }) => {
     }
 
     return (
-        <div className="group relative">
-            <div onClick={handleDetails} className="w-full h-96 cursor-pointer overflow-hidden">
-                <img className="w-full h-full object-cover group-hover:scale-110 duration-500" src={product.image} alt="productImage" />
+        <div className={`${view === 'list' ? 'flex group relative h-96' : 'group relative'}`}>
+            <div onClick={handleDetails} className={`${view === "list" ? 'w-1/3 h-96 cursor-pointer overflow-hidden' : 'w-full h-96 cursor-pointer overflow-hidden'}`}>
+                <img className={`${view === "list" ? 'w-full h-full object-cover group-hover:scale-110 duration-300' : 'w-full h-full object-cover group-hover:scale-110 duration-300'}`} src={product.image} alt="productImage" />
             </div>
             <div className="w-full border-[1px] px-2 py-4">
-                <div className="flex justify-between items-center">
-                    <div>
+                <div className={`${view === 'list' ? 'flex-col' : 'flex justify-between items-center'}`}>
+                    <div className='w-full justify-center items-center'>
                         <h2 className="text-base font-bold">{product.title.substring(0, 15)}</h2>
+                        {view === 'list' ? (
+                            <div className='w-2/4 mb-5'>
+                                <p className='text-sm text-gray-600'>{[product.description]}</p>
+                            </div>
+                        ) : null}
                     </div>
-                    <div className="flex justify-end gap-2 relative overflow-hidden w-28 text-sm">
-                        <div className="flex gap-2 transform group-hover:translate-x-24 transition-transform duration-500">
+                    <div className={`${view === 'list' ? 'flex relative overflow-hidden  w-full' : 'flex justify-end gap-2 relative overflow-hidden w-28 text-sm'}`}>
+                        <div className={`${view === 'list' ? 'flex-coltransform group-hover:translate-x-24 transition-transform duration-500' : 'flex gap-2 transform group-hover:translate-x-24 transition-transform duration-500'}`}>
                             <p className="line-through text-gray-500">${product.oldPrice}</p>
                             <p className="font-semibold">${product.price}</p>
                         </div>
@@ -55,17 +60,18 @@ const ProductCard = ({ product }) => {
                         </p>
                     </div>
                 </div>
-                <div>
-                    <p>{product.category}</p>
+                <div className={`${view === 'list' ? 'w-1/3 bottom-2 absolute' : ''}`}>
+                    <p className={`${view === 'list' ? 'text-base font-bold uppercase' : ''}`}>{product.category}</p>
                 </div>
-                <div className='absolute top-4 right-0'>
+                <div className={`${view === 'list' ? 'absolute top-4 left-0' : 'absolute top-4 right-0'}`}>
                     {
                         product.isNew && (
-                            <p className='bg-black text-white font-semibold px-6 py-1'>Sale</p>
+                            <p className='bg-red-600 text-white font-semibold uppercase px-4 py-1'>Sale</p>
                         )
                     }
                 </div>
             </div >
+
             <ToastContainer
                 position="top-left"
                 autoClose={2000}

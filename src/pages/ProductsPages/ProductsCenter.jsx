@@ -1,13 +1,13 @@
 import ProductCard from "../../components/ProductCard"
 
-const ProductsCenter = ({ filteredProducts }) => {
+const ProductsCenter = ({ filteredProducts, view }) => {
 
 
     return (
         <div>
-            <div className="w-5/6 mx-auto py-10 grid grid-cols-4 gap-10">
+            <div className={`w-5/6 mx-auto py-10 ${view === 'grid' ? 'grid grid-cols-1 sm:grid-cols2 md:grid-cols-3 lg:grid-cols-4 gap-6' : 'flex flex-col space-y-4'}`}>
                 {filteredProducts.map(item => (
-                    <ProductCard key={item._id} product={item} />
+                    <ProductCard key={item._id} product={item} view={view} />
                 ))}
             </div>
         </div>

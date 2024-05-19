@@ -22,6 +22,7 @@ const Clothing = ({ category }) => {
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [activeSubMenu, setActiveSubMenu] = useState(null);
     const [allProducts, setAllProducts] = useState([]);
+    const [view, setView] = useState('grid')
 
     const location = useLocation()
     const pathname = location.pathname;
@@ -235,9 +236,9 @@ const Clothing = ({ category }) => {
 
                 <div className="w-full flex-col -ml-10">
                     <div className="w-5/6 ml-20 justify-between flex items-center gap-2 md:gap-6 mt-4 md:mt-0">
-                        <ProductBanner />
+                        <ProductBanner onViewChange={setView} />
                     </div>
-                    <ProductsCenter filteredProducts={filteredProducts} />
+                    <ProductsCenter filteredProducts={filteredProducts} selectedCategory={selectedCategory} view={view} />
                     {/* <Pagination /> */}
                 </div>
 

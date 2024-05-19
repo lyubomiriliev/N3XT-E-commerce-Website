@@ -5,10 +5,25 @@ import { ImList } from "react-icons/im";
 
 
 
-const ProductBanner = ({ itemsPerPageFromBanner }) => {
+const ProductBanner = ({ itemsPerPageFromBanner, onViewChange }) => {
 
 	const [girdViewActive, setGridViewActive] = useState(true);
 	const [listViewActive, setListViewActive] = useState(false);
+
+	useEffect(() => {
+		const savedView = localStorage.getItem('view');
+		if (savedView) {
+			if (savedView === 'grid') {
+				setGridViewActive(true);
+				setListViewActive(false);
+				onViewChange('grid');
+			} else {
+				setGridViewActive(false);
+				setListViewActive(true);
+				onViewChange('list');
+			}
+		}
+	}, [onViewChange])
 
 	useEffect(() => {
 		const gridView = document.querySelector(".gridView");
@@ -17,12 +32,18 @@ const ProductBanner = ({ itemsPerPageFromBanner }) => {
 		gridView.addEventListener("click", () => {
 			setListViewActive(false);
 			setGridViewActive(true);
+			onViewChange("grid")
+			localStorage.setItem('view', 'grid')
 		});
 		listView.addEventListener("click", () => {
 			setGridViewActive(false);
 			setListViewActive(true);
+			onViewChange("list")
+			localStorage.setItem('view', 'list')
+
+
 		});
-	}, [girdViewActive, listViewActive]);
+	}, [girdViewActive, listViewActive, onViewChange]);
 
 	return (
 		<div className="w-full ml-9 -mr-9 flex flex-col md:flex-row md:items-center justify-between">
