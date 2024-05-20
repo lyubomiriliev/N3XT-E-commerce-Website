@@ -41,7 +41,7 @@ const ProductCard = ({ product, view }) => {
                             </div>
                         ) : null}
                     </div>
-                    <div className={`${view === 'list' ? 'flex relative overflow-hidden  w-full' : 'flex justify-end gap-2 relative overflow-hidden w-28 text-sm'}`}>
+                    <div className={`${view === 'list' ? 'flex relative overflow-hidden  w-full' : 'flex justify-end gap-2 relative overflow-hidden w-44 text-sm'}`}>
                         <div className={`${view === 'list' ? 'flex-coltransform group-hover:translate-x-24 transition-transform duration-500' : 'flex gap-2 transform group-hover:translate-x-24 transition-transform duration-500'}`}>
                             <p className="line-through text-gray-500">${product.oldPrice}</p>
                             <p className="font-semibold">${product.price}</p>

@@ -8,9 +8,6 @@ const Brand = () => {
   const checkedBrands = useSelector((state) => state.next.checkedBrands);
   const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 
-  console.log(selectedSexCategory)
-  console.log(checkedBrands)
-
   const dispatch = useDispatch();
 
   const menBrands = [

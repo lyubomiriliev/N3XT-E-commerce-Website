@@ -5,8 +5,9 @@ import { ImList } from "react-icons/im";
 
 
 
-const ProductBanner = ({ itemsPerPageFromBanner, onViewChange }) => {
+const ProductBanner = ({ onItemsPerPageChange, onViewChange, onSortChange }) => {
 
+	// LIST OR GRID VIEW LOGIC START
 	const [girdViewActive, setGridViewActive] = useState(true);
 	const [listViewActive, setListViewActive] = useState(false);
 
@@ -44,11 +45,13 @@ const ProductBanner = ({ itemsPerPageFromBanner, onViewChange }) => {
 
 		});
 	}, [girdViewActive, listViewActive, onViewChange]);
+	// LIST OR GRID VIEW LOGIC END
+
 
 	return (
 		<div className="w-full ml-9 -mr-9 flex flex-col md:flex-row md:items-center justify-between">
 
-			{/* Left part of the banner start */}
+			{/* LIST OR GRID VIEW START */}
 			<div className="flex items-center gap-4">
 				<span
 					className={`${girdViewActive
@@ -67,21 +70,18 @@ const ProductBanner = ({ itemsPerPageFromBanner, onViewChange }) => {
 					<ImList />
 				</span>
 			</div>
-			{/* Left part end here */}
+			{/* LIST OR GRID VIEW END */}
 
-			{/* Right part start here */}
+			{/* SORT AND PAGINATION START */}
 
 			<div className="flex items-center gap-2 md:gap-10 mt-4 md:mt-0">
 				<div className="flex items-center gap-2 text-base relative">
 					<label className="block">Sort by:</label>
 					<select
-						onChange={(e) => itemsPerPageFromBanner(+e.target.value)}
-						id="countries"
+						onChange={(e) => onSortChange(e.target.value)}
 						className="w-32 md:w-52 border-[1px] border-gray-200 py-1 px-4 cursor-pointer text-gray-800 text-base block dark:placeholder-gray-400 appearance-none focus-within:outline-none focus-visible:border-gray-800">
-						<option value="12">Price: High to Low</option>
-						<option value="24">Price: Low to High</option>
-						<option value="36">Our picks</option>
-						<option value="48">Newest first</option>
+						<option value="high-to-low">Low to High:</option>
+						<option value="low-to-high">High to Low:</option>
 					</select>
 					<span className="absolute text-sm right-2 md:right-4 top-2.5">
 						<GoTriangleDown />
@@ -91,8 +91,7 @@ const ProductBanner = ({ itemsPerPageFromBanner, onViewChange }) => {
 					<label className="block">Show:</label>
 					<select
 						className="w-16 md:w-20 border-[1px] border-gray-200 py-1 px-4 cursor-pointer text-gray-800 text-base block dark:placeholder-gray-400 appearance-none focus-within:outline-none focus-visible:border-gray-800"
-						onChange={(e) => itemsPerPageFromBanner(+e.target.value)}
-						id="countries"
+						onChange={(e) => onItemsPerPageChange(+e.target.value)}
 					>
 						<option value="12">12</option>
 						<option value="24">24</option>
@@ -105,7 +104,7 @@ const ProductBanner = ({ itemsPerPageFromBanner, onViewChange }) => {
 				</div>
 			</div>
 
-			{/* Right part ends here */}
+			{/* SORT AND PAGINATION END */}
 		</div>
 	)
 }

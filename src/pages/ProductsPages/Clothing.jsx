@@ -23,6 +23,10 @@ const Clothing = ({ category }) => {
     const [activeSubMenu, setActiveSubMenu] = useState(null);
     const [allProducts, setAllProducts] = useState([]);
     const [view, setView] = useState('grid')
+    const [sortOption, setSortOption] = useState('high-to-low');
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(12);
 
     const location = useLocation()
     const pathname = location.pathname;
@@ -34,6 +38,38 @@ const Clothing = ({ category }) => {
     const checkedBrands = useSelector((state) => state.next.checkedBrands);
 
     const dispatch = useDispatch()
+
+    const handleItemsPerPageChange = (items) => {
+        setItemsPerPage(items);
+        setCurrentPage(1);
+    }
+
+    const handleSortChange = (option) => {
+        setSortOption(option)
+        console.log(sortOption)
+    }
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [currentPage]);
+
+
+    useEffect(() => {
+        const sortProducts = () => {
+            if (sortOption === 'high-to-low') {
+                return filteredProducts.sort((a, b) => b.price - a.price);
+            } else if (sortOption === 'low-to-high') {
+                return filteredProducts.sort((a, b) => a.price - b.price);
+            }
+            return filteredProducts
+        }
+        sortProducts();
+    }, [sortOption])
+
+    const lastProductIndex = currentPage * itemsPerPage;
+    const firstProductIndex = lastProductIndex - itemsPerPage;
+    const displayedProducts = filteredProducts.slice(firstProductIndex, lastProductIndex);
+    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -47,10 +83,12 @@ const Clothing = ({ category }) => {
 
     useEffect(() => {
         filterProducts(allProducts, selectedSexCategory, lastSegment, selectedProductCategory, checkedBrands);
-    }, [selectedSexCategory, lastSegment, selectedProductCategory, checkedBrands, allProducts])
+
+    }, [selectedSexCategory, lastSegment, selectedProductCategory, checkedBrands, allProducts,])
 
     const filterProducts = (products, sexCategory, type, productCategory, brands) => {
         let filtered = products.filter(item => item.category === sexCategory.toLowerCase());
+
 
         if (type) {
             filtered = filtered.filter(item => item.type === type)
@@ -236,10 +274,31 @@ const Clothing = ({ category }) => {
 
                 <div className="w-full flex-col -ml-10">
                     <div className="w-5/6 ml-20 justify-between flex items-center gap-2 md:gap-6 mt-4 md:mt-0">
-                        <ProductBanner onViewChange={setView} />
+                        <ProductBanner onViewChange={setView} onItemsPerPageChange={handleItemsPerPageChange} onSortChange={handleSortChange} />
                     </div>
-                    <ProductsCenter filteredProducts={filteredProducts} selectedCategory={selectedCategory} view={view} />
-                    {/* <Pagination /> */}
+                    <ProductsCenter filteredProducts={displayedProducts} selectedCategory={selectedCategory} view={view} />
+                    <div className="flex justify-center mt-4 mb-10">
+                        <button
+                            onClick={() => {
+                                setCurrentPage(prev => Math.max(prev - 1, 1));
+                            }}
+                            disabled={currentPage === 1}
+                            className="px-4 py-2 mx-2 bg-gray-800 text-white rounded disabled:opacity-50"
+                        >
+                            Previous
+                        </button>
+                        <span className="px-4 py-2">{currentPage}/{totalPages}</span>
+                        <button
+                            onClick={() => {
+                                setCurrentPage(prev => (prev * itemsPerPage < filteredProducts.length ? prev + 1 : prev));
+                            }
+                            }
+                            disabled={currentPage * itemsPerPage >= filteredProducts.length}
+                            className='px-4 py-2 mx-2 bg-gray-800 text-white rounded disabled:opacity-50'
+                        >
+                            Next
+                        </button>
+                    </div>
                 </div>
 
             </div>
