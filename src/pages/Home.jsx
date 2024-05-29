@@ -5,6 +5,7 @@ import Newsletter from "../components/Newsletter";
 import { useEffect, useState } from "react";
 import { allProductsData } from "../api/Api";
 import { useSelector } from "react-redux";
+import SummerDeals from "../components/SummerDeals";
 
 export default function Home() {
 
@@ -26,6 +27,7 @@ export default function Home() {
         <div>
             <Banner />
             <Products products={filteredProducts} />
+            <SummerDeals />
             <FeaturedProducts products={filteredProducts} />
             <Newsletter />
         </div>

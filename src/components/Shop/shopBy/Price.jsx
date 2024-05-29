@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+
+import { RiArrowDropDownLine } from "react-icons/ri";
+import useDeviceDetect from "../../../hooks/useDeviceDetect";
+
 
 const Price = ({ products, setFilteredProducts }) => {
   const priceList = [
@@ -43,7 +47,13 @@ const Price = ({ products, setFilteredProducts }) => {
   const [showPrices, setShowPrices] = useState(true);
   const [activePrice, setActivePrice] = useState(null);
 
+  const isMobile = useDeviceDetect();
 
+  useEffect(() => {
+    if (isMobile) {
+      setShowPrices(false)
+    }
+  }, [isMobile])
 
   const selectedSexCategory = useSelector((state) => state.next.sexCategory)
   const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu)
@@ -73,7 +83,10 @@ const Price = ({ products, setFilteredProducts }) => {
 
     <div className="cursor-pointer">
       <div onClick={() => setShowPrices(!showPrices)}>
-        <h1 className="font-bold text-2xl w-48 mt-10 mb-10">Shop By Price</h1>
+        <div className="flex items-center">
+          <h1 className="font-bold text-sm md:text-2xl w-28 md:w-48 my-2">Filter By Price</h1>
+          <RiArrowDropDownLine className="font-bold text-4xl" />
+        </div>
       </div>
       {showPrices && (
         <div>

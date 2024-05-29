@@ -10,11 +10,11 @@ import { acessoriesSubmenus } from "./Submenus/accesoriesSubmenu";
 import { bagsSubmenus } from "./Submenus/bagsSubmenus";
 import { jewellerySubmenus } from "./Submenus/jewellerySubmenus";
 import ProductsCenter from "./ProductsCenter";
-import Pagination from "../../components/Shop/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
 import { allProductsData } from "../../api/Api";
 import { setProductCategory } from "../../redux/nextSlice";
+import useDeviceDetect from "../../hooks/useDeviceDetect";
 
 const Clothing = ({ category }) => {
 
@@ -36,6 +36,8 @@ const Clothing = ({ category }) => {
     const selectedProductCategory = useSelector((state) => state.next.productCategory)
     const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu)
     const checkedBrands = useSelector((state) => state.next.checkedBrands);
+
+    const isMobile = useDeviceDetect();
 
     const dispatch = useDispatch()
 
@@ -224,16 +226,21 @@ const Clothing = ({ category }) => {
 
     return (
         <div className="max-w-screen-2xl flex-col mx-auto mt-5">
-            <Breadcrumbs category={category} />
-            <div className="border-b-2 w-24">
-                <h1 className="text-4xl  uppercase font-bold mt-6">{selectedSexCategory}</h1>
+            <div className="flex ml-5 md:ml-0">
+                <Breadcrumbs category={category} />
             </div>
-            <div className="flex w-full">
+            <div className="">
+                <h1 className="text-xl ml-5 md:ml-0 md:text-4xl uppercase font-bold mt-2 md:mt-6">{selectedSexCategory}</h1>
+            </div>
+            <div className="flex flex-col md:flex-row w-full">
                 <div className="flex-col">
                     <div>
-                        <h1 onClick={closeSubMenu} className="font-bold cursor-pointer text-2xl py-4 mr-10">{selectedSubheaderMenu}</h1>
-                        <div className="flex-col">
-
+                        {!isMobile && (
+                            <div>
+                                <h1 onClick={closeSubMenu} className="font-bold cursor-pointer text-2xl py-4 mr-10 ml-5 md:ml-0">{selectedSubheaderMenu}</h1>
+                            </div>
+                        )}
+                        <div className="flex justify-center gap-6 md:gap-0 md:flex-col ">
                             {submenus.filter((submenu) => {
                                 if (selectedSexCategory === "women") {
                                     return !submenu.name.toLowerCase().includes('mocassins')
@@ -264,7 +271,7 @@ const Clothing = ({ category }) => {
                             }
                         </div>
                     </div>
-                    <div className="w-[20%] lgl:w-[25%] flex h-full">
+                    <div className="w-full flex justify-center">
                         <ShopSideNav
                             products={allProducts}
                             setFilteredProducts={setFilteredProducts}

@@ -3,6 +3,9 @@ import { BsGridFill } from "react-icons/bs";
 import { GoTriangleDown } from "react-icons/go";
 import { ImList } from "react-icons/im";
 
+import { RiArrowDropDownLine } from "react-icons/ri";
+
+
 
 
 const ProductBanner = ({ onItemsPerPageChange, onViewChange, onSortChange }) => {
@@ -49,7 +52,7 @@ const ProductBanner = ({ onItemsPerPageChange, onViewChange, onSortChange }) => 
 
 
 	return (
-		<div className="w-full ml-9 -mr-9 flex flex-col md:flex-row md:items-center justify-between">
+		<div className="w-full  md:ml-9 -mr-9 flex md:flex-row md:items-center justify-between">
 
 			{/* LIST OR GRID VIEW START */}
 			<div className="flex items-center gap-4">
@@ -77,6 +80,7 @@ const ProductBanner = ({ onItemsPerPageChange, onViewChange, onSortChange }) => 
 			<div className="flex items-center gap-2 md:gap-10 mt-4 md:mt-0">
 				<div className="flex items-center gap-2 text-base relative">
 					<label className="block">Sort by:</label>
+					<RiArrowDropDownLine className="text-2xl" />
 					<select
 						onChange={(e) => onSortChange(e.target.value)}
 						className="w-32 md:w-52 border-[1px] border-gray-200 py-1 px-4 cursor-pointer text-gray-800 text-base block dark:placeholder-gray-400 appearance-none focus-within:outline-none focus-visible:border-gray-800">

@@ -8,11 +8,11 @@ const Products = ({ products }) => {
     const filteredProducts = selectedSexCategory ? products.filter((item) => item.category === selectedSexCategory) : products;
 
     return (
-        <div className="py-10">
+        <div className="w-full px-10 md:px-0 md:scale-100 flex flex-col mx-auto py md:py-10">
             <div className="flex flex-col items-center gap-4">
-                <h1 className="text-4xl py-5 font-bold text-center">TRENDING THIS WEEK</h1>
+                <h1 className="text-3xl md:text-4xl py-10 font-bold text-center">TRENDING THIS WEEK</h1>
             </div>
-            <div className="max-w-screen-xl mx-auto py-10 grid grid-cols-4 gap-10">
+            <div className="max-w-screen-xl mx-auto py-2 md:py-10 grid grid-cols-1 md:grid-cols-4 gap-10">
                 {
                     filteredProducts !== null ? (
                         filteredProducts.slice(0, 4).map((item) => (

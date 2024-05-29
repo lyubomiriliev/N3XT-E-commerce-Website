@@ -48,7 +48,7 @@ const Banner = () => {
 
     return (
         <div className=" w-full h-auto overflow-x-hidden">
-            <div className="w-screen h-[700px] relative">
+            <div className="w-screen h-[450px] md:h-[700px] relative ">
                 <div style={{ transform: `translateX(-${currentSlide * 100}vw)` }} className="w-[400vw] h-full flex transition-transform duration-700">
                     {banners.map((banner, index) => (
                         <img

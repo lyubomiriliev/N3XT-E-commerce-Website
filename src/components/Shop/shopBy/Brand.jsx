@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleBrand } from "../../../redux/nextSlice";
+import { RiArrowDropDownLine } from "react-icons/ri";
+import useDeviceDetect from "../../../hooks/useDeviceDetect";
 
 const Brand = () => {
   const [showBrands, setShowBrands] = useState(true);
@@ -9,6 +11,14 @@ const Brand = () => {
   const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 
   const dispatch = useDispatch();
+
+  const isMobile = useDeviceDetect();
+
+  useEffect(() => {
+    if (isMobile) {
+      setShowBrands(false)
+    }
+  }, [isMobile])
 
   const menBrands = [
     {
@@ -61,15 +71,17 @@ const Brand = () => {
   };
 
   return (
-    <div>
+    <div className="flex justify-center md:flex-col">
       <div
         className="cursor-pointer"
-        onClick={() => setShowBrands(!showBrands)}
-      >
-        <h1 className="font-bold text-2xl w-48 mt-10 mb-10">Shop by Brand</h1>
+        onClick={() => setShowBrands(!showBrands)}>
+        <div className="flex items-center">
+          <h1 className="font-bold text-sm md:text-2xl w-28 md:w-48 my-2">Filter by Brand</h1>
+          <RiArrowDropDownLine className="font-bold text-4xl" />
+        </div>
       </div>
       {showBrands && (
-        <ul className="flex flex-col gap-4 text-sm lg:text-base">
+        <ul className="flex md:flex-col gap-4 text-sm lg:text-base">
           {selectedSexCategory === "women" ?
             womenBrands.map((item) => (
               <li

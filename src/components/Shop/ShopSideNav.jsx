@@ -8,7 +8,7 @@ const ShopSideNav = ({ products, setFilteredProducts }) => {
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 
     return (
-        <div>
+        <div className="flex md:flex-col">
             <Brand />
             <Price products={products} setFilteredProducts={setFilteredProducts} selectedSexCategory={selectedSexCategory} />
         </div>
