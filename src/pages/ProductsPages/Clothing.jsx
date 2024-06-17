@@ -16,6 +16,8 @@ import { allProductsData } from "../../api/Api";
 import { setProductCategory } from "../../redux/nextSlice";
 import useDeviceDetect from "../../hooks/useDeviceDetect";
 
+import { CiFilter } from "react-icons/ci";
+
 const Clothing = ({ category }) => {
 
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -226,11 +228,15 @@ const Clothing = ({ category }) => {
 
     return (
         <div className="max-w-screen-2xl flex-col mx-auto mt-5">
-            <div className="flex ml-5 md:ml-0">
+            <div className="flex scale-75 md:scale-100 md:ml-0">
                 <Breadcrumbs category={category} />
             </div>
             <div className="">
-                <h1 className="text-xl ml-5 md:ml-0 md:text-4xl uppercase font-bold mt-2 md:mt-6">{selectedSexCategory}</h1>
+                {
+                    !isMobile && (
+                        <h1 className="text-xl ml-5 md:ml-0 md:text-4xl uppercase font-bold mt-2 md:mt-6">{selectedSexCategory}</h1>
+                    )
+                }
             </div>
             <div className="flex flex-col md:flex-row w-full">
                 <div className="flex-col">
@@ -279,9 +285,17 @@ const Clothing = ({ category }) => {
                     </div>
                 </div>
 
-                <div className="w-full flex-col -ml-10">
-                    <div className="w-5/6 ml-20 justify-between flex items-center gap-2 md:gap-6 mt-4 md:mt-0">
-                        <ProductBanner onViewChange={setView} onItemsPerPageChange={handleItemsPerPageChange} onSortChange={handleSortChange} />
+                <div className="w-full flex-col md:-ml-10">
+                    <div className="w-full ml-14 -mb-5 md:w-5/6 md:ml-20 flex items-center gap-2 md:gap-6 mt-2 md:mt-0">
+                        {isMobile && (
+                            <div className="flex items-center">
+                                <span>Filter</span>
+                                <CiFilter className="text-2xl" />
+                            </div>
+                        )}
+                        <div className="flex justify-center items-center w-full">
+                            <ProductBanner onViewChange={setView} onItemsPerPageChange={handleItemsPerPageChange} onSortChange={handleSortChange} />
+                        </div>
                     </div>
                     <ProductsCenter filteredProducts={displayedProducts} selectedCategory={selectedCategory} view={view} />
                     <div className="flex justify-center mt-4 mb-10">

@@ -8,8 +8,8 @@ export default {
       },
       keyframes: {
         "loop-scroll": {
-          from: { transform: "translateX(0)" },
-          to: { transform: "translateY(-100%)" },
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateY(-100%)" },
         },
       },
     },

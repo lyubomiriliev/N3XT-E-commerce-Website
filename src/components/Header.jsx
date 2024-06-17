@@ -11,6 +11,7 @@ import { allProductsData } from "../api/Api";
 
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from 'react-icons/ai';
+import useDeviceDetect from "../hooks/useDeviceDetect";
 
 
 export default function Header() {
@@ -18,7 +19,6 @@ export default function Header() {
     const productData = useSelector((state) => state.next.productData);
     const userInfo = useSelector((state) => state.next.userInfo);
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
-
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -31,10 +31,11 @@ export default function Header() {
     const [searchQuery, setSearchQuery] = useState("");
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [showBurgerMenu, setShowBurgerMenu] = useState(false);
-
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const searchRef = useRef();
 
-    const ref = useRef();
+    const isMobile = useDeviceDetect();
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -47,7 +48,7 @@ export default function Header() {
 
     useEffect(() => {
         const handleClickOutside = (e) => {
-            if (ref.current && !ref.current.contains(event.target)) {
+            if (searchRef.current && !searchRef.current.contains(e.target)) {
                 setFilteredProducts([]);
                 setSearchQuery("");
             }
@@ -57,9 +58,8 @@ export default function Header() {
 
         return () => {
             document.removeEventListener("click", handleClickOutside);
-        }
-    }, [ref]);
-
+        };
+    }, [searchRef]);
 
 
     const handleSearch = (e) => {
@@ -77,36 +77,39 @@ export default function Header() {
 
     return (
 
-        <div className='w-full h-auto bg-white border-b-[1px] border-b-gray-300 sticky top-0 z-50 transition-all duration-300'>
+        <div className='w-full h-28 md:h-auto bg-white border-b-[1px] border-b-gray-300 sticky top-0 z-50 transition-all duration-300'>
             <div className="max-w-screen-2xl flex flex-col md:flex-row items-center mx-auto">
                 <div className="w-full flex justify-between px-5 items-center gap-10 md:w-auto">
                     <div className="flex items-center relative">
                         {showBurgerMenu ? (
                             <AiOutlineClose className="md:hidden w-6 h-6 cursor-pointer" onClick={() => setShowBurgerMenu(false)} />
                         ) : (
-                            <GiHamburgerMenu className="md:hidden w-6 h-6 cursor-pointer" onClick={() => setShowBurgerMenu(true)} />
+                            <GiHamburgerMenu className="md:hidden w-6 h-6 cursor-pointer" onClick={(e) => {
+                                e.stopPropagation();
+                                setShowBurgerMenu(true);
+                            }} />
                         )}
                     </div>
                     {userInfo === null ?
                         <Link to="/register">
-                            <div className=" hover:text-orange-300 flex md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                            <div onClick={() => setShowBurgerMenu(false)} className=" hover:text-orange-300 flex md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                                 <FavoriteBorderOutlinedIcon />
                             </div>
                         </Link>
                         :
                         <Link to="/wishlist">
-                            <div className=" hover:text-orange-300 flex h md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                            <div onClick={() => setShowBurgerMenu(false)} className=" hover:text-orange-300 flex md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                                 <FavoriteBorderOutlinedIcon />
                             </div>
                         </Link>
                     }
-                    <div>
+                    <div onClick={() => setShowBurgerMenu(false)}>
                         <Link to="/women">
                             <img className="w-28 md:w-40 mt-1" src={nextLogo} alt="NextLogo" />
                         </Link>
                     </div>
                     <Link to="/cart">
-                        <div className=" hover:text-orange-300 md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                        <div onClick={() => setShowBurgerMenu(false)} className=" hover:text-orange-300 md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                             <ShoppingBagOutlinedIcon />
                             <span className="w-6 font-semibold top-2 left-0 items-center justify-center">{productData.length}</span>
                         </div>
@@ -120,21 +123,30 @@ export default function Header() {
                         /></Link>
                 </div>
                 <div className="hidden md:flex md:items-center md:gap-10">
-                    <ul className="flex items-center gap-6">
-                        <li
-                            onClick={() => handleSexChange("women")}
-                            className={`text-black font-bold hover:bg-gray-100 duration-300 px-6 py-2 decoration-[1px] cursor-pointer ease-in}`}
-                        >
-                            Women
-                        </li>
-                        <div className="w-[2px] h-6 bg-black"></div>
-                        <li
-                            onClick={() => handleSexChange("men")}
-                            className={`text-black font-bold px-6 py-2 hover:bg-gray-100 duration-300 decoration-[1px] cursor-pointer ease-in $`}
-                        >
-                            Men
-                        </li>
-                    </ul>
+                    {
+                        !isMobile && (
+                            <div className="flex flex-col relative">
+                                <ul className="flex items-center gap-2 relative">
+                                    <li
+                                        onClick={() => handleSexChange("women")}
+                                        className={`text-black font-bold hover:opacity-50 duration-300 px-6 py-2 cursor-pointer`}
+                                    >
+                                        Women
+                                    </li>
+                                    <div className="w-[2px] h-6 bg-black"></div>
+                                    <li
+                                        onClick={() => handleSexChange("men")}
+                                        className={`text-black font-bold px-6 py-2 hover:opacity-50 duration-300 cursor-pointer`}
+                                    >
+                                        Men
+                                    </li>
+                                </ul>
+                                <div
+                                    className={`absolute bottom-0 left-0 h-[2px] w-[20%] bg-black transition-transform duration-300 ease-in-out ${selectedSexCategory === "women" ? "translate-x-9" : "translate-x-[350%]"}`}
+                                />
+                            </div>
+                        )
+                    }
                 </div>
                 <div className="flex absolute top-14 z-50 left-0 w-full">
                     {showBurgerMenu && (
@@ -143,7 +155,7 @@ export default function Header() {
                         </div>
                     )}
                 </div>
-                <div ref={ref} className="relative w-full lg:w-[600px] h-[50px] text-base flex items-center gap-2 justify-between px-6 rounded-xl">
+                <div ref={searchRef} className="relative w-full lg:w-[600px] h-[30px] text-base flex items-center gap-2 justify-between px-6 rounded-xl">
                     <FaSearch
                         className="w-5 h-5 hidden md:flex"
                     />
@@ -196,21 +208,23 @@ export default function Header() {
                 </div>
                 <div className="w-full md:w-1/3 flex items-center justify-center md:justify-around">
                     <div className="flex items-center relative">
-                        <ul className="flex items-center md:hidden gap-2 relative">
-                            <li
-                                onClick={() => handleSexChange("women")}
-                                className={`text-black font-bold hover:bg-gray-100 duration-300 px-6 py-2 decoration-[1px] cursor-pointer ease-in}`}
-                            >
-                                Women
-                            </li>
-                            <div className="w-[2px] h-6 bg-black"></div>
-                            <li
-                                onClick={() => handleSexChange("men")}
-                                className={`text-black font-bold px-6 py-2 hover:bg-gray-100 duration-300 decoration-[1px] cursor-pointer ease-in $`}
-                            >
-                                Men
-                            </li>
-                        </ul>
+                        {!isMobile && (
+                            <ul className="flex items-center md:hidden gap-2 relative">
+                                <li
+                                    onClick={() => handleSexChange("women")}
+                                    className={`text-black font-bold hover:bg-gray-100 duration-300 px-6 py-2 decoration-[1px] cursor-pointer ease-in}`}
+                                >
+                                    Women
+                                </li>
+                                <div className="w-[2px] h-6 bg-black"></div>
+                                <li
+                                    onClick={() => handleSexChange("men")}
+                                    className={`text-black font-bold px-6 py-2 hover:bg-gray-100 duration-300 decoration-[1px] cursor-pointer ease-in $`}
+                                >
+                                    Men
+                                </li>
+                            </ul>
+                        )}
                         {/* <div className={`absolute bottom-0 left-0 h-[2px] w-[40%] bg-black transition-transform duration-300 ease-in-out ${selectedSexCategory === "women" ? "translate-x-1" : "translate-x-[100%] w-[30%]"}`} /> */}
                     </div>
                     <div className="items-center hidden md:flex">
@@ -247,6 +261,7 @@ export default function Header() {
                 </div>
             </div>
             <div className='hidden md:flex w-2/3 mt-5 justify-evenly mx-auto border-b-gray-300 bg-white sticky top-0 -z-50 transition-all duration-300'>
+
                 <HeaderSubmenu />
             </div>
         </div>

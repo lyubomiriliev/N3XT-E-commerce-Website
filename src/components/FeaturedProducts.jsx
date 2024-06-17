@@ -10,17 +10,17 @@ const FeaturedProducts = ({ products }) => {
     const filteredProducts = selectedSexCategory ? products.filter((item) => item.category === selectedSexCategory) : products;
 
     return (
-        <div className="py-10">
-            <div className="flex flex-col items-center gap-4">
-                <h1 className="text-3xl md:text-4xl font-bold text-center">NEW ARRIVALS</h1>
-                <div className="max-w-screen-xl mx-auto py-10 grid grid-cols-1 md:grid-cols-5 gap-10">
+        <div className="py-10 ">
+            <div className="max-w-screen-xl  mx-auto  flex flex-col items-center gap-4">
+                <h1 className="text-3xl md:text-4xl font-bold text-center font-serif">NEW ARRIVALS</h1>
+                <div className="mx-auto py-10 grid grid-cols-1 md:grid-cols-3 gap-10">
                     {
                         filteredProducts !== null ? (
-                            filteredProducts.slice(0, 5).map((item) => (
+                            filteredProducts.slice(0, 3).map((item) => (
                                 <FeaturedProductCard key={item._id} product={item} />
                             ))
                         ) : (
-                            products.slice(0, 5).map((item) => (
+                            products.slice(0, 3).map((item) => (
                                 <FeaturedProductCard key={item._id} product={item} />
                             ))
                         )

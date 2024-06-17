@@ -1,47 +1,12 @@
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { GoogleLogo, nextLogo } from "../assets";
-import {
-    GoogleAuthProvider,
-    getAuth,
-    signInWithPopup,
-    signOut,
-} from "firebase/auth";
-import { useDispatch } from "react-redux";
-import { addUser, removeUser } from "../redux/nextSlice";
-import { Link, useNavigate } from "react-router-dom";
+
+import { Link } from "react-router-dom";
+import useFirebaseAuth from "../hooks/useFirebaseAuth";
 
 const Login = () => {
 
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const auth = getAuth()
-    const provider = new GoogleAuthProvider();
-    const handleGoogleLogin = (e) => {
-        e.preventDefault()
-        signInWithPopup(auth, provider).then((result) => {
-            const user = result.user;
-            dispatch(addUser({
-                _id: user.uid,
-                name: user.displayName,
-                email: user.email,
-                image: user.photoURL,
-            }));
-            setTimeout(() => {
-                navigate("/")
-            }, 1500)
-        }).catch((error) => {
-            console.log(error);
-        })
-    }
-
-    const handleSignOut = () => {
-        signOut(auth).then(() => {
-            toast.success("Log Out Succsessfully");
-            dispatch(removeUser())
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
+    const { handleGoogleLogin, handleSignOut } = useFirebaseAuth();
 
     return (
         <div className="w-full flex flex-col items-center justify-center gap-10 py-20">

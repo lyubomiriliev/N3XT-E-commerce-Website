@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/nextSlice";
@@ -16,6 +16,9 @@ const Product = () => {
     const [details, setDetails] = useState({});
     const [lastSegment, setLastSegment] = useState("");
 
+    const navigate = useNavigate();
+
+
     console.log(location.pathname.split("/"))
 
     useEffect(() => {
@@ -29,11 +32,25 @@ const Product = () => {
     const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu)
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 
+    const handleAddToCart = () => {
+        dispatch(addToCart({
+            _id: details._id,
+            title: details.title,
+            image: details.image,
+            price: details.price,
+            quantity: baseQuantity,
+            description: details.description,
+        }));
+        toast.success(`${details.title} is added to the cart.`);
+
+    };
+
 
     return (
         <div className="flex-col w-full mx-auto mt-10">
-            <div className="flex gap-5 w-2/5 justify-center ml-9">
-                <Link to="/">
+            {/* Breadcrumbs start */}
+            <div className="flex flex-wrap gap-2 justify-center items-center text-sm text-gray-600 ml-4">
+                <Link to="/" className="flex items-center">
                     <h1 className="uppercase text-sm text-gray-600">Home page</h1>
                 </Link>
                 <div className="flex items-center" >
@@ -47,18 +64,23 @@ const Product = () => {
                 </div>
                 <h1 className="uppercase text-sm text-gray-600">{lastSegment}</h1>
             </div>
-            <div className="max-w-screen-xl mx-auto my-10 flex gap-10">
-                <div className="w-2/5 relative">
-                    <img className="w-full h-[550px] object-cover" src={details?.image} alt="productImg" />
+            {/* Breadcrumbs end */}
+
+            {/* Product details */}
+            <div className="max-w-screen-xl mx-auto my-10 flex flex-col md:flex-row gap-10">
+                {/* Product img */}
+                <div className="w-full md:w-2/5 relative">
+                    <img className="w-full h-[450px] md:h-[550px] object-cover" src={details?.image} alt="productImg" />
                     <div className="absolute top-4 right-0">
                         {details.isNew && (
-                            <p className="bg-black text-white font-semibold px-8 py-1">
-                                Sale
-                            </p>
+                            <div className="absolute top-4 right-0 bg-black text-white font-semibold px-6 py-1">
+                                <p>Sale</p>
+                            </div>
                         )}
                     </div>
                 </div>
-                <div className="w-3/5 flex flex-col justify-center gap-12">
+                {/* Product info */}
+                <div className="w-full md:w-3/5 ml-5 md:ml-0 flex flex-col justify-center gap-6 md:gap-12">
                     <div>
                         <h2 className="text-4xl font-semibold">{details.title}</h2>
                         <div className="flex items-center gap-4 mt-3">
@@ -66,7 +88,7 @@ const Product = () => {
                             <p className="font-semibold">${details.price}</p>
                         </div>
                     </div>
-                    <div className="flex items-center gap-1 text-base">
+                    <div className="flex items-center gap-1 text-sm">
                         <div className="flex">
                             <StarOutlinedIcon />
                             <StarOutlinedIcon />
@@ -74,7 +96,7 @@ const Product = () => {
                             <StarOutlinedIcon />
                             <StarOutlinedIcon />
                         </div>
-                        <p className="text-xs text-gray-500">(13 Customer Reviews)</p>
+                        <p className=" text-gray-500">(13 Customer Reviews)</p>
                     </div>
                     <p className="text-base text-gray-500 mt-3">{details.description}</p>
                     <div className="flex gap-4">
@@ -88,16 +110,7 @@ const Product = () => {
                                     +</button>
                             </div>
                         </div>
-                        <button onClick={() => dispatch(addToCart({
-                            _id: details._id,
-                            title: details.title,
-                            image: details.image,
-                            price: details.price,
-                            quantity: baseQuantity,
-                            description: details.description,
-                        })) & toast.success(`${details.title} is added to the cart.`)
-                        }
-                            className="bg-black text-white py-3 px-6 active:bg-gray-800">Add to cart</button>
+                        <button onClick={handleAddToCart} className="bg-black text-white py-3 px-6 active:bg-gray-800">Add to cart</button>
                     </div>
                     <p className="text-base text-gray-500">Category: <span className="font-medium capitalize">{details.category}</span></p>
                 </div>
@@ -107,7 +120,7 @@ const Product = () => {
                 autoClose={2000}
                 hideProgressBar={false}
                 newestOnTop={false}
-                closeOnClick
+                onClick={() => navigate('/cart')}
                 rtl={false}
                 pauseOnFocusLoss
                 draggable

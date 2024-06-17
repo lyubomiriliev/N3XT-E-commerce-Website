@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { links } from "../components/HeaderLinks"
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { setHeaderSubmenu, setProductCategory } from "../redux/nextSlice";
 import { MdNavigateNext } from "react-icons/md";
 
 import useDeviceDetect from "../hooks/useDeviceDetect";
+import { setSexCategory } from "../redux/nextSlice";
 
 const HeaderSubmenu = ({ closeMenu }) => {
 
@@ -13,8 +14,11 @@ const HeaderSubmenu = ({ closeMenu }) => {
     const [hoveredLink, setHoveredLink] = useState(null);
     const [selectedSublink, setSelectedSublink] = useState(null);
     const [currentCategory, setCurrentCategory] = useState(null);
+    const [submenuOpen, setSubmenuOpen] = useState(false);
     const dispatch = useDispatch();
     const isMobile = useDeviceDetect();
+    const burgerMenuRef = useRef();
+
 
     const handleMouseEnter = (index) => {
         if (!isMobile) {
@@ -35,13 +39,22 @@ const HeaderSubmenu = ({ closeMenu }) => {
             closeMenu()
         } else {
             const category = links.find((link) => link.name === submenuName);
-            setCurrentCategory(category)
+            if (category && category.submenu) {
+                setCurrentCategory(category)
+                setSubmenuOpen(true);
+            }
         }
 
     }
 
+
+    const handleSexChange = (sex) => {
+        dispatch(setSexCategory(sex))
+    }
+
     const handleBackClick = () => {
         setCurrentCategory(null);
+        setSubmenuOpen(false);
     }
 
     const handleNextClick = (linkIndex, sublinkIndex) => {
@@ -66,19 +79,55 @@ const HeaderSubmenu = ({ closeMenu }) => {
         })
     }
 
+    // useEffect(() => {
+    //     handleSexChange()
+    // }, [selectedSexCategory])
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (burgerMenuRef.current && !burgerMenuRef.current.contains(e.target)) {
+                closeMenu();
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [burgerMenuRef]);
+
     return (
         <>
+            {
+                !currentCategory && isMobile && (
+                    <div ref={burgerMenuRef} className="w-full  flex flex-col justify-center items-center">
+                        <div className="w-[90%]">
+                            <Link to="/register">
+                                <button className="bg-black w-full text-white text-base py-3 px-8 rounded-md hover:bg-gray-800 duration-300">Sign up or Log in</button>
+                            </Link>
+                        </div>
+                        <div className="bg-gray-600 h-[1px] my-2 w-[85%]"></div>
+                        <div className="w-[90%] rounded-md flex justify-around bg-gray-400 ">
+                            <button onClick={() => handleSexChange("women")} className="border-gray-600 w-full mx-1 my-1 px-8 py-2 hover:bg-gray-100 rounded-md flex items-center justify-center font-bold">Women</button>
+                            <button onClick={() => handleSexChange("men")} className="border-gray-600 w-full mx-1 my-1 rounded-md hover:bg-gray-100 py-2 px-8 flex items-center justify-center font-bold">Men</button>
+                        </div>
+                        <h2 className="w-[90%] my-4 px-3 text-lg ">All {`${selectedSexCategory}`}'s </h2>
+                        <h2 className="w-[90%] my-2 text-lg px-3 text-red-600">SALE</h2>
+                    </div>
+                )
+            }
             {currentCategory ? (
-                <div>
+                <div className="w-[90%] mx-auto flex flex-col">
                     <div className="px-3 text-left md:cursor-pointer group flex" onMouseEnter={() => handleMouseEnter(null)} onMouseLeave={handleMouseLeave}>
-                        <h1 className="py-4 md:hover:scale-110 font-bold mb-4 md:mb-1 md:bg-white w-full text-sm md:text-lg cursor-pointer duration-300 ease-out 0.3s">
+                        <h1 className="py-2 md:hover:scale-110 font-bold mb-2 md:mb-1 md:bg-white w-full text-sm md:text-lg cursor-pointer duration-300 ease-out 0.3s">
                             <span onClick={handleBackClick} className="cursor-pointer text-gray-400">
                                 Back to {currentCategory.name}
                             </span>
                         </h1>
                     </div>
                     {filteredSublinks(currentCategory.sublinks).map((sublink, sublinkIndex) => (
-                        <div key={sublinkIndex} className="px-3 text-left md:cursor-pointer group flex">
+                        <div key={sublinkIndex} className="px-2 text-left md:cursor-pointer group flex">
                             <h1 className="py-4 md:hover:scale-110 font-bold mb-4 md:mb-1 md:bg-white w-full text-sm md:text-lg cursor-pointer duration-300 ease-out 0.3s">
                                 <Link to={`${selectedSexCategory}/${currentCategory.name.toLowerCase()}/${sublink.name.toLowerCase()}`} className="md:hover:text-yellow-600 px-2">
                                     {sublink.name}
@@ -89,10 +138,10 @@ const HeaderSubmenu = ({ closeMenu }) => {
                 </div>
             ) : (
                 links.map((link, linkIndex) => (
-                    <div key={linkIndex}>
+                    <div className="w-[90%] flex items-center mx-auto" key={linkIndex}>
                         <div className="px-3 text-left md:cursor-pointer group flex" onMouseEnter={() => handleMouseEnter(linkIndex)} onMouseLeave={handleMouseLeave}>
                             <div className="flex justify-between items-center w-full">
-                                <h1 className="py-4 md:hover:scale-110 font-bold mb-4 md:mb-1 md:bg-white w-full text-sm md:text-lg cursor-pointer duration-300 ease-out 0.3s">
+                                <h1 className="py-4 md:hover:scale-110 font-bold mb-1 md:mb-1 md:bg-white w-full text-sm md:text-lg cursor-pointer duration-300 ease-out 0.3s">
                                     {link.name ? (
                                         <Link
                                             onClick={() => handleSubmenuChange(link.name)}
@@ -105,9 +154,11 @@ const HeaderSubmenu = ({ closeMenu }) => {
                                     )}
                                 </h1>
                                 {isMobile && link.submenu && (
-                                    <MdNavigateNext onClick={() => handleNextClick(linkIndex)} className="cursor-pointer text-2xl mb-3" />
+                                    <MdNavigateNext onClick={() => handleNextClick(linkIndex)} className="cursor-pointer text-2xl mb-[2px]" />
                                 )}
                             </div>
+
+
                             {link.submenu && hoveredLink === linkIndex && (
                                 <div>
                                     <div className="absolute top-12 hidden group-hover:block hover:block">

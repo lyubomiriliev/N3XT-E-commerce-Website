@@ -2,6 +2,8 @@
 
 import PaymentLogo from "../assets/paymentLogo.png";
 import GoogleLogo from "../assets/googleLogo.png";
+import FbLogo from "../assets/fb_logo.png";
+import AppleLogo from "../assets/apple_logo.svg";
 import nextLogo from "../assets/nextLogoPNG.png";
 import nextLogoWhite from "../assets/nextLogoPNGwhite.png";
 
@@ -60,4 +62,6 @@ export {
   mBanner2,
   mBanner3,
   mBanner4,
+  FbLogo,
+  AppleLogo,
 };

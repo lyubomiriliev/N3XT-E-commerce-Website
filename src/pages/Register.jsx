@@ -1,10 +1,20 @@
 import { useEffect, useState } from "react";
-import { GoogleLogo } from "../assets";
+import { AppleLogo, FbLogo, GoogleLogo } from "../assets";
 import axios from "axios";
+import useDeviceDetect from "../hooks/useDeviceDetect";
+import useFirebaseAuth from "../hooks/useFirebaseAuth";
+import { IoChevronBackOutline } from "react-icons/io5";
 
 const Register = () => {
 
     const [products, setProducts] = useState([]);
+    const isMobile = useDeviceDetect();
+
+    const [isContinueClicked, setIsContinueClicked] = useState(false);
+    const [email, setEmail] = useState('');
+    const [subscribe, setSubscribe] = useState(false);
+
+
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -19,50 +29,127 @@ const Register = () => {
         fetchProducts();
     }, [])
 
+    const { handleGoogleLogin, handleSignOut } = useFirebaseAuth();
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    }
+
+    const handleContinueClick = () => {
+        setIsContinueClicked(true);
+    }
+
+    const handleSubscribeChange = () => {
+        setSubscribe(!subscribe);
+    }
+
+
+
     return (
         <div>
-            <div className=" max-w-screen-xl mx-auto py-20 flex ">
-                <div className="w-1/3 pr-10">
-                    <div className="w-full">
-                        <h1 className="text-4xl font-bold">N3XT | Your only fashion world.</h1>
-                        <div className="mt-6">
-                            <div className="flex flex-col">
-                                <label className="mb-2">Email</label>
-                                <input className=" border-b-[2px] bg-gray-100 px-2 py-2 mb-5" type="text" placeholder="Enter your email to login or register" />
-                                <button className="bg-black text-white text-base py-3 px-8 tracking-wide rounded-md hover:bg-gray-800 duration-300">Continue</button>
+            <div className="w-full md:max-w-screen-xl mx-auto md:py-20 flex flex-col md:flex-row ">
+                {
+                    isMobile && (
+                        <div className="overflow-hidden mx-5 h-44 flex flex-col justify-center items-center">
+                            <div className="gap-3 grid grid-cols-3 animate-loop-scroll">
+                                {products.slice(0, 9).map((product, index) => (
+                                    <img key={index} src={product.image} className="w-40 h-40 object-cover" alt={`Product ${index}`} />
+                                ))}
                             </div>
-                            <div className="flex mx-auto py-5">
-                                <div className=" border-[1px] h-1">
+                            <div className="gap-3 mt-3 grid grid-cols-3 animate-loop-scroll aria-hidden:">
+                                {products.slice(9, 18).map((product, index) => (
+                                    <img key={index} src={product.image} className="w-40 h-40 object-cover" alt={`Product ${index}`} />
+                                ))}
+                            </div>
+                        </div>
+                    )
+                }
+                {!isContinueClicked ? (
+                    <div className="md:w-1/3 w-full px-5 flex">
+                        <div className="w-full flex flex-col">
+                            <h1 className="text-2xl md:text-4xl font-bold">N3XT | Your only fashion world.</h1>
+                            <div className="mt-6">
+                                <div className="flex flex-col">
+                                    <label className="mb-2">Email</label>
+                                    <input
+                                        className=" border-b-[2px] bg-gray-100 px-2 py-2 mb-5"
+                                        type="text"
+                                        placeholder="Enter your email to login or register"
+                                        value={email}
+                                        onChange={handleEmailChange}
+                                    />
+                                    <button onClick={handleContinueClick} className="bg-black text-white text-base py-3 px-8 tracking-wide rounded-md hover:bg-gray-800 duration-300">Continue</button>
                                 </div>
-                                <p>OR</p>
-                            </div>
-                            <div className="text-base w-60 h-12 tracking-wide border-[1px] border-gray-400 rounded-md flex items-center justify-center gap-2 hover:border-blue-600 cursor-pointer duration-300">
-                                <img className="w-10" src={GoogleLogo} alt="" />
-                                <span className="text-sm text-gray-900">Continue with Google</span>
-                            </div>
-                            <div className="text-base w-60 h-12 tracking-wide border-[1px] mt-4 border-gray-400 rounded-md flex items-center justify-center gap-2 hover:border-blue-600 cursor-pointer duration-300">
-                                <img className="w-10" src={GoogleLogo} alt="" />
-                                <span className="text-sm text-gray-900">Continue with Apple</span>
-                            </div>
-                            <div className="text-base w-60 h-12 tracking-wide border-[1px] mt-4 border-gray-400 rounded-md flex items-center justify-center gap-2 hover:border-blue-600 cursor-pointer duration-300">
-                                <img className="w-10" src={GoogleLogo} alt="" />
-                                <span className="text-sm text-gray-900">Continue with Facebook</span>
+                                <div className="w-full flex justify-center py-5">
+                                    <p>OR</p>
+                                </div>
+                                <div className="w-full flex flex-col items-center mb-10">
+                                    <div onClick={handleGoogleLogin} className="text-base w-full h-12 tracking-wide border-[1px] border-gray-400 rounded-md flex items-center justify-center gap-2 hover:border-blue-600 cursor-pointer duration-300">
+                                        <img className="w-10" src={GoogleLogo} alt="" />
+                                        <span className="text-sm text-gray-900 pr-2">Continue with Google</span>
+                                    </div>
+                                    <div className="text-base w-full h-12 tracking-wide border-[1px] mt-4 border-gray-400 rounded-md flex items-center justify-center gap-2 hover:border-blue-600 cursor-pointer duration-300">
+                                        <img className="w-6 ml-2" src={AppleLogo} alt="" />
+                                        <span className="text-sm text-gray-900 pr-2">Continue with Apple</span>
+                                    </div>
+                                    <div className="text-base w-full h-12 tracking-wide border-[1px] mt-4 border-gray-400 rounded-md flex items-center justify-center gap-2 hover:border-blue-600 cursor-pointer duration-300">
+                                        <img className="w-7 ml-2" src={FbLogo} alt="" />
+                                        <span className="text-sm text-gray-900 pr-2">Continue with Facebook</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className=" overflow-hidden">
-                    <div className="gap-3 ml-10 grid grid-cols-3 animate-loop-scroll">
-                        {products.slice(0, 9).map((product, index) => (
-                            <img key={index} src={product.image} className="w-60 h-60 object-cover" alt={`Product ${index}`} />
-                        ))}
+                ) : (
+                    <div className="md:w-1/3 w-full px-5 flex flex-col mb-20 md:mb-0">
+                        <div onClick={() => setIsContinueClicked(false)} className="flex font-bold w-20 h-10 items-center cursor-pointer">
+                            <IoChevronBackOutline className="w-4 h-4" />
+                            <h3
+                                className=" w-16  rounded-md  duration-300 "
+                            >
+                                Back
+                            </h3>
+                        </div>
+
+                        <h2 className="text-2xl font-bold">Create an account</h2>
+                        <div className="flex mb-5 mt-5 ">
+                            <img className="w-16 h-16" src="https://img.freepik.com/premium-vector/user-customer-avatar-vector-illustration_276184-160.jpg?w=740" alt="" />
+                            <div className="flex flex-col">
+                                <h3 className="text-lg  mt-2 text-gray-600 font-bold">{email}</h3>
+                                <h4 className="font-bold underline cursor-pointer" onClick={() => setIsContinueClicked(false)}>Change</h4>
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            <label className="mb-2">Create a password</label>
+                            <input type="password" className="border-b-[2px] bg-gray-100 px-2 py-2 mb-5" placeholder="Enter your password" />
+                            <div className="flex items-start mb-2">
+                                <input type="checkbox" id="subscribe" className="mr-2" checked={subscribe} onChange={handleSubscribeChange} />
+                                <label className="text-sm text-gray-600 mb-2" htmlFor="subscribe">
+                                    I would like to hear about products, services, and sales, including personalized email alerts from Next. You can unsubscribe at any time.
+                                </label>
+                            </div>
+                            <button className="bg-black text-white text-base py-3 px-8 tracking-wide rounded-md hover:bg-gray-800 duration-300">Sign up</button>
+                        </div>
                     </div>
-                    <div className="gap-3 mt-3 ml-10 grid grid-cols-3 animate-loop-scroll aria-hidden:">
-                        {products.slice(9, 18).map((product, index) => (
-                            <img key={index} src={product.image} className="w-60 h-60 object-cover" alt={`Product ${index}`} />
-                        ))}
-                    </div>
-                </div>
+                )}
+
+                {
+                    !isMobile && (
+                        <div className=" overflow-hidden">
+                            <div className="gap-3 ml-10 grid grid-cols-3 animate-loop-scroll">
+                                {products.slice(0, 9).map((product, index) => (
+                                    <img key={index} src={product.image} className="w-60 h-60 object-cover" alt={`Product ${index}`} />
+                                ))}
+                            </div>
+                            <div className="gap-3 mt-3 ml-10 grid grid-cols-3 animate-loop-scroll aria-hidden:">
+                                {products.slice(9, 18).map((product, index) => (
+                                    <img key={index} src={product.image} className="w-60 h-60 object-cover" alt={`Product ${index}`} />
+                                ))}
+                            </div>
+                        </div>
+                    )
+                }
+
 
             </div>
 

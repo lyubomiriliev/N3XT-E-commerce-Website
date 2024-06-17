@@ -28,8 +28,8 @@ const ProductCard = ({ product, view }) => {
 
     return (
         <div className={`${view === 'list' ? 'flex group relative h-96' : 'group relative'}`}>
-            <div onClick={handleDetails} className={`${view === "list" ? 'w-1/3 h-96 cursor-pointer overflow-hidden' : 'w-full h-96 cursor-pointer overflow-hidden'}`}>
-                <img className={`${view === "list" ? 'w-full h-full object-cover group-hover:scale-110 duration-300' : 'w-full h-full object-cover group-hover:scale-110 duration-300'}`} src={product.image} alt="productImage" />
+            <div onClick={handleDetails} className={`${view === "list" ? 'w-1/3 h-96 cursor-pointer overflow-hidden' : 'w-full h-60 md:h-96 cursor-pointer overflow-hidden'}`}>
+                <img className={`${view === "list" ? 'w-full h-full object-cover group-hover:scale-110 duration-300' : 'w-full h-60 md:h-full object-cover group-hover:scale-110 duration-300'}`} src={product.image} alt="productImage" />
             </div>
             <div className="w-full border-[1px] px-2 py-4">
                 <div className={`${view === 'list' ? 'flex-col' : 'flex justify-between items-center'}`}>
