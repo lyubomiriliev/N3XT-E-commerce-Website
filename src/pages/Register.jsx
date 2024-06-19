@@ -4,17 +4,31 @@ import axios from "axios";
 import useDeviceDetect from "../hooks/useDeviceDetect";
 import useFirebaseAuth from "../hooks/useFirebaseAuth";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import useSignUpWithEmailAndPassword from "../hooks/useSignUpWithEmailAndPassword";
+
+
 
 const Register = () => {
 
     const [products, setProducts] = useState([]);
     const isMobile = useDeviceDetect();
-
     const [isContinueClicked, setIsContinueClicked] = useState(false);
+
     const [email, setEmail] = useState('');
-    const [subscribe, setSubscribe] = useState(false);
+    const [password, setPassword] = useState('');
+    const [isSubscribed, setIsSubscribed] = useState(false);
 
+    const { handleGoogleLogin, handleSignOut } = useFirebaseAuth();
+    const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const user = useSelector((state) => state.next.user)
+    const error = useSelector((state) => state.next.error)
+
+    const { signUp } = useSignUpWithEmailAndPassword();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -29,10 +43,13 @@ const Register = () => {
         fetchProducts();
     }, [])
 
-    const { handleGoogleLogin, handleSignOut } = useFirebaseAuth();
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
+    }
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
     }
 
     const handleContinueClick = () => {
@@ -40,9 +57,14 @@ const Register = () => {
     }
 
     const handleSubscribeChange = () => {
-        setSubscribe(!subscribe);
+        setIsSubscribed(!isSubscribed);
     }
 
+    const handleSignUp = () => {
+        const userDetails = { isSubscribed };
+        dispatch(signUp(email, password, userDetails))
+        navigate(`/${selectedSexCategory}`)
+    };
 
 
     return (
@@ -121,14 +143,15 @@ const Register = () => {
                         </div>
                         <div className="flex flex-col">
                             <label className="mb-2">Create a password</label>
-                            <input type="password" className="border-b-[2px] bg-gray-100 px-2 py-2 mb-5" placeholder="Enter your password" />
+                            <input type="password" className="border-b-[2px] bg-gray-100 px-2 py-2 mb-5" placeholder="Enter your password" value={password} onChange={handlePasswordChange} />
                             <div className="flex items-start mb-2">
-                                <input type="checkbox" id="subscribe" className="mr-2" checked={subscribe} onChange={handleSubscribeChange} />
+                                <input type="checkbox" id="subscribe" className="mr-2" checked={isSubscribed} onChange={handleSubscribeChange} />
                                 <label className="text-sm text-gray-600 mb-2" htmlFor="subscribe">
                                     I would like to hear about products, services, and sales, including personalized email alerts from Next. You can unsubscribe at any time.
                                 </label>
                             </div>
-                            <button className="bg-black text-white text-base py-3 px-8 tracking-wide rounded-md hover:bg-gray-800 duration-300">Sign up</button>
+                            {error && <p className="text-red-500">{error}</p>}
+                            <button onClick={handleSignUp} className="bg-black text-white text-base py-3 px-8 tracking-wide rounded-md hover:bg-gray-800 duration-300">Sign up</button>
                         </div>
                     </div>
                 )}

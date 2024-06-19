@@ -5,6 +5,7 @@ const initialState = {
   checkedBrands: [],
   checkedCategorys: [],
   userInfo: null,
+  error: null,
   sexCategory: "women",
   productCategory: "",
   headerSubmenu: "",
@@ -55,6 +56,12 @@ export const nextSlice = createSlice({
     },
     removeUser: (state) => {
       state.userInfo = null;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+    clearError: (state) => {
+      state.error = null;
     },
     toggleBrand: (state, action) => {
       const brandTitle = action.payload;
@@ -110,5 +117,7 @@ export const {
   setSexCategory,
   setProductCategory,
   setHeaderSubmenu,
+  setError,
+  clearError,
 } = nextSlice.actions;
 export default nextSlice.reducer;
