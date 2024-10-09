@@ -15,7 +15,7 @@ const useSignUpWithEmailAndPassword = () => {
 
       const userDoc = {
         uid: user.uid,
-        email: user.email,
+        email: user.email,                      
         ...userDetails,
       };
 
