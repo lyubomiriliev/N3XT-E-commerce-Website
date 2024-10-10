@@ -4,7 +4,7 @@ export const clothingSubmenu = [
     submenu: true,
   },
   {
-    name: "T-Shirts",
+    name: "Shirts",
     submenu: true,
   },
   {

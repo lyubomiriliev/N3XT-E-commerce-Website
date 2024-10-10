@@ -82,10 +82,9 @@ export default function Header() {
 
     return (
 
-        <div className='w-full h-28 md:h-44 bg-white border-b sticky top-0 z-50'>
+        <div className='w-full h-28 md:h-40 bg-white border-b sticky top-0 z-50'>
             <div className="max-w-screen-2xl  flex flex-col md:flex-row items-center mx-auto">
                 <div className="w-full flex justify-between px-5 items-center md:w-auto">
-
                     {/* Burger Menu & Logo */}
                     <div className="flex items-center relative gap-4">
                         {showBurgerMenu ? (
@@ -263,8 +262,7 @@ export default function Header() {
 
                 </div>
             </div>
-            <div className='hidden md:flex w-2/3 mt-5 justify-evenly mx-auto border-b-gray-300 bg-white sticky top-0 -z-50 transition-all duration-300'>
-
+            <div className='hidden md:flex w-2/3 mx-auto bg-white sticky top-0 -z-50 transition-all duration-300'>
                 <HeaderSubmenu />
             </div>
         </div>

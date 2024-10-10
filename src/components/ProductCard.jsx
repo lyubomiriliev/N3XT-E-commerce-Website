@@ -29,12 +29,12 @@ const ProductCard = ({ product, view }) => {
     return (
         <div className={`${view === 'list' ? 'flex group relative h-96' : 'group relative'}`}>
             <div onClick={handleDetails} className={`${view === "list" ? 'w-1/3 h-96 cursor-pointer overflow-hidden' : 'w-full h-60 md:h-96 cursor-pointer overflow-hidden'}`}>
-                <img className={`${view === "list" ? 'w-full h-full object-cover group-hover:scale-110 duration-300' : 'w-full h-60 md:h-full object-cover group-hover:scale-110 duration-300'}`} src={product.image} alt="productImage" />
+                <img className={`${view === "list" ? 'w-full h-full object-cover group-hover:scale-110 duration-300' : 'w-full h-60 rounded-md md:h-full object-cover group-hover:scale-110 duration-300'}`} src={product.image} alt="productImage" />
             </div>
-            <div className="w-full border-[1px] px-2 py-4">
+            <div className="w-full flex justify-center flex-col">
                 <div className={`${view === 'list' ? 'flex-col' : 'flex justify-between items-center'}`}>
                     <div className='w-full justify-center items-center'>
-                        <h2 className="text-base font-bold">{product.title.substring(0, 15)}</h2>
+                        <h2 className="text-base font-bold">{product.title.substring(0, 15)}...</h2>
                         {view === 'list' ? (
                             <div className='w-2/4 mb-5'>
                                 <p className='text-sm text-gray-600'>{[product.description]}</p>
@@ -46,7 +46,7 @@ const ProductCard = ({ product, view }) => {
                             <p className="line-through text-gray-500">${product.oldPrice}</p>
                             <p className="font-semibold">${product.price}</p>
                         </div>
-                        <p onClick={() => dispatch(addToCart({
+                        <div onClick={() => dispatch(addToCart({
                             _id: product._id,
                             title: product.title,
                             image: product.image,
@@ -57,7 +57,7 @@ const ProductCard = ({ product, view }) => {
                         ) & toast.success(`${product.title} is added to the cart`)
                         } className="absolute z-20 w-[100px] text-gray-500 hover:text-gray-900 flex items-center gap-1 top-0 transform -translate-x-32 group-hover:translate-x-0 transition-transform cursor-pointer duration-500 ">
                             Add to cart <span><ArrowForwardOutlinedIcon /></span>
-                        </p>
+                        </div>
                     </div>
                 </div>
                 <div className={`${view === 'list' ? 'w-1/3 bottom-2 absolute' : ''}`}>

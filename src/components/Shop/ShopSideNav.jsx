@@ -3,7 +3,7 @@ import Brand from "./shopBy/Brand.jsx"
 import Price from "./shopBy/Price.jsx"
 
 
-const ShopSideNav = ({ products, setFilteredProducts }) => {
+const ShopSideNav = ({ products, setFilteredProducts}) => {
 
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 

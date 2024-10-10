@@ -14,14 +14,14 @@ const Breadcrumbs = ({ category }) => {
             category === 'jewellery' ? "Jewellery" : []
 
   return (
-    <div className="flex gap-5">
+    <div className="w-full flex justify-start items-center gap-5">
       <Link to={`/${selectedSexCategory}`}>
-        <h1 className="uppercase text-sm text-gray-600">Home page</h1>
+        <h1 className="uppercase text-sm md:text-base text-gray-600">Home page</h1>
       </Link>
       <div className="flex items-center" >
         <ArrowForwardIosOutlinedIcon className=" scale-75 text-gray-600" />
       </div>
-      <h1 className="uppercase text-sm text-gray-600">{productCategory}</h1>
+      <h1 className="uppercase text-sm md:text-base text-gray-600">{productCategory}</h1>
     </div>
   );
 };

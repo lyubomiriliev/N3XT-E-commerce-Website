@@ -79,9 +79,6 @@ const HeaderSubmenu = ({ closeMenu }) => {
         })
     }
 
-    // useEffect(() => {
-    //     handleSexChange()
-    // }, [selectedSexCategory])
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -99,18 +96,18 @@ const HeaderSubmenu = ({ closeMenu }) => {
 
     return (
         <>
-            {
-                !currentCategory && isMobile && (
-                    <div ref={burgerMenuRef} className="w-full  flex flex-col justify-center items-center">
+        <div className="w-full flex flex-col md:flex-row  justify-center items-center">
+            {!currentCategory && isMobile && (
+                    <div ref={burgerMenuRef} className="w-full h-[28%] flex flex-col items-center">
                         <div className="w-[90%]">
                             <Link to="/register">
-                                <button className="bg-black w-full text-white text-base py-3 px-8 rounded-md hover:bg-gray-800 duration-300">Sign up or Log in</button>
+                                <button className="bg-black w-full text-white text-base py-3 px-8 rounded-md hover:bg-gray-800 duration-300">Sign up or log in</button>
                             </Link>
                         </div>
-                        <div className="bg-gray-600 h-[1px] my-2 w-[85%]"></div>
-                        <div className="w-[90%] rounded-md flex justify-around bg-gray-400 ">
-                            <button onClick={() => handleSexChange("women")} className="border-gray-600 w-full mx-1 my-1 px-8 py-2 hover:bg-gray-100 rounded-md flex items-center justify-center font-bold">Women</button>
-                            <button onClick={() => handleSexChange("men")} className="border-gray-600 w-full mx-1 my-1 rounded-md hover:bg-gray-100 py-2 px-8 flex items-center justify-center font-bold">Men</button>
+                        <div className="bg-gray-300 h-[2px] mt-3 mb-3 w-[90%]"></div>
+                        <div className="w-[90%] rounded-md flex justify-around bg-stone-300 ">
+                            <button onClick={() => handleSexChange("women")} className="border-gray-600 w-full mx-1 my-1 px-8 py-2 text-stone-700 hover:bg-gray-100 shadow-sm rounded-md flex items-center justify-center font-bold">Women</button>
+                            <button onClick={() => handleSexChange("men")} className="border-gray-600 w-full mx-1 my-1 rounded-md text-stone-700 hover:bg-gray-100 shadow-sm py-2 px-8 flex items-center justify-center font-bold">Men</button>
                         </div>
                         <h2 className="w-[90%] my-4 px-3 text-lg ">All {`${selectedSexCategory}`}'s </h2>
                         <h2 className="w-[90%] my-2 text-lg px-3 text-red-600">SALE</h2>
@@ -129,7 +126,7 @@ const HeaderSubmenu = ({ closeMenu }) => {
                     {filteredSublinks(currentCategory.sublinks).map((sublink, sublinkIndex) => (
                         <div key={sublinkIndex} className="px-2 text-left md:cursor-pointer group flex">
                             <h1 className="py-4 md:hover:scale-110 font-bold mb-4 md:mb-1 md:bg-white w-full text-sm md:text-lg cursor-pointer duration-300 ease-out 0.3s">
-                                <Link to={`${selectedSexCategory}/${currentCategory.name.toLowerCase()}/${sublink.name.toLowerCase()}`} className="md:hover:text-yellow-600 px-2">
+                                <Link to={`${selectedSexCategory}/${currentCategory.name.toLowerCase()}/${sublink.name.toLowerCase()}`} onClick={closeMenu} className="md:hover:text-yellow-600 px-2">
                                     {sublink.name}
                                 </Link>
                             </h1>
@@ -158,14 +155,12 @@ const HeaderSubmenu = ({ closeMenu }) => {
                                 )}
                             </div>
 
-
                             {link.submenu && hoveredLink === linkIndex && (
-                                <div>
-                                    <div className="absolute top-12 hidden group-hover:block hover:block">
+                                    <div className="absolute top-16 hidden group-hover:block hover:block">
                                         <div className="py-3">
-                                            <div className="w-4 h-4 left-4 absolute mt-1 bg-white rotate-45"></div>
+                                            <div className="w-4 h-4 left-4 absolute mt-1 bg-white shadow-lg -z-10 rotate-45"></div>
                                         </div>
-                                        <div className="bg-white p- px-10">
+                                        <div className="bg-white shadow-lg px-6">
                                             {filteredSublinks(link.sublinks).map((sublink, sublinkIndex) => (
                                                 <div key={sublinkIndex} className="flex items-center">
                                                     <h1 className="text-sm text-gray-600 my-3 flex-1">
@@ -175,12 +170,12 @@ const HeaderSubmenu = ({ closeMenu }) => {
                                             ))}
                                         </div>
                                     </div>
-                                </div>
                             )}
                         </div>
                     </div>
                 ))
             )}
+        </div>
         </>
     );
 };

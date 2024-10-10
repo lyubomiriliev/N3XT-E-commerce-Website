@@ -16,16 +16,20 @@ import { allProductsData } from "../../api/Api";
 import { setProductCategory } from "../../redux/nextSlice";
 import useDeviceDetect from "../../hooks/useDeviceDetect";
 
-import { CiFilter } from "react-icons/ci";
+import { TbCategory } from "react-icons/tb";
+import { FaSort } from "react-icons/fa";
 
 const Clothing = ({ category }) => {
 
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('all');
-    const [activeSubMenu, setActiveSubMenu] = useState(null);
     const [allProducts, setAllProducts] = useState([]);
     const [view, setView] = useState('grid')
     const [sortOption, setSortOption] = useState('high-to-low');
+
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [showCategories, setShowCategories] = useState(false);
+    const [activeSubMenu, setActiveSubMenu] = useState(null);
+    const [isSortOpen, setIsSortOpen] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(12);
@@ -44,13 +48,15 @@ const Clothing = ({ category }) => {
     const dispatch = useDispatch()
 
     const handleItemsPerPageChange = (items) => {
+        console.log("Items per page:", items)
         setItemsPerPage(items);
         setCurrentPage(1);
     }
 
     const handleSortChange = (option) => {
-        setSortOption(option)
-        console.log(sortOption)
+        setSortOption(option);
+        setIsSortOpen(false);
+        sortProducts(option)
     }
 
     useEffect(() => {
@@ -58,21 +64,34 @@ const Clothing = ({ category }) => {
     }, [currentPage]);
 
 
-    useEffect(() => {
-        const sortProducts = () => {
-            if (sortOption === 'high-to-low') {
-                return filteredProducts.sort((a, b) => b.price - a.price);
-            } else if (sortOption === 'low-to-high') {
-                return filteredProducts.sort((a, b) => a.price - b.price);
-            }
-            return filteredProducts
+    const sortProducts = (option) => {
+        const sortedProducts = [...filteredProducts];
+        if(option === 'high-to-low') {
+            sortedProducts.sort((a, b) => b.price - a.price);
+        } else if (option === 'low-to-high') {
+            sortedProducts.sort((a, b) => a.price - b.price)
         }
-        sortProducts();
-    }, [sortOption])
+        setFilteredProducts(sortedProducts)
+    }
+
+    const toggleSortDropdown = () => {
+        setIsSortOpen(!isSortOpen)
+    }
+
+    useEffect(() => {
+        sortProducts(sortOption);
+    },[sortOption])
+
 
     const lastProductIndex = currentPage * itemsPerPage;
     const firstProductIndex = lastProductIndex - itemsPerPage;
+
+    console.log('Displaying products from:', firstProductIndex, 'to:', lastProductIndex)
+
     const displayedProducts = filteredProducts.slice(firstProductIndex, lastProductIndex);
+
+    console.log('Displayed Products Count:', displayedProducts.length);
+
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage)
 
     useEffect(() => {
@@ -226,79 +245,126 @@ const Clothing = ({ category }) => {
         }
     }
 
+    const handleShowCategories = () => {
+        setShowCategories(!showCategories)
+    }
+
+    const filteredSubmenus = submenus.filter((submenu) => {
+        if (selectedSexCategory === "women") {
+            return !submenu.name.toLowerCase().includes("mocassins");
+        } else if (selectedSexCategory === "men") {
+            return  !submenu.name.toLowerCase().includes("skirts")&&
+                    !submenu.name.toLowerCase().includes('clutch bags') &&
+                    !submenu.name.toLowerCase().includes('necklaces') && 
+                    !submenu.name.toLowerCase().includes('earrings');
+        }
+        return true;
+    })
+
     return (
-        <div className="max-w-screen-2xl flex-col mx-auto mt-5">
-            <div className="flex scale-75 md:scale-100 md:ml-0">
+        <div className="max-w-screen-2xl flex flex-col items-center mx-auto mt-5">
+            {/* Breadcrumbs*/}
+            <div className="w-full flex justify-center items-center pb-4 md:pb-0 px-4">
                 <Breadcrumbs category={category} />
             </div>
-            <div className="">
+            <div>
                 {
                     !isMobile && (
                         <h1 className="text-xl ml-5 md:ml-0 md:text-4xl uppercase font-bold mt-2 md:mt-6">{selectedSexCategory}</h1>
                     )
                 }
             </div>
-            <div className="flex flex-col md:flex-row w-full">
-                <div className="flex-col">
-                    <div>
-                        {!isMobile && (
+                        {/* Main section */}
+                        <div className="w-full flex flex-col px-4 md:px-0 rounded-lg md:flex-row">
                             <div>
-                                <h1 onClick={closeSubMenu} className="font-bold cursor-pointer text-2xl py-4 mr-10 ml-5 md:ml-0">{selectedSubheaderMenu}</h1>
-                            </div>
-                        )}
-                        <div className="flex justify-center gap-6 md:gap-0 md:flex-col ">
-                            {submenus.filter((submenu) => {
-                                if (selectedSexCategory === "women") {
-                                    return !submenu.name.toLowerCase().includes('mocassins')
-                                } else if (selectedSexCategory === "men") {
-                                    return !submenu.name.toLowerCase().includes('skirts') && !submenu.name.toLowerCase().includes('clutch bags') && !submenu.name.toLowerCase().includes('necklaces') && !submenu.name.toLowerCase().includes('earrings');
-                                }
-                                return true;
-                            })
-                                .map((submenu) => (
-                                    <div key={submenu.name}>
-                                        <div onClick={() => handleCategoryChange(submenu.name)}>
-                                            <h1 className="border-b-[1px] py-4 border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:border-gray-400 duration-300">{submenu.name}</h1>
-                                        </div>
-                                        {
-                                            activeSubMenu === submenu.name && submenu.sublinks && <div>
-                                                <div>
-                                                    {submenu.sublinks.map((sublink) => (
-                                                        <h1 key={sublink.name} className="hover:scale-110 duration-100 text-sm text-gray-600 my-3">
-                                                            <Link to={sublink.link} className=" px-2 ml-2">{sublink.name}</Link>
-                                                        </h1>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
+                                {!isMobile && (
+                                <div className="flex justify-between items-center mb-4">
+                                    <h1 onClick={closeSubMenu} className="font-bold cursor-pointer text-2xl py-4 mr-10 ml-5 md:ml-0">{selectedSubheaderMenu}</h1>
 
-                                ))
-                            }
-                        </div>
-                    </div>
-                    <div className="w-full flex justify-center">
-                        <ShopSideNav
-                            products={allProducts}
-                            setFilteredProducts={setFilteredProducts}
-                        />
+                                </div>
+                                )}
+
+                            <div className="w-full flex flex-col justify-center">
+
+                            {/* Side Nav */}
+                            <div className="w-full hidden md:flex flex-col justify-center  gap-4 md:gap-0 ">
+                                
+                                <ShopSideNav
+                                products={allProducts}
+                                setFilteredProducts={setFilteredProducts}
+                                />
+                            </div>
+                        {/* SIDE NAV END */}
                     </div>
                 </div>
 
-                <div className="w-full flex-col md:-ml-10">
-                    <div className="w-full ml-14 -mb-5 md:w-5/6 md:ml-20 flex items-center gap-2 md:gap-6 mt-2 md:mt-0">
-                        {isMobile && (
-                            <div className="flex items-center">
-                                <span>Filter</span>
-                                <CiFilter className="text-2xl" />
+                {/* PRODUCT SECTION */}
+                <div className="w-full flex flex-col justify-start ">
+                            <div className="flex w-full mb-2 h-10 justify-start space-x-2 items-center">
+                                <button
+                                    onClick={handleShowCategories}
+                                    className="bg-transparent border-gray-300 border-[1px] hover:border-black duration-300 px-2 py-2 rounded-md flex items-center justify-center"
+                                >
+                                <TbCategory className="text-xl"/>
+                                </button>
+
+                                <div className="relative h-full">
+                                <button
+                                    className="w-10 bg-transparent border-gray-300 border-[1px] hover:border-black duration-300 px-2 py-2 rounded-md flex items-center justify-center"
+                                    onClick={toggleSortDropdown}
+                                    >
+                                <FaSort className="text-xl"/>
+                                </button>
+                                {isSortOpen && (
+                                    <div className="absolute top-full mt-2 left-0 bg-white border-gray-300 rounded-md shadow-lg z-50 w-48">
+                                        <ul
+                                            className="py-1"
+                                            >
+                                            <li onClick={(e) => handleSortChange("low-to-high")} className="px-4 py-2 hover:bg-gray-100 cursor-pointer" >Price: Low to High:</li>
+                                            <li onClick={(e) => handleSortChange("high-to-low")} className="px-4 py-2 hover:bg-gray-100 cursor-pointer" >Price: High to Low:</li>
+                                        </ul> 
+                                    </div>
+                                )}
+                                </div>
+                                {showCategories && (
+                            <div className="flex items-center w-full gap-2 overflow-x-auto">
+                                {filteredSubmenus.map((submenu) => (
+                                    <div key={submenu.name}>
+                                        <div
+                                            className="bg-transparent border-gray-300 border-[1px] hover:border-black duration-300 px-6 py-2 rounded-md flex items-center justify-center mx-auto"
+                                            onClick={() => handleCategoryChange(submenu.name)}
+                                        >
+                                            <h1 className="border-none font-light text-sm md:text-base">
+                                                {submenu.name}
+                                            </h1>
+                                        </div>
+
+                                        {/* Display sublinks */}
+                                        {activeSubMenu === submenu.name && submenu.sublinks && (
+                                            <div>
+                                                {submenu.sublinks.map((sublink) => (
+                                                    <h1 key={sublink.name} className="hover:scale-110 duration-100 text-sm text-gray-600 my-3">
+                                                        <Link to={sublink.link} className="px-2 ml-2">{sublink.name}</Link>
+                                                    </h1>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                                <div>
+                                    
+                                </div>
                             </div>
-                        )}
-                        <div className="flex justify-center items-center w-full">
-                            <ProductBanner onViewChange={setView} onItemsPerPageChange={handleItemsPerPageChange} onSortChange={handleSortChange} />
+                                )}
+                                <div className="w-full flex items-center">
+                                    <ProductBanner onViewChange={setView} onItemsPerPageChange={handleItemsPerPageChange} onSortChange={handleSortChange} />
+                                </div>
+                            </div>
+                        <div>
+                            <ProductsCenter filteredProducts={displayedProducts} selectedCategory={selectedCategory} view={view} />
                         </div>
-                    </div>
-                    <ProductsCenter filteredProducts={displayedProducts} selectedCategory={selectedCategory} view={view} />
-                    <div className="flex justify-center mt-4 mb-10">
+                    {/* PAGINATION BUTTONS */}
+                    <div className="flex  justify-center mt-4 mb-10">
                         <button
                             onClick={() => {
                                 setCurrentPage(prev => Math.max(prev - 1, 1));
