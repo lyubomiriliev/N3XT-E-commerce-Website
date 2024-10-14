@@ -4,12 +4,12 @@ export const links = [
     dir: "/clothing",
     submenu: true,
     sublinks: [
-      { name: "Jackets", link: "/clothing" },
-      { name: "T-Shirts", link: "/clothing" },
+      { name: "Jacket", link: "/clothing" },
+      { name: "Shirt", link: "/clothing" },
       { name: "Hoodies", link: "/clothing" },
       { name: "Jeans", link: "/clothing" },
-      { name: "Skirts", link: "/clothing" },
-      { name: "Tops", link: "/clothing" },
+      { name: "Skirt", link: "/clothing" },
+      { name: "Top", link: "/clothing" },
       { name: "Formal", link: "/clothing" },
     ],
   },
@@ -29,11 +29,11 @@ export const links = [
     submenu: true,
     dir: "/accessories",
     sublinks: [
-      { name: "Hats", link: "/products/hats" },
-      { name: "Belts", link: "/products/belts" },
-      { name: "Scarves", link: "/products/scarves" },
+      { name: "Hat", link: "/products/hats" },
+      { name: "Belt", link: "/products/belts" },
+      { name: "Scarf", link: "/products/scarves" },
       { name: "Sunglasses", link: "/products/sunglasses" },
-      { name: "Watches", link: "/products/watches" },
+      { name: "Watch", link: "/products/watches" },
     ],
   },
   {
@@ -47,10 +47,10 @@ export const links = [
     submenu: true,
     dir: "/jewellery",
     sublinks: [
-      { name: "Rings", link: "/products/rings" },
-      { name: "Bracelets", link: "/products/bracelets" },
-      { name: "Necklaces", link: "/products/necklaces" },
-      { name: "Earrings", link: "/products/earrings" },
+      { name: "Ring", link: "/products/rings" },
+      { name: "Bracelet", link: "/products/bracelets" },
+      { name: "Necklace", link: "/products/necklaces" },
+      { name: "Earring", link: "/products/earrings" },
     ],
   },
   {
@@ -67,6 +67,8 @@ export const links = [
   },
   {
     name: "SALE",
+    submenu: false,
     dir: "/sale",
+    sublinks: [],
   },
 ];

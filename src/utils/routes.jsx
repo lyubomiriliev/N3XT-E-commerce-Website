@@ -25,7 +25,7 @@ export const linksMenuRoute = (selectedSexCategory) => {
         if (link.submenu) {
             return link.sublinks.map((sublink) => ({
                 path: `/${selectedSexCategory.toLowerCase()}${link.dir}/${sublink.name.toLowerCase()}`,
-                element: <ShopCategory />,
+                element: <Clothing category={link.name.toLowerCase()} subcategory={sublink.name.toLowerCase()} />,
             }));
         }
         return [];

@@ -105,25 +105,25 @@ export default function Header() {
                     {/* Mobile Right side - User/Fav/Shop */}
                     <div className="flex items-center justify-end gap-4 h-10 flex-1">
                         <Link to="/login">
-                            <div className="hover:text-orange-300 hover:scale-150 decoration-[1px] flex md:hidden cursor-pointer duration-300 ease-out 0.3s">
+                            <div className="hover:text-black text-gray-700 decoration-[1px] flex md:hidden cursor-pointer duration-300 ease-out 0.3s">
                             <HiOutlineUserCircle className="text-2xl" />
                             </div>
                         </Link>
                         {userInfo === null ?
                             <Link to="/register">
-                                <div onClick={() => setShowBurgerMenu(false)} className=" hover:text-orange-300 flex md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                                <div onClick={() => setShowBurgerMenu(false)} className=" hover:text-black text-gray-700 flex md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                                     <FavoriteBorderOutlinedIcon />
                                 </div>
                             </Link>
                             :
                             <Link to="/wishlist">
-                                <div onClick={() => setShowBurgerMenu(false)} className=" hover:text-orange-300 flex md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                                <div onClick={() => setShowBurgerMenu(false)} className=" hover:text-black text-gray-700 flex md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                                     <FavoriteBorderOutlinedIcon />
                                 </div>
                             </Link>
                         }
                         <Link to="/cart">
-                            <div onClick={() => setShowBurgerMenu(false)} className=" hover:text-orange-300 md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                            <div onClick={() => setShowBurgerMenu(false)} className=" hover:text-black text-gray-700 md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                                 <ShoppingBagOutlinedIcon />
                                 <span className="w-6 font-semibold top-2 left-0 items-center justify-center">{productData.length}</span>
                             </div>
@@ -230,7 +230,7 @@ export default function Header() {
                 <div className="w-full md:w-1/3 flex items-center justify-center md:justify-around">
                         <div className="flex items-center gap-2">
                             <Link to="/login">
-                            <div className="hover:text-orange-300 hover:scale-150 hidden md:block decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                            <div className="hover:text-black text-gray-700 hover:scale-110 hidden md:block decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                                 <HiOutlineUserCircle className="text-2xl"/>
                             </div>
                             </Link>
@@ -241,20 +241,20 @@ export default function Header() {
                     <div className="items-center hidden md:flex">
                         {userInfo === null ?
                             <Link to="/register">
-                                <div className=" hover:text-orange-300 hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                                <div className=" hover:text-black text-gray-700 hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                                     <FavoriteBorderOutlinedIcon />
                                 </div>
                             </Link>
                             :
                             <Link to="/wishlist">
-                                <div className="hover:text-orange-300 hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                                <div className="hover:text-black text-gray-700 hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                                     <FavoriteBorderOutlinedIcon />
                                 </div>
                             </Link>
                         }
                     </div>
                     <Link to="/cart">
-                        <div className=" hover:text-orange-300 hidden md:flex hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                        <div className=" hover:text-black text-gray-700 hover:scale-110 hidden md:flex decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                             <ShoppingBagOutlinedIcon />
                             <span className="w-6 font-semibold top-2 left-0 items-center justify-center">{productData.length}</span>
                         </div>

@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { clothingSubmenu } from "./Submenus/clothingSubmenus";
 import { shoesSubmenu } from "./Submenus/shoesSubmenu";
@@ -19,7 +19,7 @@ import useDeviceDetect from "../../hooks/useDeviceDetect";
 import { TbCategory } from "react-icons/tb";
 import { FaSort } from "react-icons/fa";
 
-const Clothing = ({ category }) => {
+const Clothing = ({ category, subcategory }) => {
 
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [allProducts, setAllProducts] = useState([]);
@@ -33,6 +33,8 @@ const Clothing = ({ category }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(12);
+
+    const sortRef = useRef();
 
     const location = useLocation()
     const pathname = location.pathname;
@@ -48,7 +50,6 @@ const Clothing = ({ category }) => {
     const dispatch = useDispatch()
 
     const handleItemsPerPageChange = (items) => {
-        console.log("Items per page:", items)
         setItemsPerPage(items);
         setCurrentPage(1);
     }
@@ -86,11 +87,9 @@ const Clothing = ({ category }) => {
     const lastProductIndex = currentPage * itemsPerPage;
     const firstProductIndex = lastProductIndex - itemsPerPage;
 
-    console.log('Displaying products from:', firstProductIndex, 'to:', lastProductIndex)
 
     const displayedProducts = filteredProducts.slice(firstProductIndex, lastProductIndex);
 
-    console.log('Displayed Products Count:', displayedProducts.length);
 
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage)
 
@@ -98,121 +97,55 @@ const Clothing = ({ category }) => {
         const fetchData = async () => {
             const products = await allProductsData();
             setAllProducts(products)
-            filterProducts(products, selectedSexCategory, lastSegment, selectedProductCategory, checkedBrands)
+            filterProducts(products, selectedSexCategory, category, subcategory, lastSegment, selectedProductCategory, checkedBrands)
         };
 
         fetchData();
-    }, [selectedSexCategory])
+    }, [selectedSexCategory, category, subcategory, checkedBrands, selectedProductCategory])
 
-    useEffect(() => {
-        filterProducts(allProducts, selectedSexCategory, lastSegment, selectedProductCategory, checkedBrands);
 
-    }, [selectedSexCategory, lastSegment, selectedProductCategory, checkedBrands, allProducts,])
-
-    const filterProducts = (products, sexCategory, type, productCategory, brands) => {
+    const filterProducts = (products, sexCategory, category, subcategory, type, productCategory, brands = []) => {
         let filtered = products.filter(item => item.category === sexCategory.toLowerCase());
-
-
-        if (type) {
-            filtered = filtered.filter(item => item.type === type)
+    
+        // Filter by main category (like "clothing", "shoes", etc.)
+        if (category) {
+            filtered = filtered.filter(item => item.type.toLowerCase() === category.toLowerCase());
         }
-
+    
+        // Filter by subcategory (like "Jackets", "T-Shirts")
+        if (subcategory) {
+            filtered = filtered.filter(item => item.title.toLowerCase().includes(subcategory.toLowerCase()));
+        }
+    
+        // Filter by product category (the productCategory from Redux, like "Jackets", "Sneakers", etc.)
         if (productCategory) {
-            switch (productCategory) {
-                case "Jackets":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('jacket') && item.category === selectedSexCategory?.toLowerCase());
-                    setFilteredProducts(filtered)
+            switch (productCategory.toLowerCase()) {
+                case "jackets":
+                    filtered = filtered.filter(item => item.title.toLowerCase().includes('jacket'));
                     break;
-                case "T-Shirts":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('shirt') && item.category === selectedSexCategory?.toLowerCase());
-                    setFilteredProducts(filtered)
+                case "t-shirts":
+                    filtered = filtered.filter(item => item.title.toLowerCase().includes('shirt'));
                     break;
-                case "Hoodies":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('hood') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
+                case "hoodies":
+                    filtered = filtered.filter(item => item.title.toLowerCase().includes('hood'));
                     break;
-                case "Jeans":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('jeans') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
+                case "jeans":
+                    filtered = filtered.filter(item => item.title.toLowerCase().includes('jeans'));
                     break;
-                case "Skirts":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('skirt') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Formal":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('formal') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Boots":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('boot') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Mocassins":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('mocassins') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Sneakers":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('sneakers') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Flip flops & Sandals":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('sandals') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Sports shoes":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('sport') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Hats":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('hat') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Belts":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('belt') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Scarves":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('scarf') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Sunglasses":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('sunglass') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Watches":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('watch') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Rings":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('ring') && !item.title.toLowerCase().includes('ear') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Bracelets":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('bracelet') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Necklaces":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('necklace') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-                case "Earrings":
-                    filtered = allProducts.filter(item => item.title.toLowerCase().includes('earring') && item.category === selectedSexCategory.toLowerCase());
-                    setFilteredProducts(filtered)
-                    break;
-
+                // Add other cases as needed
                 default:
-                    filtered = allProducts;
                     break;
             }
-
         }
-
+    
+        // Filter by brands (if any are selected)
         if (brands.length > 0) {
-            filtered = filtered.filter(item => brands.some(brand => item.brand === brand.title))
+            filtered = filtered.filter(item => brands.some(brand => item.brand === brand.title));
         }
-
-        setFilteredProducts(filtered)
-    }
+    
+        setFilteredProducts(filtered);
+    };    
+    
 
     const toggleSubMenu = (selectedProductCategory) => {
         setActiveSubMenu((prevActiveSubmenu) => {
@@ -261,42 +194,46 @@ const Clothing = ({ category }) => {
         return true;
     })
 
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (sortRef.current && !sortRef.current.contains(e.target)) {
+                setIsSortOpen(false);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [sortRef]);
+
     return (
-        <div className="max-w-screen-2xl flex flex-col items-center mx-auto mt-5">
+        <div className="max-w-screen-2xl flex flex-col items-center mx-auto mt-2">
             {/* Breadcrumbs*/}
             <div className="w-full flex justify-center items-center pb-4 md:pb-0 px-4">
                 <Breadcrumbs category={category} />
             </div>
             <div>
-                {
-                    !isMobile && (
-                        <h1 className="text-xl ml-5 md:ml-0 md:text-4xl uppercase font-bold mt-2 md:mt-6">{selectedSexCategory}</h1>
-                    )
-                }
             </div>
                         {/* Main section */}
-                        <div className="w-full flex flex-col px-4 md:px-0 rounded-lg md:flex-row">
-                            <div>
-                                {!isMobile && (
-                                <div className="flex justify-between items-center mb-4">
-                                    <h1 onClick={closeSubMenu} className="font-bold cursor-pointer text-2xl py-4 mr-10 ml-5 md:ml-0">{selectedSubheaderMenu}</h1>
-
-                                </div>
-                                )}
-
+                    <div className="w-[90%] flex flex-col px-4 md:px-0 rounded-lg mt-5 md:flex-row">
+                         <div>
+                                {/* <div className="flex w-full mb-5">
+                                    <h1 className="text-xl md:text-4xl uppercase font-bold mt-2 md:mt-6">{selectedSexCategory}'s {selectedSubheaderMenu}</h1>
+                                </div> */}
                             <div className="w-full flex flex-col justify-center">
-
-                            {/* Side Nav */}
-                            <div className="w-full hidden md:flex flex-col justify-center  gap-4 md:gap-0 ">
-                                
-                                <ShopSideNav
-                                products={allProducts}
-                                setFilteredProducts={setFilteredProducts}
-                                />
+                                {/* Side Nav */}
+                                {/* <div className="w-full hidden md:flex flex-col justify-center  gap-4 md:gap-0 ">
+                                    
+                                    <ShopSideNav
+                                    products={allProducts}
+                                    setFilteredProducts={setFilteredProducts}
+                                    />
+                                </div> */}
+                                {/* SIDE NAV END */}
                             </div>
-                        {/* SIDE NAV END */}
-                    </div>
-                </div>
+                        </div>
 
                 {/* PRODUCT SECTION */}
                 <div className="w-full flex flex-col justify-start ">
@@ -308,7 +245,7 @@ const Clothing = ({ category }) => {
                                 <TbCategory className="text-xl"/>
                                 </button>
 
-                                <div className="relative h-full">
+                                <div className="relative h-full" ref={sortRef}>
                                 <button
                                     className="w-10 bg-transparent border-gray-300 border-[1px] hover:border-black duration-300 px-2 py-2 rounded-md flex items-center justify-center"
                                     onClick={toggleSortDropdown}
@@ -316,7 +253,7 @@ const Clothing = ({ category }) => {
                                 <FaSort className="text-xl"/>
                                 </button>
                                 {isSortOpen && (
-                                    <div className="absolute top-full mt-2 left-0 bg-white border-gray-300 rounded-md shadow-lg z-50 w-48">
+                                    <div className="absolute top-full mt-2 left-0 bg-white border-gray-300 rounded-md shadow-lg z-50 w-48" >
                                         <ul
                                             className="py-1"
                                             >
@@ -352,7 +289,7 @@ const Clothing = ({ category }) => {
                                     </div>
                                 ))}
                                 <div>
-                                    
+
                                 </div>
                             </div>
                                 )}

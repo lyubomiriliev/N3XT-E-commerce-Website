@@ -46,7 +46,7 @@ const ShopCategory = () => {
 
 
     return (
-        <div className="max-w-screen-2xl flex mx-auto mt-5">
+        <div className="w-full md:max-w-screen-2xl flex flex-col justify-center mx-auto px-4">
             <div className="flex flex-col mr-10">
                 <div className="border-b-2 w-36 ml-9">
                     <Link to={`/${selectedSexCategory}/${desiredSegment}`}>
@@ -54,13 +54,12 @@ const ShopCategory = () => {
                     </Link>
                     <h1 className="text-3xl  uppercase font-bold mt-3">{lastSegment}</h1>
                 </div>
-                <div className="w-[20%] ml-10 lgl:w-[25%] flex h-full">
+                {/* <div className="w-[20%] ml-10 lgl:w-[25%] flex h-full">
                     <ShopSideNav />
 
-                </div>
+                </div> */}
             </div>
-
-            <div className="w-5/6 mx-auto py-10 grid grid-cols-4 gap-10">
+            <div className="w-full mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {filteredProducts.map(item => (
                     <ProductCard key={item._id} product={item} />
                 ))}
