@@ -1,14 +1,14 @@
 export const acessoriesSubmenus = [
   {
-    name: "Hats",
+    name: "Hat",
     link: "/products/hats",
   },
   {
-    name: "Belts",
+    name: "Belt",
     link: "/products/belts",
   },
   {
-    name: "Scarves",
+    name: "Scarf",
     link: "/products/scarves",
   },
   {
@@ -16,7 +16,7 @@ export const acessoriesSubmenus = [
     link: "/products/sunglasses",
   },
   {
-    name: "Watches",
+    name: "Watch",
     link: "/products/watches",
   },
 ];

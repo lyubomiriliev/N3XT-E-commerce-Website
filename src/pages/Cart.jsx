@@ -32,7 +32,7 @@ const Cart = () => {
     return (
 
         <div className='w-full flex flex-col items-center justify-center mx-auto'>
-            <img className='w-full h-60 object-cover' src="https://images.pexels.com/photos/16604572/pexels-photo-16604572/free-photo-of-houses-on-small-tropical-islands-surrounded-by-turquoise-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
+            <img className='w-full h-96 object-cover object-center' src="https://images.pexels.com/photos/5076525/pexels-photo-5076525.jpeg" alt="Empty Cart" />
             <div className='w-full md:max-w-screen-xl mx-auto py-10 flex'>
                 <CartItem />
                 {productData.length > 0 ?

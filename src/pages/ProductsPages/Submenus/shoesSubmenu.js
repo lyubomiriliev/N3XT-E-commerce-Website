@@ -12,11 +12,11 @@ export const shoesSubmenu = [
     submenu: true,
   },
   {
-    name: "Flip flops & Sandals",
+    name: "Sandals",
     submenu: true,
   },
   {
-    name: "Sports shoes",
+    name: "Running",
     link: "/products/sports-shoes",
   },
 ];

@@ -12,6 +12,8 @@ const HeaderSubmenu = ({ closeMenu }) => {
 
     const navigate = useNavigate();
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
+    const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu)
+
     const [hoveredLink, setHoveredLink] = useState(null);
     const [selectedSublink, setSelectedSublink] = useState(null);
     const [currentCategory, setCurrentCategory] = useState(null);
@@ -19,6 +21,7 @@ const HeaderSubmenu = ({ closeMenu }) => {
     const dispatch = useDispatch();
     const isMobile = useDeviceDetect();
     const burgerMenuRef = useRef();
+
 
     
     const handleMouseEnter = (index) => {

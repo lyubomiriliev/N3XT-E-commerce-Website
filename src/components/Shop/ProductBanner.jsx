@@ -5,6 +5,7 @@ import { ImList } from "react-icons/im";
 
 import useDeviceDetect from "../../hooks/useDeviceDetect";
 import { FaSort } from "react-icons/fa";
+import { TbGridDots } from "react-icons/tb";
 
 
 
@@ -88,10 +89,8 @@ const ProductBanner = ({ onItemsPerPageChange, onViewChange, onSortChange }) => 
 
 			{/* SORT AND PAGINATION START */}
 			<div className="flex flex-1 justify-end items-center gap-4">
-				<div className="flex items-center gap-2 relative">
-					<label className="block">Show:</label>
+				<div className="items-center border-[1px] rounded-md py-2 border-gray-200 hover:border-black px-1 cursor-pointer text-gray-800 text-base flex">
 					<select
-						className="w-16 md:w-20 border-[1px] rounded-md border-gray-200 py-1 px-4 cursor-pointer text-gray-800 text-base block dark:placeholder-gray-400 appearance-none focus-within:outline-none focus-visible:border-gray-800"
 						onChange={(e) => onItemsPerPageChange(+e.target.value)}
 					>
 						<option value="12">12</option>

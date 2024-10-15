@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import { useSelector } from "react-redux";
 
-const Breadcrumbs = ({ category }) => {
+const Breadcrumbs = ({ category, resetSubmenu }) => {
 
   const location = useLocation()
   const pathname = location.pathname;
@@ -29,7 +29,7 @@ const Breadcrumbs = ({ category }) => {
       <div className="flex items-center" >
         <ArrowForwardIosOutlinedIcon className=" scale-75 text-gray-600" />
       </div>
-      <Link to={`/${selectedSexCategory}/${productCategory.toLowerCase()}`}>
+      <Link to={`/${selectedSexCategory}/${productCategory.toLowerCase()}`} onClick={resetSubmenu}>
       <h1 className="uppercase text-sm md:text-base text-gray-600">{productCategory}</h1>
       </Link>
       {!isMainSection && (

@@ -1,10 +1,10 @@
 export const clothingSubmenu = [
   {
-    name: "Jackets",
+    name: "Jacket",
     submenu: true,
   },
   {
-    name: "Shirts",
+    name: "Shirt",
     submenu: true,
   },
   {
@@ -16,7 +16,7 @@ export const clothingSubmenu = [
     submenu: true,
   },
   {
-    name: "Skirts",
+    name: "Skirt",
     submenu: true,
   },
   {

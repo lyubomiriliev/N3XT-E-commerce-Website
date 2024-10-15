@@ -21,7 +21,7 @@ const CartItem = (item) => {
                         ?
                         <h2 className="text-2xl">Shopping Cart</h2>
                         :
-                        <h1 className="text-2xl flex justify-center items-center text-red-600">Your cart is empty. Please go back to shopping and add products to the cart.</h1>}
+                        <h1 className="text-2xl flex justify-center items-center text-black">Your cart is empty. Please go back to shopping and add products to the cart.</h1>}
                 </div>
             </div>
             <div>

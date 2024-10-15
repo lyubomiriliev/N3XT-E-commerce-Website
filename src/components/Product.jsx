@@ -12,14 +12,16 @@ const Product = () => {
 
     const dispatch = useDispatch()
     const location = useLocation();
+    const navigate = useNavigate();
+
     let [baseQuantity, setBaseQuantity] = useState(1);
     const [details, setDetails] = useState({});
     const [lastSegment, setLastSegment] = useState("");
 
-    const navigate = useNavigate();
+    const selectedProductCategory = useSelector((state) => state.next.productCategory)
+    const selectedSexCategory = useSelector((state) => state.next.sexCategory)
+    const [breadcrumbCategory, setBreadcrumbCategory] = useState("");
 
-
-    console.log(location.pathname.split("/"))
 
     useEffect(() => {
         const segments = location.pathname.split("/");
@@ -27,10 +29,16 @@ const Product = () => {
         setLastSegment(lastSegment)
 
         setDetails(location.state.product)
-    }, [location])
 
-    const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu)
-    const selectedSexCategory = useSelector((state) => state.next.sexCategory)
+        if (selectedProductCategory) {
+            setBreadcrumbCategory(selectedProductCategory);
+        } else if (segments.length > 2) {
+            setBreadcrumbCategory(segments[2])
+        }
+
+    }, [location, selectedProductCategory])
+
+    
 
     const handleAddToCart = () => {
         dispatch(addToCart({
@@ -56,8 +64,8 @@ const Product = () => {
                 <div className="flex items-center" >
                     <ArrowForwardIosOutlinedIcon className=" scale-75 text-gray-600" />
                 </div>
-                <Link to={`/${selectedSexCategory}/${selectedSubheaderMenu.toLowerCase()}`}>
-                    <h1 className="uppercase text-sm text-gray-600">{selectedSubheaderMenu}</h1>
+                <Link to={`/${selectedSexCategory}/${selectedProductCategory.toLowerCase()}`}>
+                    <h1 className="uppercase text-sm text-gray-600">{breadcrumbCategory}</h1>
                 </Link>
                 <div className="flex items-center" >
                     <ArrowForwardIosOutlinedIcon className=" scale-75 text-gray-600" />

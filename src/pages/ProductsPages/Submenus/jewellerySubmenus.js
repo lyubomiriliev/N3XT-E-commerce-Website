@@ -1,18 +1,18 @@
 export const jewellerySubmenus = [
   {
-    name: "Rings",
+    name: "Ring",
     link: "/products/rings",
   },
   {
-    name: "Bracelets",
+    name: "Bracelet",
     link: "/products/bracelets",
   },
   {
-    name: "Necklaces",
+    name: "Necklace",
     link: "/products/necklaces",
   },
   {
-    name: "Earrings",
+    name: "Earring",
     link: "/products/earrrings",
   },
 ];

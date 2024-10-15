@@ -22,6 +22,7 @@ export const links = [
       { name: "Boots", link: "/products/boots" },
       { name: "Mocassins", link: "/products/loafers" },
       { name: "Sandals", link: "/products/sandals" },
+      { name: "Running", link: "/products/running"}
     ],
   },
   {
