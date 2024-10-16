@@ -87,7 +87,7 @@ const Register = () => {
                     )
                 }
                 {!isContinueClicked ? (
-                    <div className="md:w-1/3 w-full px-5 flex">
+                    <div className="md:w-1/3 w-full px-4 flex">
                         <div className="w-full flex flex-col">
                             <h1 className="text-2xl md:text-4xl font-bold">N3XT | Your only fashion world.</h1>
                             <div className="mt-6">
@@ -158,7 +158,7 @@ const Register = () => {
 
                 {
                     !isMobile && (
-                        <div className=" overflow-hidden">
+                        <div className="overflow-hidden">
                             <div className="gap-3 ml-10 grid grid-cols-3 animate-loop-scroll">
                                 {products.slice(0, 9).map((product, index) => (
                                     <img key={index} src={product.image} className="w-60 h-60 object-cover" alt={`Product ${index}`} />

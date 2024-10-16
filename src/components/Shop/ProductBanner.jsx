@@ -4,8 +4,6 @@ import { GoTriangleDown } from "react-icons/go";
 import { ImList } from "react-icons/im";
 
 import useDeviceDetect from "../../hooks/useDeviceDetect";
-import { FaSort } from "react-icons/fa";
-import { TbGridDots } from "react-icons/tb";
 
 
 
@@ -89,8 +87,9 @@ const ProductBanner = ({ onItemsPerPageChange, onViewChange, onSortChange }) => 
 
 			{/* SORT AND PAGINATION START */}
 			<div className="flex flex-1 justify-end items-center gap-4">
-				<div className="items-center border-[1px] rounded-md py-2 border-gray-200 hover:border-black px-1 cursor-pointer text-gray-800 text-base flex">
+				<div className="relative text-gray-800">
 					<select
+						className="block w-full appearance-none bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded-md shadow-sm focus:outline-none focus:ring-2 focus-ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out text-gray-700"
 						onChange={(e) => onItemsPerPageChange(+e.target.value)}
 					>
 						<option value="12">12</option>
@@ -98,7 +97,7 @@ const ProductBanner = ({ onItemsPerPageChange, onViewChange, onSortChange }) => 
 						<option value="36">36</option>
 						<option value="48">48</option>
 					</select>
-					<span className="absolute text-sm right-3 top-2.5">
+					<span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
 						<GoTriangleDown />
 					</span>
 				</div>

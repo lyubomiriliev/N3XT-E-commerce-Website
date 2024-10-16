@@ -21,8 +21,6 @@ const HeaderSubmenu = ({ closeMenu }) => {
     const dispatch = useDispatch();
     const isMobile = useDeviceDetect();
     const burgerMenuRef = useRef();
-
-
     
     const handleMouseEnter = (index) => {
         if (!isMobile) {
@@ -40,17 +38,13 @@ const HeaderSubmenu = ({ closeMenu }) => {
     const handleSubmenuChange = (submenuName) => {
         const category = links.find((link) => link.name === submenuName);
         if (!isMobile) {
-
             dispatch(setProductCategory(null));
             dispatch(setHeaderSubmenu(submenuName));
         } else {
-
             if (category && !category.submenu) {
-                
                 navigate(`${selectedSexCategory}${category.dir}`);
                 closeMenu();
             } else if (category && category.submenu) {
-
                 setCurrentCategory(category);
                 setSubmenuOpen(true);
                 dispatch(setHeaderSubmenu(submenuName));
@@ -58,6 +52,10 @@ const HeaderSubmenu = ({ closeMenu }) => {
         }
     };
 
+    const handleSubmenuItemClick = (linkName, sublinkName) => {
+        dispatch(setHeaderSubmenu(linkName));
+        dispatch(setProductCategory(sublinkName));
+    }
 
 
     const handleSexChange = (sex) => {
@@ -73,9 +71,6 @@ const HeaderSubmenu = ({ closeMenu }) => {
         setSelectedSublink({ linkIndex, sublinkIndex })
     }
 
-    const handleNestedMenuClick = () => {
-        closeMenu();
-    }
 
     const filteredSublinks = (sublinks) => {
         return sublinks.filter((sublink) => {
@@ -156,7 +151,7 @@ const HeaderSubmenu = ({ closeMenu }) => {
                                 <div className="py-4 md:py md:hover:text-black text-gray-700 font-light w-full text-sm md:text-base cursor-pointer duration-300 ease-out 0.3s">
                                     {!isMobile ? (
                                         <Link
-                                            // onClick={handleSubmenuCategory(link.name)}
+                                            onClick={() => handleSubmenuChange(link.name)}
                                             to={`${selectedSexCategory?.toLowerCase()}${link.dir}`}
                                         >
                                             {link.name}
@@ -181,7 +176,12 @@ const HeaderSubmenu = ({ closeMenu }) => {
                                             {filteredSublinks(link.sublinks).map((sublink, sublinkIndex) => (
                                                 <div key={sublinkIndex} className="flex items-center">
                                                     <h1 className="text-sm text-gray-600 my-3 flex-1">
-                                                        <Link to={`${selectedSexCategory}/${link.name.toLowerCase()}/${sublink.name.toLowerCase()}`} className="hover:text-yellow-600 px-2">{sublink.name}</Link>
+                                                        <Link 
+                                                            to={`${selectedSexCategory}/${link.name.toLowerCase()}/${sublink.name.toLowerCase()}`} className="hover:text-yellow-600 px-2"
+                                                            onClick={() => handleSubmenuItemClick(link.name, sublink.name)}
+                                                        >
+                                                            {sublink.name}
+                                                        </Link>
                                                     </h1>
                                                 </div>
                                             ))}

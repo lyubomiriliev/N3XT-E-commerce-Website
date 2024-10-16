@@ -18,9 +18,12 @@ const Product = () => {
     const [details, setDetails] = useState({});
     const [lastSegment, setLastSegment] = useState("");
 
-    const selectedProductCategory = useSelector((state) => state.next.productCategory)
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
+    const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu)
+
+
     const [breadcrumbCategory, setBreadcrumbCategory] = useState("");
+
 
 
     useEffect(() => {
@@ -30,15 +33,14 @@ const Product = () => {
 
         setDetails(location.state.product)
 
-        if (selectedProductCategory) {
-            setBreadcrumbCategory(selectedProductCategory);
+        if (selectedSubheaderMenu) {
+            setBreadcrumbCategory(selectedSubheaderMenu);
         } else if (segments.length > 2) {
             setBreadcrumbCategory(segments[2])
         }
 
-    }, [location, selectedProductCategory])
+    }, [location, selectedSubheaderMenu])
 
-    
 
     const handleAddToCart = () => {
         dispatch(addToCart({
@@ -56,7 +58,6 @@ const Product = () => {
 
     return (
         <div className="flex-col w-full mx-auto mt-10">
-            {/* Breadcrumbs start */}
             <div className="flex flex-wrap gap-2 justify-center items-center text-sm text-gray-600 ml-4">
                 <Link to="/" className="flex items-center">
                     <h1 className="uppercase text-sm text-gray-600">Home page</h1>
@@ -64,7 +65,7 @@ const Product = () => {
                 <div className="flex items-center" >
                     <ArrowForwardIosOutlinedIcon className=" scale-75 text-gray-600" />
                 </div>
-                <Link to={`/${selectedSexCategory}/${selectedProductCategory.toLowerCase()}`}>
+                <Link to={`/${selectedSexCategory}/${selectedSubheaderMenu.toLowerCase()}`}>
                     <h1 className="uppercase text-sm text-gray-600">{breadcrumbCategory}</h1>
                 </Link>
                 <div className="flex items-center" >
@@ -72,7 +73,6 @@ const Product = () => {
                 </div>
                 <h1 className="uppercase text-sm text-gray-600">{lastSegment}</h1>
             </div>
-            {/* Breadcrumbs end */}
 
             {/* Product details */}
             <div className="max-w-screen-xl mx-auto my-10 flex flex-col md:flex-row gap-10">

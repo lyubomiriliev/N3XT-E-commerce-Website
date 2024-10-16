@@ -8,7 +8,7 @@ const Products = ({ products }) => {
     const filteredProducts = selectedSexCategory ? products.filter((item) => item.category === selectedSexCategory) : products;
 
     return (
-        <div className="w-full px-10 md:px-0 md:scale-100 flex flex-col mx-auto py md:py-10">
+        <div className="w-full md:px-0 md:scale-100 flex flex-col mx-auto md:py-10">
             <div className="flex flex-col items-center gap-4">
                 <h1 className="text-3xl md:text-4xl py-10 font-bold text-center">TRENDING THIS WEEK</h1>
             </div>

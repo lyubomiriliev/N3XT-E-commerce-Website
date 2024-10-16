@@ -12,6 +12,14 @@ export default {
           "100%": { transform: "translateY(-100%)" },
         },
       },
+      scrollbar: {
+        hide: {
+          "scrollbar-width": "none",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+        },
+      },
     },
   },
   plugins: [],

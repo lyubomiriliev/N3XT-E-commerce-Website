@@ -15,7 +15,7 @@ export const generateSubmenuRoutes = (selectedSexCategory) => {
     const submenuOptions = ['clothing', 'shoes', 'bags', 'accessories', 'jewellery'];
     return submenuOptions.map((submenuOption) => ({
         path: `/${selectedSexCategory.toLowerCase()}/${submenuOption}`,
-        element: <Clothing category={submenuOption} />,
+        element: <Clothing />,
     }));
 };
 
@@ -25,7 +25,7 @@ export const linksMenuRoute = (selectedSexCategory) => {
         if (link.submenu) {
             return link.sublinks.map((sublink) => ({
                 path: `/${selectedSexCategory.toLowerCase()}${link.dir}/${sublink.name.toLowerCase()}`,
-                element: <Clothing category={link.name.toLowerCase()} subcategory={sublink.name.toLowerCase()} />,
+                element: <Clothing />,
             }));
         }
         return [];

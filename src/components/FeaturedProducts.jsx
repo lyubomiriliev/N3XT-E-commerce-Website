@@ -10,7 +10,7 @@ const FeaturedProducts = ({ products }) => {
     const filteredProducts = selectedSexCategory ? products.filter((item) => item.category === selectedSexCategory) : products;
 
     return (
-        <div className="py-10 ">
+        <div className="py-10">
             <div className="max-w-screen-xl  mx-auto  flex flex-col items-center gap-4">
                 <h1 className="text-3xl md:text-4xl font-bold text-center font-serif">NEW ARRIVALS</h1>
                 <div className="mx-auto py-10 grid grid-cols-1 md:grid-cols-3 gap-10">
