@@ -33,6 +33,7 @@ const Clothing = () => {
   const selectedSexCategory = useSelector((state) => state.next.sexCategory);
   const selectedProductCategory = useSelector((state) => state.next.productCategory);
   const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu);
+  const allProducts = useSelector((state) => state.next.allProducts)
   const checkedBrands = useSelector((state) => state.next.checkedBrands);
   const isMobile = useDeviceDetect();
   const dispatch = useDispatch();
@@ -186,7 +187,7 @@ const Clothing = () => {
   return (
     <div className="w-full md:max-w-screen-xl flex flex-col items-center mx-auto pt-4">
       {/* Breadcrumbs*/}
-      <div className="w-full flex justify-center items-center px-4">
+      <div className="w-full flex justify-center items-center px-4 md:px-0">
         <Breadcrumbs selectedSubheaderMenu={selectedSubheaderMenu} resetSubmenu={resetSubmenu} />
       </div>
 

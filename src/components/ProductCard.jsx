@@ -2,20 +2,20 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from "react-router-dom";
 import { addToCart, removeFavorite } from '../redux/nextSlice';
 import { addToFavorites } from '../redux/nextSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
+import useFavorite from "../hooks/useFavorite";
 
 const ProductCard = ({ product, view }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
 
-    const [isFavorite, setIsFavorite] = useState(false);
-    // const location = useLocation()
+    const {isFavorite, handleFavoriteItem} = useFavorite(product);
+
 
     const _id = product.title;
     const idString = (_id) => {
@@ -32,40 +32,6 @@ const ProductCard = ({ product, view }) => {
             }
         })
     }
-
-    // const getLocation = window.location.pathname;
-
-    const handleFavoriteItem = () => {
-        const updatedIsFavorite = !isFavorite;
-        setIsFavorite(updatedIsFavorite);
-
-        // Save to localStorage
-        localStorage.setItem(`favorite-${product._id}`, JSON.stringify(updatedIsFavorite));
-
-        if (updatedIsFavorite) {
-            dispatch(addToFavorites({
-                _id: product._id,
-                title: product.title,
-                image: product.image,
-                price: product.price,
-                quantity: 1,
-                description: product.description,
-            }));
-            toast.success(`${product.title} is added to favorites`, {
-                onClick: () => navigate("/wishlist")
-            });
-        } else {
-            dispatch(removeFavorite(product._id));
-            toast.error(`${product.title} is removed from favorites`);
-        }
-    };
-
-    useEffect(() => {
-        const storedFavoriteStatus = localStorage.getItem(`favorite-${product._id}`);
-        if(storedFavoriteStatus) {
-            setIsFavorite(JSON.parse(storedFavoriteStatus))
-        }
-    },[product._id])
 
 
     return (
@@ -92,6 +58,10 @@ const ProductCard = ({ product, view }) => {
                         <div onClick={() => dispatch(addToCart({
                             _id: product._id,
                             title: product.title,
+                            isNew: product.isNew,
+                            brand: product.brand,
+                            itemCategory: product.itemCategory,
+                            type: product.type,
                             image: product.image,
                             price: product.price,
                             oldPrice: product.oldPrice,

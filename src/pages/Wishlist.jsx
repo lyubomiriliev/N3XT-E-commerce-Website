@@ -1,11 +1,9 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { removeFavorite, resetFavorites } from '../redux/nextSlice';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import { toast } from 'react-toastify';
-import FeaturedProductCard from '../components/FeaturedProductCard';
 import ProductCard from '../components/ProductCard';
 import { Link } from 'react-router-dom';
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
+
 
 
 
@@ -13,8 +11,6 @@ const Wishlist = () => {
 
 const favoriteProductData = useSelector((state) => state.next.favoriteProductData);
 const selectedSexCategory = useSelector((state) => state.next.sexCategory);
-const dispatch = useDispatch()
-
 
   return (
     <div className='w-full px-4 flex flex-col max-w-screen-xl mx-auto min-h-screen'>
@@ -32,11 +28,14 @@ const dispatch = useDispatch()
                 <div>
                     <h1 className='text-gray-600'>You still haven't favorited any products yet.</h1>
                 </div>
-                <div>
                 <Link to={`/${selectedSexCategory}`}>
-                    <h2 className='uppercase font-bold underline py-4'>Go back to shop</h2>
+                    <button className="mt-8 flex items-center gap-1 text-gray-400 hover:text-black duration-300 ">
+                        <span>
+                            <KeyboardBackspaceOutlinedIcon />
+                        </span>
+                            Back to shop
+                    </button>
                 </Link>
-                </div>
             </div>
         )}
 

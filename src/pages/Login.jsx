@@ -6,6 +6,7 @@ import useLogin from "../hooks/useLogin";
 
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import LoginPopUps from "../components/LoginPopUps";
 
 const Login = () => {
 
@@ -113,21 +114,31 @@ const Login = () => {
                                         <button type="button" onClick={togglePasswordVisibility} className="absolute inset-y-0 right-0 bottom-6 flex items-center mr-3 -mt-5 text-gray-400 cursor-pointer">
                                             {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
                                         </button>
-                                        <div className="flex justify-center items-center">
-                                        <label htmlFor="rememberUser">Keep me signed in</label>
-                                        <input className="ml-2" type="checkbox" id="rememberUser" checked={rememberUser} onChange={(e) => setRememberUser(e.target.checked)} />
+                                        <div className="flex justify-between px-2 items-center">
+                                            <div>
+                                                <label htmlFor="rememberUser">Keep me signed in</label>
+                                                <input className="ml-2" type="checkbox" id="rememberUser" checked={rememberUser} onChange={(e) => setRememberUser(e.target.checked)} />
+                                            </div>
+                                            <div>
+                                                <span>Forgot password?</span>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div className="w-full flex flex-col gap-4 items-center justify-center">
+                                        <button type="submit" className="bg-black text-white text-base py-3 w-full md:w-1/3 uppercase flex justify-center items-center tracking-wide rounded-md mx-auto hover:bg-secondary duration-300">Login</button>
+                                    <div className="w-full flex items-center justify-center h-[1px] my-6 bg-gray-300">
+                                        <p className="bg-white p-4">or use</p>
                                     </div>
-
-                                    <button type="submit" className="bg-black text-white text-base mt-5 py-3 px-20 tracking-wide rounded-md flex mx-auto hover:bg-secondary duration-300">Login</button>
+                                    <div className="w-full">
+                                    <LoginPopUps />
+                                    </div>
+                                    <Link className="flex flex-col justify-center items-center w-full gap-2" to="/register">
+                                        <button className="bg-black text-white text-base py-3 px-6 tracking-wide rounded-md hover:bg-gray-800 duration-300">Don't have an account? Register</button>
+                                    </Link>
+                                    </div>
                                 </div>
                             </form>
                 </div>
-            </div>
-            <div>
-                <Link to="/register">
-                    <button className="bg-black text-white text-base py-3 px-8 tracking-wide rounded-md hover:bg-gray-800 duration-300">Don't have an account? Register</button>
-                </Link>
             </div>
 
             <ToastContainer

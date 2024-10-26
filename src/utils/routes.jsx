@@ -10,6 +10,7 @@ import Sale from "../pages/Sale";
 import { links } from "../components/HeaderLinks";
 import Home from "../pages/Home";
 import Wishlist from "../pages/Wishlist";
+import UserProfile from "../pages/UserProfile";
 
 // Dynamic Submenu Routes
 export const generateSubmenuRoutes = (selectedSexCategory) => {
@@ -39,6 +40,7 @@ export const generateStaticRoutes = (selectedSexCategory) => [
     { path: "/women", element: <Home /> },
     { path: "/product/:id", element: <Product /> },
     { path: `/${selectedSexCategory}/brands`, element: <Brands /> },
+    { path: "/profile", element: <UserProfile />},
     { path: "/cart", element: <Cart /> },
     { path: "/wishlist", element: <Wishlist /> },
     { path: "/login", element: <Login /> },

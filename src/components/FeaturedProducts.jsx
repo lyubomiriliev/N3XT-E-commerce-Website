@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import FeaturedProductCard from "./FeaturedProductCard"
 import { Link } from "react-router-dom";
+import ProductCard from "./ProductCard";
 
 const FeaturedProducts = ({ products }) => {
 
@@ -15,8 +15,8 @@ const FeaturedProducts = ({ products }) => {
                 <div className="max-w-screen-xl px-4 md:px-0 mx-auto py-2 md:py-10 grid grid-cols-2 md:grid-cols-4 gap-10">
                     {
                         filteredProducts && (
-                            filteredProducts.slice(0, 8).map((item) => (
-                                <FeaturedProductCard key={item._id} product={item} />
+                            filteredProducts.slice(4, 12).map((item) => (
+                                <ProductCard key={item._id} product={item} />
                             ))
                         )
                     }

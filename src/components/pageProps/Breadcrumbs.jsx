@@ -22,7 +22,7 @@ const Breadcrumbs = ({ resetSubmenu }) => {
             const isMainSection = selectedSubheaderMenu === lastSegment     
 
   return (
-    <div className="w-full justify-center flex gap-1 items-center">
+    <div className="w-full justify-start flex gap-1 items-center">
       <Link to={`/${selectedSexCategory}`}>
         <h1 className="uppercase text-sm md:text-base text-gray-400">Home page</h1>
       </Link>
@@ -38,7 +38,7 @@ const Breadcrumbs = ({ resetSubmenu }) => {
         <ArrowForwardIosOutlinedIcon className=" scale-75 text-gray-400" />
         </div>
         <div>
-          <h1 className="uppercase text-sm md:text-base text-gray-400">{lastSegment.substring(0, 16)}...</h1>
+          <h1 className="uppercase text-sm md:text-base text-gray-400">{lastSegment.substring(0, 16)}</h1>
         </div>
         </>
       )}

@@ -49,9 +49,10 @@ const CartItem = () => {
 
     const productData = useSelector((state) => state.next.productData)
 
+    console.log(productData)
+
     return (
         <div className="w-full justify-center items-center md:items-start flex flex-col px-4 md:px-0">
-            <div className="">
                 <div className="w-full justify-center items-center mx-auto">
                     {productData.length > 0
                         ?
@@ -66,12 +67,11 @@ const CartItem = () => {
                             </span>
                                 Back to shop
                         </button>
-            </Link>
+                        </Link>
                         </div>
                         
                         }
                 </div>
-            </div>
             <div>
                 {productData.map((item) => (
                     <div key={item._id} className="flex flex-col w-full justify-between py-4">
@@ -80,16 +80,18 @@ const CartItem = () => {
                                 <img className="w-60 object-cover hover:scale-125 duration-300 ease-in-out" src={item.image} alt={item.title} />
                             </div>
                             <div className="w-full p-2 flex gap-2 flex-col">
-                                <h2 className="">{item.title}</h2>
-                                <p className="text-xs w-2/3 text-gray-600">{item.description.substring(0, 200)}...</p>
-                                <p className="text-xs w-2/3 text-gray-600">Size: M</p>
-                                <p className="text-xs w-2/3 text-gray-600">Color: Beige</p>
+                                <h2 className="text-base font-bold">{item.title}</h2>
+                                <p className="text-xs font-bold text-gray-500">Category: <span className="uppercase">{item.type}</span></p>
+                                <p className="text-xs font-bold text-gray-500">Brand: {item.brand}</p>
+                                <p className="text-xs font-bold w-2/3 text-gray-500">Size: M</p>
+                                <p className="text-xs font-bold w-2/3 text-gray-500">Color: Beige</p>
                             </div>
-                            <div className="flex flex-col absolute right-2 bottom-2 ">
-                                <p>Price: ${item.price}</p>
+                            <div className="flex flex-col absolute right-0 bottom-2 ">
+                                <p className="text-gray-400 line-through">${item.oldPrice}</p>
+                                <p>${item.price}</p>
                             </div>
                         </div>
-                        <div className="w-full md:w-2/3 mt-2 flex justify-between items-center">
+                        <div className="w-full mt-2 flex justify-between items-center">
                         <div className="w-1/3 gap-2 rounded-md px-2 md:px-4 flex justify-center items-center">
                             <span className="text-sm md:text-base">
                                 Quantity:
