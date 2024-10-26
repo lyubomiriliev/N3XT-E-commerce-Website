@@ -1,5 +1,5 @@
 import { FacebookAuthProvider, GoogleAuthProvider, getAuth, signInWithPopup, signOut } from "firebase/auth";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import { addUser, removeUser } from "../redux/nextSlice";
 import { toast } from "react-toastify";
@@ -14,6 +14,7 @@ const useFirebaseAuth = () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider
     const [isSigningIn, setIsSigningIn] = useState(false);
+    const selectedSexCategory = useSelector((state) => state.next.sexCategory)
 
     const handleGoogleLogin = (e) => {
         e.preventDefault();
@@ -29,7 +30,7 @@ const useFirebaseAuth = () => {
                 image: user.photoURL,
             }))
             setTimeout(() => {
-                navigate("/women");
+                navigate(`/${selectedSexCategory}`);
             }, 600)
         }).catch((error) => {
             console.log(error);
@@ -43,6 +44,7 @@ const useFirebaseAuth = () => {
         signOut(auth).then(() => {
             dispatch(removeUser());
             localStorage.removeItem("user-info");
+            navigate(`/${selectedSexCategory}`);
             toast.success("Log Out Successfully");
         }).catch((error) => {
             console.log(error);
@@ -63,6 +65,7 @@ const useFirebaseAuth = () => {
             setDoc(doc(firestore, "users", user.uid), userDoc)
             dispatch(addUser(userDoc));
             localStorage.setItem("user-info", JSON.stringify(userDoc));
+            toast.success("Logged In Successfully");
             setTimeout(() => {
                 navigate("/women");
             }, 600)

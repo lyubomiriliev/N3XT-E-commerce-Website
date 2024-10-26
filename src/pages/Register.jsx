@@ -88,7 +88,7 @@ const Register = () => {
 
     return (
         <div>
-            <div className="w-full md:max-w-screen-xl mx-auto flex flex-col md:flex-row ">
+            <div className="w-full md:max-w-screen-xl mx-auto flex flex-col md:flex-row mt-28 md:mt-36">
                 {
                     isMobile && (
                         <div className="overflow-hidden mx-5 h-44 flex flex-col justify-center items-center">
@@ -121,8 +121,8 @@ const Register = () => {
                                     />
                                     <button onClick={handleContinueClick} className="bg-black text-white text-base py-3 px-8 tracking-wide rounded-md hover:bg-gray-800 duration-300">Continue</button>
                                 </div>
-                                <div className="w-full flex justify-center py-5">
-                                    <p>OR</p>
+                                <div className="w-full flex items-center justify-center h-[1px] my-10 bg-gray-300">
+                                        <p className="bg-white p-4">or</p>
                                 </div>
                                 <LoginPopUps />
                             </div>

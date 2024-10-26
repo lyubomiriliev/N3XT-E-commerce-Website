@@ -13,7 +13,7 @@ const favoriteProductData = useSelector((state) => state.next.favoriteProductDat
 const selectedSexCategory = useSelector((state) => state.next.sexCategory);
 
   return (
-    <div className='w-full px-4 flex flex-col max-w-screen-xl mx-auto min-h-screen'>
+    <div className='w-full px-4 flex flex-col max-w-screen-xl mx-auto min-h-screen mt-28 md:mt-36'>
         <div className='w-full justify-center  items-center flex h-12 gap-4 py-10'>
             <h1 className='uppercase font-bold tracking-wide text-2xl'>favorites <span>({favoriteProductData.length})</span></h1>
         </div>

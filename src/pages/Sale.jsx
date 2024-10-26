@@ -62,7 +62,7 @@ const Sale = () => {
 
 
     return (
-        <div className="max-w-screen-xl mx-auto mt-10 flex flex-col">
+        <div className="max-w-screen-xl mx-auto flex flex-col mt-28 md:mt-36">
             <div className="w-5/6 ml-8 mx-auto flex items-center gap-2 md:gap-6 mt-4 md:mt-0">
                 <ProductBanner onViewChange={setView} onItemsPerPageChange={handleItemsPerPageChange} onSortChange={handleSortChange} />
             </div>

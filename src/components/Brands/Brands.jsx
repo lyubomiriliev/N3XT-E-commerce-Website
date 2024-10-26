@@ -63,7 +63,7 @@ const Brands = () => {
 
 
     return (
-        <div className="flex flex-col max-w-screen-xl justify-center mx-auto">
+        <div className="flex flex-col max-w-screen-xl justify-center mx-auto mt-28 md:mt-36">
             <div className="w-full  justify-center flex items-center mx-auto mb-10">
 
                 {

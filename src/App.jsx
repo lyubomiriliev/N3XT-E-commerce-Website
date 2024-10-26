@@ -5,6 +5,7 @@ import { createBrowserRouter, Navigate, Outlet, RouterProvider, ScrollRestoratio
 import { useSelector } from "react-redux";
 
 import { generateStaticRoutes, generateSubmenuRoutes, linksMenuRoute } from "./utils/routes.jsx";
+import { ToastContainer } from "react-toastify";
 
 
 const Layout = () => {
@@ -50,7 +51,12 @@ const AppRouter = () => {
 };
 
 function App() {
-    return <AppRouter />;
+    return (
+    <div>
+        <AppRouter />
+        <ToastContainer />
+    </div>
+    );
 }
 
 export default App;

@@ -32,7 +32,7 @@ const Cart = () => {
 
     return (
 
-        <div className='w-full flex flex-col items-center justify-center mx-auto'>
+        <div className='w-full flex flex-col items-center justify-center mx-auto mt-28 md:mt-32'>
             <div className='w-full relative'>
                 <img className='w-full h-32 md:h-48 object-cover' src="https://images.pexels.com/photos/5076525/pexels-photo-5076525.jpeg" alt="Empty Cart" />
                 <img src={nextLogoWhite} alt="NextLogo" className='w-36 md:w-44 absolute top-0 inset-0' />

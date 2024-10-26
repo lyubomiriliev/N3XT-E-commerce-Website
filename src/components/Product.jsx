@@ -78,7 +78,7 @@ const Product = (view) => {
     }
 
     return (
-        <div className="w-full md:w-2/3 mx-auto flex flex-col justify-center items-center mt-5">
+        <div className="w-full md:w-2/3 mx-auto flex flex-col justify-center items-center mt-28 md:mt-36">
             <div className="w-full flex justify-center items-center px-4 md:px-0 mx-auto">
                 <Breadcrumbs />
             </div>

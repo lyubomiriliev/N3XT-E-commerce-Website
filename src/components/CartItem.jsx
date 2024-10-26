@@ -49,7 +49,6 @@ const CartItem = () => {
 
     const productData = useSelector((state) => state.next.productData)
 
-    console.log(productData)
 
     return (
         <div className="w-full justify-center items-center md:items-start flex flex-col px-4 md:px-0">
@@ -163,7 +162,6 @@ const CartItem = () => {
                 autoClose={2000}
                 hideProgressBar={false}
                 newestOnTop={false}
-                closeOnClick
                 rtl={false}
                 pauseOnFocusLoss
                 draggable

@@ -107,7 +107,7 @@ const HeaderSubmenu = ({ closeMenu }) => {
 
     return (
         <>
-        <div className="w-full flex flex-col md:flex-row  justify-center items-center">
+        <div className="w-full flex flex-col md:flex-row justify-center items-center">
             {!currentCategory && isMobile && (
                     <div ref={burgerMenuRef} className="w-full flex mt-3 flex-col items-center">
                         <div className="w-[90%]">

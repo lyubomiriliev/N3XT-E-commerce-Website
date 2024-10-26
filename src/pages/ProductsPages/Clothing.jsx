@@ -185,7 +185,7 @@ const Clothing = () => {
   };
 
   return (
-    <div className="w-full md:max-w-screen-xl flex flex-col items-center mx-auto pt-4">
+    <div className="w-full md:max-w-screen-xl flex flex-col items-center mx-auto mt-28 md:mt-36 pt-4">
       {/* Breadcrumbs*/}
       <div className="w-full flex justify-center items-center px-4 md:px-0">
         <Breadcrumbs selectedSubheaderMenu={selectedSubheaderMenu} resetSubmenu={resetSubmenu} />

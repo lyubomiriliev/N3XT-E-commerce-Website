@@ -66,7 +66,7 @@ const Login = () => {
     }
 
     return (
-        <div className="w-full flex flex-col items-center justify-between min-h-screen px-4 md:px-0">
+        <div className="w-full flex flex-col items-center justify-between min-h-screen px-4 md:px-0 mt-28 md:mt-36">
             {/* <div className="w-full flex items-center justify-center">
                 <button onClick={handleSignOut} className="bg-black text-white text-base py-3 px-8 tracking-wide rounded-md hover:bg-gray-800 duration-300">Sign Out</button>
             </div> */}
@@ -127,7 +127,7 @@ const Login = () => {
                                     <div className="w-full flex flex-col gap-4 items-center justify-center">
                                         <button type="submit" className="bg-black text-white text-base py-3 w-full md:w-1/3 uppercase flex justify-center items-center tracking-wide rounded-md mx-auto hover:bg-secondary duration-300">Login</button>
                                     <div className="w-full flex items-center justify-center h-[1px] my-6 bg-gray-300">
-                                        <p className="bg-white p-4">or use</p>
+                                        <p className="bg-white p-4">or</p>
                                     </div>
                                     <div className="w-full">
                                     <LoginPopUps />
