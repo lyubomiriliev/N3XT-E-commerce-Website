@@ -30,11 +30,14 @@ const Register = () => {
 
     const { signUp } = useSignUpWithEmailAndPassword();
 
+    const [isRendered, setIsRendered] = useState(false);
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get("https://fakestoreapiserver.reactbd.com/products");
                 setProducts(response.data)
+                setIsRendered(true)
             } catch (error) {
                 console.error("Error fetching products", error);
             }
@@ -69,7 +72,7 @@ const Register = () => {
 
     return (
         <div>
-            <div className="w-full md:max-w-screen-xl mx-auto md:py-20 flex flex-col md:flex-row ">
+            <div className="w-full md:max-w-screen-xl mx-auto flex flex-col md:flex-row ">
                 {
                     isMobile && (
                         <div className="overflow-hidden mx-5 h-44 flex flex-col justify-center items-center">

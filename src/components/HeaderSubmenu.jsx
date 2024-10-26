@@ -11,15 +11,19 @@ import { setSexCategory } from "../redux/nextSlice";
 const HeaderSubmenu = ({ closeMenu }) => {
 
     const navigate = useNavigate();
+    
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
     const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu)
+    const selectedProductCategory = useSelector((state) => state.next.productCategory)
+
+    const dispatch = useDispatch();
+    const isMobile = useDeviceDetect();
 
     const [hoveredLink, setHoveredLink] = useState(null);
     const [selectedSublink, setSelectedSublink] = useState(null);
     const [currentCategory, setCurrentCategory] = useState(null);
     const [submenuOpen, setSubmenuOpen] = useState(false);
-    const dispatch = useDispatch();
-    const isMobile = useDeviceDetect();
+
     const burgerMenuRef = useRef();
     
     const handleMouseEnter = (index) => {
@@ -34,22 +38,21 @@ const HeaderSubmenu = ({ closeMenu }) => {
         }
     };
 
+    const handleCategoryNavigation = (category) => {
+        dispatch(setHeaderSubmenu(category));
+        dispatch(setProductCategory(null));
+        navigate(`/${selectedSexCategory}/${category.toLowerCase()}`)
+    }
+
 
     const handleSubmenuChange = (submenuName) => {
         const category = links.find((link) => link.name === submenuName);
-        if (!isMobile) {
-            dispatch(setProductCategory(null));
-            dispatch(setHeaderSubmenu(submenuName));
-        } else {
-            if (category && !category.submenu) {
-                navigate(`${selectedSexCategory}${category.dir}`);
-                closeMenu();
-            } else if (category && category.submenu) {
-                setCurrentCategory(category);
-                setSubmenuOpen(true);
-                dispatch(setHeaderSubmenu(submenuName));
-            }
+        if (category && category.submenu) {
+            setCurrentCategory(category);
+            setSubmenuOpen(true);
+            dispatch(setHeaderSubmenu(submenuName))
         }
+
     };
 
     const handleSubmenuItemClick = (linkName, sublinkName) => {
@@ -75,10 +78,10 @@ const HeaderSubmenu = ({ closeMenu }) => {
     const filteredSublinks = (sublinks) => {
         return sublinks.filter((sublink) => {
             if (selectedSexCategory === 'men') {
-                return !sublink.name.toLowerCase().includes('skirts') &&
+                return !sublink.name.toLowerCase().includes('skirt') &&
                     !sublink.name.toLowerCase().includes('clutch bags') &&
-                    !sublink.name.toLowerCase().includes('necklaces') &&
-                    !sublink.name.toLowerCase().includes('earrings');
+                    !sublink.name.toLowerCase().includes('necklace') &&
+                    !sublink.name.toLowerCase().includes('earring');
             } else if (selectedSexCategory === 'women') {
                 return !sublink.name.toLowerCase().includes('mocassins');
             }
@@ -114,11 +117,10 @@ const HeaderSubmenu = ({ closeMenu }) => {
                         </div>
                         <div className="bg-gray-300 h-[2px] mt-3 mb-3 w-[90%]"></div>
                         <div className="w-[90%] rounded-md flex justify-around bg-stone-300 ">
-                            <button onClick={() => handleSexChange("women")} className="border-gray-600 w-full mx-1 my-1 px-8 py-2 text-stone-700 hover:bg-gray-100 shadow-sm rounded-md flex items-center justify-center font-bold">Women</button>
-                            <button onClick={() => handleSexChange("men")} className="border-gray-600 w-full mx-1 my-1 rounded-md text-stone-700 hover:bg-gray-100 shadow-sm py-2 px-8 flex items-center justify-center font-bold">Men</button>
+                            <button onClick={() => handleSexChange("women")} className="w-full mx-1 my-1 px-8 py-2 text-stone-700 hover:bg-gray-100 shadow-sm rounded-md flex items-center justify-center font-bold">Women</button>
+                            <button onClick={() => handleSexChange("men")} className="w-full mx-1 my-1 px-8 py-2 text-stone-700 hover:bg-gray-100 shadow-sm rounded-md flex items-center justify-center font-bold">Men</button>
                         </div>
-                        <h2 className="w-[90%] my-4 px-3 text-lg ">All {`${selectedSexCategory}`}'s </h2>
-                        <h2 className="w-[90%] my-2 text-lg px-3 text-red-600">SALE</h2>
+                        <h2 className="w-[90%] py-4 px-3 text-lg font-bold uppercase">All {`${selectedSexCategory}`}'s Products </h2>
                     </div>
                 )
             }
@@ -147,26 +149,23 @@ const HeaderSubmenu = ({ closeMenu }) => {
                 links.map((link, linkIndex) => (
                     <div className="w-[90%] flex items-center mx-auto" key={linkIndex}>
                         <div className="w-full px-3 text-left md:cursor-pointer group flex" onMouseEnter={() => handleMouseEnter(linkIndex)} onMouseLeave={handleMouseLeave}>
-                            <div className="flex justify-between items-center w-full">
-                                <div className="py-4 md:py md:hover:text-black text-gray-700 font-light w-full text-sm md:text-base cursor-pointer duration-300 ease-out 0.3s">
-                                    {!isMobile ? (
-                                        <Link
+                            <div className="flex flex-1 justify-between items-center">
+                                <div className="py-4 md:py md:hover:text-black text-gray-700  font-light w-full flex items-center justify-between text-sm md:text-base cursor-pointer duration-300 ease-out 0.3s">
+                                        <div onClick={() => handleCategoryNavigation(link.name)}>
+                                            {link.name}
+                                        </div>
+                                        <div
                                             onClick={() => handleSubmenuChange(link.name)}
-                                            to={`${selectedSexCategory?.toLowerCase()}${link.dir}`}
+                                            className="w-full flex justify-end px-2"
                                         >
-                                            {link.name}
-                                        </Link>
-                                    ) : (
-                                        <h1 onClick={() => handleSubmenuChange(link.name)}>
-                                            {link.name}
-                                        </h1>
-                                    )}
+                                            {isMobile && link.submenu && (
+                                                <div className="h-10 w-1/3 justify-end items-center flex">
+                                                    <MdNavigateNext className="cursor-pointer text-2xl mb-[2px]" />
+                                                </div>
+                                            )}
+                                        </div>
                                 </div>
-                                {isMobile && link.submenu && (
-                                    <MdNavigateNext onClick={() => handleNextClick(linkIndex)} className="cursor-pointer text-2xl mb-[2px]" />
-                                )}
                             </div>
-
                             {link.submenu && hoveredLink === linkIndex && (
                                     <div className="absolute top-10 hidden group-hover:block hover:block">
                                         <div className="py-3">

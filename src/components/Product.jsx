@@ -6,6 +6,7 @@ import { addToCart } from "../redux/nextSlice";
 import { ToastContainer, toast } from "react-toastify";
 
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
+import Breadcrumbs from "./pageProps/Breadcrumbs";
 
 
 const Product = () => {
@@ -57,27 +58,14 @@ const Product = () => {
 
 
     return (
-        <div className="flex-col w-full mx-auto mt-10">
-            <div className="flex flex-wrap gap-2 justify-center items-center text-sm text-gray-600 ml-4">
-                <Link to="/" className="flex items-center">
-                    <h1 className="uppercase text-sm text-gray-600">Home page</h1>
-                </Link>
-                <div className="flex items-center" >
-                    <ArrowForwardIosOutlinedIcon className=" scale-75 text-gray-600" />
-                </div>
-                <Link to={`/${selectedSexCategory}/${selectedSubheaderMenu.toLowerCase()}`}>
-                    <h1 className="uppercase text-sm text-gray-600">{breadcrumbCategory}</h1>
-                </Link>
-                <div className="flex items-center" >
-                    <ArrowForwardIosOutlinedIcon className=" scale-75 text-gray-600" />
-                </div>
-                <h1 className="uppercase text-sm text-gray-600">{lastSegment}</h1>
+        <div className="w-full flex flex-col justify-center items-center mt-5">
+            <div className="w-full flex justify-center items-center mx-auto">
+                <Breadcrumbs />
             </div>
-
             {/* Product details */}
-            <div className="max-w-screen-xl mx-auto my-10 flex flex-col md:flex-row gap-10">
+            <div className="max-w-screen-xl mx-auto my-5 flex flex-col md:flex-row gap-10">
                 {/* Product img */}
-                <div className="w-full md:w-2/5 relative">
+                <div className="w-full hidden md:flex md:w-2/5 relative">
                     <img className="w-full h-[450px] md:h-[550px] object-cover" src={details?.image} alt="productImg" />
                     <div className="absolute top-4 right-0">
                         {details.isNew && (
@@ -90,11 +78,25 @@ const Product = () => {
                 {/* Product info */}
                 <div className="w-full md:w-3/5 ml-5 md:ml-0 flex flex-col justify-center gap-6 md:gap-12">
                     <div>
-                        <h2 className="text-4xl font-semibold">{details.title}</h2>
+                        <h2 className="text-xl md:text-4xl font-semibold">{details.title}</h2>
                         <div className="flex items-center gap-4 mt-3">
-                            <p className="line-through text-gray-500">${details.oldPrice}</p>
-                            <p className="font-semibold">${details.price}</p>
+
                         </div>
+                        {/* Product Image MOBILE */}
+                <div className="w-full flex md:hidden relative">
+                    <img className="w-auto h-80" src={details?.image} alt="productImg" />
+                    <div className="absolute top-0 left-20">
+                        {details.isNew && (
+                            <div className="absolute -top-0 right-0 bg-red-600 rounded-br-md rounded-tr-md text-white font-semibold px-6 py-1">
+                                <p>Sale</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+                <div className="w-full flex items-center gap-2 mt-2">
+                <p className="line-through text-gray-500">${details.oldPrice*baseQuantity}</p>
+                <p className="font-semibold">${details.price*baseQuantity}</p>
+                </div>
                     </div>
                     <div className="flex items-center gap-1 text-sm">
                         <div className="flex">

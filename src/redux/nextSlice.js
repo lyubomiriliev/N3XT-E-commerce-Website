@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   productData: [],
+  favoriteProductData: [],
   checkedBrands: [],
   checkedCategorys: [],
   userInfo: null,
@@ -9,6 +10,7 @@ const initialState = {
   sexCategory: "women",
   productCategory: "",
   headerSubmenu: "",
+  allProducts: [],
 };
 
 export const nextSlice = createSlice({
@@ -25,13 +27,30 @@ export const nextSlice = createSlice({
         state.productData.push(action.payload);
       }
     },
+    addToFavorites: (state, action) => {
+      const item = state.favoriteProductData.find(
+        (item) => item._id === action.payload._id);
+      if (item) {
+        item.quantity += action.payload.quantity;
+      } else {
+        state.favoriteProductData.push(action.payload)
+      }
+    },
     deleteItem: (state, action) => {
       state.productData = state.productData.filter(
         (item) => item._id !== action.payload
       );
     },
+    removeFavorite: (state, action) => {
+      state.favoriteProductData = state.favoriteProductData.filter(
+        (item) => item._id !== action.payload
+      );
+    },
     resetCart: (state) => {
       state.productData = [];
+    },
+    resetFavorites: (state) => {
+      state.favoriteProductData = [];
     },
     incrementQuantity: (state, action) => {
       const item = state.productData.find(
@@ -46,7 +65,7 @@ export const nextSlice = createSlice({
         (item) => item._id === action.payload._id
       );
       if (item.quantity === 1) {
-        item.quantity = 1;
+        state.productData = state.productData.filter((item) => item._id !== action.payload._id);
       } else {
         item.quantity--;
       }
@@ -101,13 +120,19 @@ export const nextSlice = createSlice({
     setHeaderSubmenu: (state, action) => {
       state.headerSubmenu = action.payload;
     },
+    setAllProducts: (state, action) => {
+      state.allProducts = action.payload;
+    }
   },
 });
 
 export const {
   addToCart,
+  addToFavorites,
   deleteItem,
+  removeFavorite,
   resetCart,
+  resetFavorites,
   incrementQuantity,
   decrementQuantity,
   addUser,
@@ -117,6 +142,7 @@ export const {
   setSexCategory,
   setProductCategory,
   setHeaderSubmenu,
+  setAllProducts,
   setError,
   clearError,
 } = nextSlice.actions;

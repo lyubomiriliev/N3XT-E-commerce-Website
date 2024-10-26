@@ -48,8 +48,8 @@ const Banner = () => {
 
     return (
         <div className=" w-full h-auto overflow-x-hidden">
-            <div className="w-screen h-[500px] md:h-[750px] relative ">
-                <div style={{ transform: `translateX(-${currentSlide * 100}vw)` }} className="w-[400vw] h-full flex transition-transform duration-700">
+            <div className="w-screen h-[500px] md:h-[760px] relative ">
+                <div style={{ transform: `translateX(-${currentSlide * 100}vw)` }} className="w-[4000vw] h-full flex transition-transform duration-700">
                     {banners.map((banner, index) => (
                         <img
                             key={index}

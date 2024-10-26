@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { nextLogo } from "../assets";
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -14,20 +14,19 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { HiOutlineUserCircle } from "react-icons/hi2";
 
 import useDeviceDetect from "../hooks/useDeviceDetect";
-import { headerIcons } from "../utils/constants";
 
 
 
 
 export default function Header() {
 
-    const {burgerOpen, burgerClose, user, cart, wishlish, search} = headerIcons;
-
     const productData = useSelector((state) => state.next.productData);
+    const favoriteProductData = useSelector((state) => state.next.favoriteProductData)
     const userInfo = useSelector((state) => state.next.userInfo);
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const location = useLocation()
 
     const [allProducts, setAllProducts] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
@@ -80,6 +79,8 @@ export default function Header() {
     }, [searchRef]);
 
 
+    const isLoginOrRegisterPage = location.pathname.includes("/login") || location.pathname.includes("/register");
+
     return (
 
         <div className='w-full h-28 md:h-40 bg-white border-b sticky top-0 z-50'>
@@ -105,8 +106,11 @@ export default function Header() {
                     {/* Mobile Right side - User/Fav/Shop */}
                     <div className="flex items-center justify-end gap-4 h-10 flex-1">
                         <Link to="/login">
-                            <div className="hover:text-black text-gray-700 decoration-[1px] flex md:hidden cursor-pointer duration-300 ease-out 0.3s">
-                            <HiOutlineUserCircle className="text-2xl" />
+                            <div className="hover:text-black text-gray-700 gap-1 decoration-[1px] flex md:hidden cursor-pointer duration-300 ease-out 0.3s">
+                                <HiOutlineUserCircle className="text-2xl" />
+                                {
+                                    userInfo && <p className="text-base font-semibold underline underline-offset-2">{userInfo.name}</p>
+                                }
                             </div>
                         </Link>
                         {userInfo === null ?
@@ -117,15 +121,16 @@ export default function Header() {
                             </Link>
                             :
                             <Link to="/wishlist">
-                                <div onClick={() => setShowBurgerMenu(false)} className=" hover:text-black text-gray-700 flex md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                                <div onClick={() => setShowBurgerMenu(false)} className=" hover:text-black text-gray-700 flex justify-center items-center md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                                     <FavoriteBorderOutlinedIcon />
+                                    <span className="text-xs">{favoriteProductData.length}</span>
                                 </div>
                             </Link>
                         }
                         <Link to="/cart">
-                            <div onClick={() => setShowBurgerMenu(false)} className=" hover:text-black text-gray-700 md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                            <div onClick={() => setShowBurgerMenu(false)} className=" hover:text-black text-gray-700 flex justify-center items-center md:hidden hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                                 <ShoppingBagOutlinedIcon />
-                                <span className="w-6 font-semibold top-2 left-0 items-center justify-center">{productData.length}</span>
+                                <span className="text-xs">{productData.length}</span>
                             </div>
                         </Link>
                     </div>
@@ -169,75 +174,55 @@ export default function Header() {
                     )}
                 </div>
 
-                <div ref={searchRef} className="relative w-full lg:w-[600px] h-[30px] text-base flex items-center gap-2 justify-between px-6 rounded-xl">
-                    <div className="w-full flex mt-3 md:mt-0 items-center">
-                    <FaSearch
-                        className="w-4 h-4 absolute left-10"
-                        />
-                    <input
-                        className="w-full pl-12 h-10 border-[1px] px-3 rounded-md"
-                        type="text"
-                        onChange={handleSearch}
-                        value={searchQuery}
-                        placeholder="Search products here..."
-                        />
+                {(!isMobile || (isMobile && !isLoginOrRegisterPage)) && (
+                    <div ref={searchRef} className="relative w-full lg:w-[600px] h-[30px] text-base flex items-center gap-2 justify-between px-6 rounded-xl">
+                        <div className="w-full flex mt-3 md:mt-0 items-center">
+                            <FaSearch className="w-4 h-4 absolute left-10" />
+                            <input className="w-full pl-12 h-10 border-[1px] px-3 rounded-md" type="text" onChange={handleSearch} value={searchQuery} placeholder="Search products here..." />
                         </div>
 
-                    {/* SEARCH BAR */}
-                    {searchQuery && (
-                        <div className={`w-full mx-auto h-96 bg-white top-12 rounded-md md:top-10 absolute left-0 z-999 overflow-y-scroll shadow-2xl scrollbar-hide cursor-pointer`}>
-                            {searchQuery && filteredProducts.map((product) => (
-                                <div onClick={() => navigate(`/product/${product.title
-                                    .toLowerCase()
-                                    .split(" ")
-                                    .join("")}`,
-                                    {
-                                        state:
-                                        {
-                                            product: product,
-                                        },
-                                    }
-                                ) &
-                                    setShowSearchBar(true) &
-                                    setSearchQuery("")
-                                }
-                                    key={product._id}
-                                    className="max-w-[600px] bg-gray-100 mb-1 flex items-center gap-3"
-                                >
-                                    <img className="w-32 h-full object-cover rounded-lg" src={product.image} alt="productImg" />
-                                    <div className="flex flex-col gap-2">
-                                        <p className="font-semibold text-lg">
-                                            {product.title}
-                                        </p>
-                                        <p className="text-xs">
-                                            {product.description.length > 100 ? `${product.description.slice(0, 100)}...` : product.description}
-                                        </p>
-                                        <p className="text-sm">
-                                            Price:{" "}
-                                            <span className="font-semibold">
-                                                ${product.price}
-                                            </span>
-                                        </p>
+                        {/* SEARCH BAR */}
+                        {searchQuery && (
+                            <div className={`w-full mx-auto h-96 bg-white top-12 rounded-md md:top-10 absolute left-0 z-999 overflow-y-scroll shadow-2xl scrollbar-hide cursor-pointer`}>
+                                {searchQuery && filteredProducts.map((product) => (
+                                    <div
+                                        onClick={() =>
+                                            navigate(`/product/${product.title.toLowerCase().split(" ").join("")}`, {
+                                                state: { product },
+                                            }) &
+                                            setShowSearchBar(true) &
+                                            setSearchQuery("")
+                                        }
+                                        key={product._id}
+                                        className="max-w-[600px] bg-gray-100 mb-1 flex items-center gap-3"
+                                    >
+                                        <img className="w-32 h-full object-cover rounded-lg" src={product.image} alt="productImg" />
+                                        <div className="flex flex-col gap-2">
+                                            <p className="font-semibold text-lg">{product.title}</p>
+                                            <p className="text-xs">{product.description.length > 100 ? `${product.description.slice(0, 100)}...` : product.description}</p>
+                                            <p className="text-sm">
+                                                Price: <span className="font-semibold">${product.price}</span>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 {/* DESKTOP USER/FAV/CART */}
                 <div className="w-full md:w-1/3 flex items-center justify-center md:justify-around">
-                        <div className="flex items-center gap-2">
-                            <Link to="/login">
-                            <div className="hover:text-black text-gray-700 hover:scale-110 hidden md:block decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
-                                <HiOutlineUserCircle className="text-2xl"/>
+                        <Link className="hidden md:flex" to="/login">
+                            <div className="flex w-full justify-center items-center">
+                                <div className="hover:text-black text-gray-700 hover:scale-110 hidden md:block decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                                    <HiOutlineUserCircle className="text-2xl"/>
+                                </div>
+                                {
+                                    userInfo && <p className="text-base font-semibold underline underline-offset-2">{userInfo.name}</p>
+                                }
                             </div>
-                            </Link>
-                            {
-                                userInfo && <p className="text-base font-semibold underline underline-offset-2">{userInfo.name}</p>
-                            }
-                        </div>
+                        </Link>
                     <div className="items-center hidden md:flex">
                         {userInfo === null ?
                             <Link to="/register">
@@ -247,16 +232,17 @@ export default function Header() {
                             </Link>
                             :
                             <Link to="/wishlist">
-                                <div className="hover:text-black text-gray-700 hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                                <div className="hover:text-black justify-center items-center hidden md:flex text-gray-700 hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                                     <FavoriteBorderOutlinedIcon />
+                                    <span className="text-xs">{favoriteProductData.length}</span>
                                 </div>
                             </Link>
                         }
                     </div>
                     <Link to="/cart">
-                        <div className=" hover:text-black text-gray-700 hover:scale-110 hidden md:flex decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                        <div className=" hover:text-black justify-center items-center text-gray-700 hover:scale-110 hidden md:flex decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                             <ShoppingBagOutlinedIcon />
-                            <span className="w-6 font-semibold top-2 left-0 items-center justify-center">{productData.length}</span>
+                            <span className="text-xs">{productData.length}</span>
                         </div>
                     </Link>
 

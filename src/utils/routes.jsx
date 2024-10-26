@@ -9,6 +9,7 @@ import ShopCategory from "../components/ShopCategory";
 import Sale from "../pages/Sale";
 import { links } from "../components/HeaderLinks";
 import Home from "../pages/Home";
+import Wishlist from "../pages/Wishlist";
 
 // Dynamic Submenu Routes
 export const generateSubmenuRoutes = (selectedSexCategory) => {
@@ -39,6 +40,7 @@ export const generateStaticRoutes = (selectedSexCategory) => [
     { path: "/product/:id", element: <Product /> },
     { path: `/${selectedSexCategory}/brands`, element: <Brands /> },
     { path: "/cart", element: <Cart /> },
+    { path: "/wishlist", element: <Wishlist /> },
     { path: "/login", element: <Login /> },
     { path: "/register", element: <Register /> },
     { path: `/${selectedSexCategory}/sale`, element: <Sale /> },

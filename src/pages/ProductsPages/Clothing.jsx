@@ -10,14 +10,13 @@ import ProductsCenter from "./ProductsCenter";
 import { useDispatch, useSelector } from "react-redux";
 import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
 import { allProductsData } from "../../api/Api";
-import { setProductCategory, setHeaderSubmenu } from "../../redux/nextSlice";
+import { setProductCategory, setHeaderSubmenu, setAllProducts } from "../../redux/nextSlice";
 import useDeviceDetect from "../../hooks/useDeviceDetect";
 import { FaSort } from "react-icons/fa";
 import { bagsSubmenus } from "./Submenus/bagsSubmenus";
 
 const Clothing = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [allProducts, setAllProducts] = useState([]);
   const [view, setView] = useState("grid");
   const [sortOption, setSortOption] = useState("high-to-low");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -92,7 +91,7 @@ const Clothing = () => {
   useEffect(() => {
     const fetchData = async () => {
       const products = await allProductsData();
-      setAllProducts(products);
+      dispatch(setAllProducts(products));
       filterProducts(products, selectedSexCategory, selectedSubheaderMenu, selectedProductCategory, checkedBrands);
     };
 
@@ -185,13 +184,13 @@ const Clothing = () => {
   };
 
   return (
-    <div className="max-w-screen-2xl flex flex-col items-center mx-auto mt-2">
+    <div className="w-full md:max-w-screen-xl flex flex-col items-center mx-auto pt-4">
       {/* Breadcrumbs*/}
-      <div className="w-full flex justify-center items-center pb-4 md:pb-0 px-4">
+      <div className="w-full flex justify-center items-center px-4">
         <Breadcrumbs selectedSubheaderMenu={selectedSubheaderMenu} resetSubmenu={resetSubmenu} />
       </div>
 
-      <div className="w-[90%] flex flex-col px-4 md:px-0 rounded-lg mt-5 md:flex-row">
+      <div className="w-full px-4 md:px-0 flex flex-col py-6 md:flex-row">
         <div className="w-full flex flex-col justify-start">
           <div className="w-full flex items-center mb-4">
             <h1 className="font-light text-lg md:text-3xl uppercase">
@@ -224,7 +223,9 @@ const Clothing = () => {
             </div>
           </div>
 
-          <div className="w-full flex gap-2 mb-2 items-center">
+
+          {/* Products View, Pagination and Sorting buttons */}
+          <div className="w-full hidden md:flex gap-2 mb-2 items-center">
             <ProductBanner onViewChange={setView} onItemsPerPageChange={handleItemsPerPageChange} onSortChange={handleSortChange} />
             <div className="relative h-full" ref={sortRef}>
               <button className="w-10 bg-transparent border-gray-300 border-[1px] hover:border-black duration-300 px-2 py-2 rounded-md flex items-center justify-center" onClick={toggleSortDropdown}>
@@ -244,11 +245,7 @@ const Clothing = () => {
               )}
             </div>
           </div>
-
-          <div>
             <ProductsCenter filteredProducts={displayedProducts} selectedCategory={selectedCategory} view={view} />
-          </div>
-
           {/* PAGINATION BUTTONS */}
           <div className="flex justify-center mt-4 mb-10">
             <button

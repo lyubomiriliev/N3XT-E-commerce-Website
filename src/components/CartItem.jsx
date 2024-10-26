@@ -1,40 +1,100 @@
 import { useDispatch, useSelector } from "react-redux"
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import { decrementQuantity, deleteItem, incrementQuantity, resetCart } from "../redux/nextSlice";
+import { addToFavorites, decrementQuantity, deleteItem, incrementQuantity, removeFavorite, resetCart } from "../redux/nextSlice";
 import { ToastContainer, toast } from "react-toastify";
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-const CartItem = (item) => {
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
+
+const CartItem = () => {
 
     const dispatch = useDispatch()
-
+    const [isFavorite, setIsFavorite] = useState(false);
     const selectedSexCategory = useSelector((state) => state.next.sexCategory)
+    const navigate = useNavigate()
 
+    const getInitialFavoriteState = (item) => {
+        const storedValue = localStorage.getItem(`favorite${item.id}`);
+        return storedValue ? JSON.parse(storedValue) : false;
+    }
+
+
+    const handleFavoriteItem = (item) => {
+        const updatedIsFavorite = !getInitialFavoriteState(item);
+        setIsFavorite(updatedIsFavorite);
+
+        localStorage.setItem(`favorite-${item._id}`, JSON.stringify(updatedIsFavorite));
+
+        if (updatedIsFavorite) {
+            dispatch(addToFavorites({
+                _id: item._id,
+                title: item.title,
+                image: item.image,
+                price: item.price,
+                quantity: 1,
+                description: item.description,
+            }));
+            toast.success(`${item.title} is added to favorites`, {
+                onClick: () => navigate("/wishlist")
+            });
+        } else {
+            dispatch(removeFavorite(item._id));
+            toast.error(`${item.title} is removed from favorites`);
+        }
+    };
 
     const productData = useSelector((state) => state.next.productData)
+
     return (
-        <div className="w-full md:w-full">
+        <div className="w-full justify-center items-center md:items-start flex flex-col px-4 md:px-0">
             <div className="">
                 <div className="w-full justify-center items-center mx-auto">
                     {productData.length > 0
                         ?
-                        <h2 className="text-2xl">Shopping Cart</h2>
+                        <h2 className="text-2xl uppercase">Shopping Cart ({productData.length}) </h2>
                         :
-                        <h1 className="text-2xl flex justify-center items-center text-black">Your cart is empty. Please go back to shopping and add products to the cart.</h1>}
+                        <div className="flex items-center justify-center flex-col">
+                        <h1 className="md:text-2xl text-lg text-center flex justify-center items-center text-black">Your cart is empty. Please go back to shopping and add products to the cart.</h1>
+                        <Link to={`/${selectedSexCategory}`}>
+                        <button className="mt-8 flex items-center gap-1 text-gray-400 hover:text-black duration-300 ">
+                            <span>
+                                <KeyboardBackspaceOutlinedIcon />
+                            </span>
+                                Back to shop
+                        </button>
+            </Link>
+                        </div>
+                        
+                        }
                 </div>
             </div>
             <div>
                 {productData.map((item) => (
-                    <div key={item._id} className="flex items-center justify-between gap-6 mt-6">
-                        <div className="flex items-center gap-2 relative">
-                            <CloseOutlinedIcon onClick={() => dispatch(deleteItem(item._id)) & toast.error(`${item.title} is removed`)} className="text-xl text-gray-600 hover:text-red-600 cursor-pointer duration-300 absolute top-0 right-0" />
-                            <img className="w-32 h-32 object-cover" src={item.image} alt="" />
+                    <div key={item._id} className="flex flex-col w-full justify-between py-4">
+                        <div className="flex items-center relative">
+                            <div onClick={() => navigate(`/product/${item.title.toLowerCase().split(" ").join("")}`)} className="border border-gray-100 rounded-md overflow-hidden">
+                                <img className="w-60 object-cover hover:scale-125 duration-300 ease-in-out" src={item.image} alt={item.title} />
+                            </div>
+                            <div className="w-full p-2 flex gap-2 flex-col">
+                                <h2 className="">{item.title}</h2>
+                                <p className="text-xs w-2/3 text-gray-600">{item.description.substring(0, 200)}...</p>
+                                <p className="text-xs w-2/3 text-gray-600">Size: M</p>
+                                <p className="text-xs w-2/3 text-gray-600">Color: Beige</p>
+                            </div>
+                            <div className="flex flex-col absolute right-2 bottom-2 ">
+                                <p>Price: ${item.price}</p>
+                            </div>
                         </div>
-                        <h2 className="w-52">{item.title}</h2>
-                        <div className="w-52 flex items-center justify-between text-gray-500 gap-4 border p-3">
-                            <p className="text-sm">Quantity</p>
-                            <div className="flex items-center gap-4 text-sm font-semibold">
+                        <div className="w-full md:w-2/3 mt-2 flex justify-between items-center">
+                        <div className="w-1/3 gap-2 rounded-md px-2 md:px-4 flex justify-center items-center">
+                            <span className="text-sm md:text-base">
+                                Quantity:
+                            </span>
+                            <div className="gap-1 flex justify-center items-center">
                                 <button onClick={() => dispatch(decrementQuantity({
                                     _id: item._id,
                                     title: item.title,
@@ -44,9 +104,9 @@ const CartItem = (item) => {
                                     description: item.description,
                                 })
                                 )
-                                } className="border h-5 font-normal text-lg flex items-center justify-center px-2 hover:bg-gray-700 hover:text-white cursor-pointer duration-300 active:bg-black">
+                                } className="flex items-center justify-center px-2 hover:bg-gray-200 rounded-md hover:text-black cursor-pointer duration-300 active:bg-black">
                                     -</button>
-                                <span>{item.quantity}</span>
+                                <span className="text-sm">{item.quantity}</span>
                                 <button onClick={() => dispatch(incrementQuantity({
                                     _id: item._id,
                                     title: item.title,
@@ -56,30 +116,46 @@ const CartItem = (item) => {
                                     description: item.description,
                                 })
                                 )
-                                } className="border h-5 font-normal text-lg flex items-center justify-center px-2 hover:bg-gray-700 hover:text-white cursor-pointer duration-300 active:bg-black">
+                                } className="flex items-center justify-center px-2 hover:bg-gray-200 rounded-md hover:text-black cursor-pointer duration-300 active:bg-black">
                                     +</button>
                             </div>
                         </div>
-                        <p className="w-14">${item.quantity * item.price}</p>
+                        <div 
+                            onClick={() => handleFavoriteItem(item)} 
+                            className="hover:bg-gray-100 rounded-md cursor-pointer px-2 md:px-4
+                             py-2 gap-1 flex justify-center items-center"
+                        >
+                            <button>
+                                {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                            </button>
+                            <span className="text-sm md:text-base">
+                                {isFavorite ? "Added to Favorites" : "Add to Favorites"}
+                            </span>
+                        </div>
+                        <div onClick={() => dispatch(deleteItem(item._id)) & toast.error(`${item.title} is removed`)}
+                            className="hover:bg-gray-100 rounded-md cursor-pointer px-2 md:px-4
+                             py-2 gap-1 flex justify-center items-center">
+                            <button className="text-sm">
+                                <CloseOutlinedIcon  />
+                            </button>
+                            <span className="text-sm md:text-base">
+                            Remove
+                            </span>
+                        </div>
+                        </div>
                     </div>
                 ))}
+                    <div>
+                        {productData.length > 2 ?
+                        <button
+                            onClick={() => dispatch(resetCart()) & toast.error("Your cart is empty!")}
+                            className="bg-red-500 text-white text-sm md:text-base px-4 rounded-md uppercase mt-2 py-2 hover:bg-red-800">Remove all
+                        </button>
+                        :
+                        null
+                        }
+                    </div>
             </div>
-            {productData.length > 0 ?
-                <button
-                    onClick={() => dispatch(resetCart()) & toast.error("Your cart is empty!")}
-                    className="bg-red-500 text-white mt-8 py-1 px-6 hover:bg-red-800">Empty cart
-                </button>
-                :
-                null
-            }
-            <Link to={`/${selectedSexCategory}`}>
-                <button className="mt-8 flex items-center gap-1 text-gray-400 hover:text-black duration-300 ">
-                    <span>
-                        <KeyboardBackspaceOutlinedIcon />
-                    </span>
-                    go shopping
-                </button>
-            </Link>
             <ToastContainer
                 position="top-left"
                 autoClose={2000}

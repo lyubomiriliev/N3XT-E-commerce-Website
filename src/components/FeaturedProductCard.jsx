@@ -23,7 +23,7 @@ const FeaturedProductCard = ({ product }) => {
 
     return (
         <div className="group relative">
-            <div onClick={handleDetails} className="w-full h-82 cursor-pointer overflow-hidden">
+            <div onClick={handleDetails} className="w-full h-82 cursor-pointer border-[1px] border-gray-300 rounded-md  overflow-hidden">
                 <img className="w-64 h-80 object-cover group-hover:scale-110 duration-500" src={product.image} alt="productImage" />
             </div>
             <div className="w-full border-[1px] px-2 py-4">
