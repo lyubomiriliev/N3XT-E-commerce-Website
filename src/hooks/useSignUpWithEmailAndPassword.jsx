@@ -1,10 +1,15 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { addUser, setError } from "../redux/nextSlice";
 import { auth, firestore } from "../firebase.config";
+import { useDispatch } from "react-redux";
 
 const useSignUpWithEmailAndPassword = () => {
-  const signUp = (email, password, userDetails) => async (dispatch) => {
+
+const dispatch = useDispatch()
+const auth = getAuth();
+
+  const signUp = async (email, password, userDetails) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -13,15 +18,15 @@ const useSignUpWithEmailAndPassword = () => {
       );
       const user = userCredential.user;
 
-      const userDoc = {
+      const userData = {
         uid: user.uid,
         email: user.email,                      
         ...userDetails,
       };
-
-      await setDoc(doc(firestore, "users", user.uid), userDoc);
-      dispatch(addUser(userDoc));
-      localStorage.setItem("user-info", JSON.stringify(userDoc));
+      
+      await setDoc(doc(firestore, "users", user.uid), userData);
+      dispatch(addUser(userData));
+      localStorage.setItem("user-info", JSON.stringify(userData));
     } catch (error) {
       console.log(error.message);
       dispatch(setError(error.message));

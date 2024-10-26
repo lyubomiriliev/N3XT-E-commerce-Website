@@ -14,6 +14,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { HiOutlineUserCircle } from "react-icons/hi2";
 
 import useDeviceDetect from "../hooks/useDeviceDetect";
+import useFirebaseAuth from "../hooks/useFirebaseAuth";
 
 
 
@@ -33,6 +34,8 @@ export default function Header() {
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [showBurgerMenu, setShowBurgerMenu] = useState(false);
     const [filteredProducts, setFilteredProducts] = useState([]);
+
+    const {handleSignOut} = useFirebaseAuth();
 
     const searchRef = useRef();
     const isMobile = useDeviceDetect();
@@ -214,13 +217,14 @@ export default function Header() {
                 {/* DESKTOP USER/FAV/CART */}
                 <div className="w-full md:w-1/3 flex items-center justify-center md:justify-around">
                         <Link className="hidden md:flex" to="/login">
-                            <div className="flex w-full justify-center items-center">
+                            <div className="flex w-full justify-center gap-1 items-center">
                                 <div className="hover:text-black text-gray-700 hover:scale-110 hidden md:block decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
                                     <HiOutlineUserCircle className="text-2xl"/>
                                 </div>
                                 {
-                                    userInfo && <p className="text-base font-semibold underline underline-offset-2">{userInfo.name}</p>
+                                    userInfo && <p className="text-base font-semibold underline underline-offset-2">{userInfo.name || userInfo.email}</p>
                                 }
+                                <button onClick={handleSignOut} className="bg-black text-white text-base py-2 px-4 rounded-md hover:bg-gray-800 duration-300">Sign Out</button>
                             </div>
                         </Link>
                     <div className="items-center hidden md:flex">

@@ -7,6 +7,7 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useSignUpWithEmailAndPassword from "../hooks/useSignUpWithEmailAndPassword";
+import { addUser } from "../redux/nextSlice";
 
 
 
@@ -29,6 +30,15 @@ const Register = () => {
     const error = useSelector((state) => state.next.error)
 
     const { signUp } = useSignUpWithEmailAndPassword();
+
+    // useEffect(() => {
+    //     const storedUser = JSON.parse(localStorage.getItem("user-info"))
+    //         if(storedUser) {
+    //             dispatch(addUser(storedUser));
+    //         } else {
+    //             navigate(`/${selectedSexCategory}`);
+    //         }
+    // },[dispatch, navigate])
 
     const [isRendered, setIsRendered] = useState(false);
 
@@ -63,10 +73,17 @@ const Register = () => {
         setIsSubscribed(!isSubscribed);
     }
 
-    const handleSignUp = () => {
+    const handleSignUp = async () => {
         const userDetails = { isSubscribed };
-        dispatch(signUp(email, password, userDetails))
-        navigate(`/${selectedSexCategory}`)
+        
+        await signUp(email, password, userDetails)
+
+        const storedUser = JSON.parse(localStorage.getItem("user-info"));
+        if (storedUser) {
+            navigate(`/${selectedSexCategory}`)
+        } else {
+            console.error("User registration failed")
+        }
     };
 
 
