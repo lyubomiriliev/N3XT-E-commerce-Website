@@ -8,11 +8,10 @@ import { addUser } from "../redux/nextSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const useLogin = () => {
-
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const selectedSexCategory = useSelector((state) => state.next.sexCategory)
+  const selectedSexCategory = useSelector((state) => state.next.sexCategory);
 
   const handleFirebaseErrors = (error) => {
     const errorCode = error.code;
@@ -49,7 +48,11 @@ const useLogin = () => {
       );
 
       if (userCredentials) {
-        const docRef = doc(firestore, "users", userCredentials.user.uid || userCredentials.user._id);
+        const docRef = doc(
+          firestore,
+          "users",
+          userCredentials.user.uid || userCredentials.user._id
+        );
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
@@ -63,7 +66,7 @@ const useLogin = () => {
       }
     } catch (error) {
       console.error("Error logging in:", error);
-      handleFirebaseErrors(error)
+      handleFirebaseErrors(error);
     }
   };
 
