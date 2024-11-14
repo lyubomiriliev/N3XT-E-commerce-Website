@@ -4,6 +4,7 @@ import CartItem from "../components/CartItem";
 import { ToastContainer, toast } from "react-toastify";
 import StripeCheckout from "react-stripe-checkout";
 import { nextLogoWhite } from "../assets";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const productData = useSelector((state) => state.next.productData);
@@ -73,12 +74,14 @@ const Cart = () => {
                 Total <span className="text-xl font-bold">${totalAmount}</span>
               </p>
             </div>
+            <Link to={userInfo == null ? "/register" : null}>
             <button
               onClick={handleCheckout}
               className="text-base bg-black rounded-md text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300"
-            >
+              >
               Checkout
             </button>
+              </Link>
             {payNow && (
               <div className="w-full mt-6 flex items-center justify-center">
                 <StripeCheckout
