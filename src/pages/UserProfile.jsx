@@ -1,69 +1,65 @@
-import React, { useState } from 'react'
-import LogoutIcon from '@mui/icons-material/Logout';
-import useFirebaseAuth from '../hooks/useFirebaseAuth';
-import { useSelector } from 'react-redux';
-import AccountDetails from '../components/AccountDetails';
-import Orders from '../components/Orders';
-import DeliveryAddress from '../components/DeliveryAddress';
-import Refer from '../components/Refer';
+import React, { useState } from "react";
+import { User, ShoppingBag, MapPin, Users } from "lucide-react";
+import AccountDetails from "../components/AccountDetails";
+import Orders from "../components/Orders";
+import Address from "../components/Address";
+import Refer from "../components/Refer";
 
 const UserProfile = () => {
+  const [activeTab, setActiveTab] = useState("profile");
 
-  const { handleSignOut } = useFirebaseAuth();
-  const userInfo = useSelector((state) => state.next.userInfo);
-  const [selectedMenu, setSelectedMenu] = useState("account");
+  const tabs = [
+    { id: "profile", label: "My Profile", icon: User },
+    { id: "orders", label: "My Orders", icon: ShoppingBag },
+    { id: "address", label: "Delivery Address", icon: MapPin },
+    { id: "refer", label: "Refer a Friend", icon: Users },
+  ];
 
-  const handleSelectMenu = (menu) => {
-    setSelectedMenu(menu);
-  };
-
-  const userMenu = ["My account", "My orders", "Delivery address", "Refer a friend"];
-
-  const renderSelectedComponent = () => {
-    switch (selectedMenu) {
-      case "My account":
+  const renderContent = () => {
+    switch (activeTab) {
+      case "profile":
         return <AccountDetails />;
-      case "My orders":
+
+      case "orders":
         return <Orders />;
-      case "Delivery address":
-        return <DeliveryAddress />;
-      case "Refer a friend":
+
+      case "address":
+        return <Address />;
+
+      case "refer":
         return <Refer />;
-      default:
-        return null;
     }
   };
 
   return (
-    <div>
-      <div className="w-full h-screen flex flex-col max-w-screen-xl mx-auto justify-start py-8 px-4 md:px-0 items-center mt-28 md:mt-36">
-        <div className='flex w-full justify-between items-center'>
-          <div className='flex-1 text-center'>
-            <h1 className='text-xl font-semibold py-4'>Welcome, {userInfo.email}</h1>
-          </div>
-          <button onClick={handleSignOut} className="text-gray-700 text-base">
-            <LogoutIcon />
-          </button>
-        </div>
-        <div className='flex justify-start items-start w-full bg-gray-200 rounded-xl overflow-hidden mt-6'>
-          <div className='bg-gray-300 h-96 flex flex-col text-left justify-start py-8 items-start px-4 space-y-4 w-44'>
-            {userMenu.map((menu, index) => (
-              <div
-                onClick={() => handleSelectMenu(menu)}
-                className={`flex flex-col cursor-pointer ${selectedMenu === menu ? 'font-semibold' : 'font-light'}`}
-                key={index}
+    <div className="w-full justify-center items-center mt-28 lg:mt-36">
+      <div className="max-w-screen-xl flex flex-col mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold mb-6">Account Settings</h1>
+
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div className="flex border-b">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex-1 px-4 py-4 flex items-center justify-center space-x-2 text-sm font-medium transition-colors
+                  ${
+                    activeTab === tab.id
+                      ? "text-indigo-600 border-b-2 border-indigo-600 bg-indigo-50"
+                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
+                  }`}
               >
-                <p className='text-black'>{menu}</p>
-              </div>
+                <tab.icon className="w-5 h-5" />
+                <span className="hidden lg:flex">{tab.label}</span>
+              </button>
             ))}
           </div>
-          <div className="flex-1 p-6">
-            {renderSelectedComponent()}
-          </div>
+
+          <div className="p-6">{renderContent()}</div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default UserProfile;
