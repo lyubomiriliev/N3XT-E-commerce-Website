@@ -12,13 +12,6 @@ const HeaderSubmenu = ({ closeMenu }) => {
   const navigate = useNavigate();
 
   const selectedSexCategory = useSelector((state) => state.next.sexCategory);
-  const selectedSubheaderMenu = useSelector(
-    (state) => state.next.headerSubmenu
-  );
-  const selectedProductCategory = useSelector(
-    (state) => state.next.productCategory
-  );
-
   const dispatch = useDispatch();
   const isMobile = useDeviceDetect();
 
@@ -170,7 +163,7 @@ const HeaderSubmenu = ({ closeMenu }) => {
                     <Link
                       to={`${selectedSexCategory}/${currentCategory.name.toLowerCase()}/${sublink.name.toLowerCase()}`}
                       onClick={closeMenu}
-                      className="md:hover:text-yellow-600 px-2"
+                      className="md:hover:text-indigo-600 px-2"
                     >
                       {sublink.name}
                     </Link>
@@ -189,7 +182,10 @@ const HeaderSubmenu = ({ closeMenu }) => {
               >
                 <div className="flex flex-1 justify-between items-center">
                   <div className="py-4 md:py md:hover:text-black text-gray-700  font-light w-full flex items-center justify-between text-sm md:text-base cursor-pointer duration-300 ease-out 0.3s">
-                    <div onClick={() => handleCategoryNavigation(link.name)}>
+                    <div
+                      className="text-gray-600 hover:text-indigo-600"
+                      onClick={() => handleCategoryNavigation(link.name)}
+                    >
                       {link.name}
                     </div>
                     <div
@@ -216,7 +212,7 @@ const HeaderSubmenu = ({ closeMenu }) => {
                             <h1 className="text-sm text-gray-600 my-3 flex-1">
                               <Link
                                 to={`${selectedSexCategory}/${link.name.toLowerCase()}/${sublink.name.toLowerCase()}`}
-                                className="hover:text-yellow-600 px-2"
+                                className="hover:text-indigo-600 px-2"
                                 onClick={() =>
                                   handleSubmenuItemClick(
                                     link.name,
