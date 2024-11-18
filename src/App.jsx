@@ -72,6 +72,15 @@ function App() {
         draggable
         pauseOnHover
         theme="dark"
+        toastStyle={{
+          backgroundColor: "#333333",
+          color: "#ffffff",
+          borderRadius: "16px",
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        }}
+        progressStyle={{
+          backgroundColor: "#6366f1", // Indigo color
+        }}
       />
     </div>
   );

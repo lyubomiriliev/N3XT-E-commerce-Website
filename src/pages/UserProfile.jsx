@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { User, ShoppingBag, MapPin, Users } from "lucide-react";
+import LogoutIcon from "@mui/icons-material/Logout";
 import AccountDetails from "../components/AccountDetails";
 import Orders from "../components/Orders";
 import Address from "../components/Address";
 import Refer from "../components/Refer";
+import useFirebaseAuth from "../hooks/useFirebaseAuth";
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("profile");
 
+  const { handleSignOut } = useFirebaseAuth();
   const tabs = [
     { id: "profile", label: "My Profile", icon: User },
     { id: "orders", label: "My Orders", icon: ShoppingBag },
@@ -34,8 +37,12 @@ const UserProfile = () => {
   return (
     <div className="w-full justify-center items-center mt-28 lg:mt-36">
       <div className="max-w-screen-xl flex flex-col mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-6">Account Settings</h1>
-
+        <div className="flex justify-between py-2 items-center">
+          <h1 className="text-2xl font-bold">Account Settings</h1>
+          <button onClick={handleSignOut} className="text-gray-700 text-base">
+            Log Out <LogoutIcon />
+          </button>
+        </div>
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           <div className="flex border-b">
             {tabs.map((tab) => (

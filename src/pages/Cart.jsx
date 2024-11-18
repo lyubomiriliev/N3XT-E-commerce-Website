@@ -4,11 +4,13 @@ import CartItem from "../components/CartItem";
 import { toast } from "react-toastify";
 import StripeCheckout from "react-stripe-checkout";
 import { nextLogoWhite } from "../assets";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Cart = () => {
   const productData = useSelector((state) => state.next.productData);
   const userInfo = useSelector((state) => state.next.userInfo);
+  const navigate = useNavigate();
 
   const [totalAmount, setTotalAmount] = useState("");
   const [payNow, setPayNow] = useState(false);
@@ -27,6 +29,26 @@ const Cart = () => {
       setPayNow(true);
     } else {
       toast.error("Please sign in to Checkout");
+    }
+  };
+
+  const payment = async (token) => {
+    try {
+      const response = await axios.post("http://localhost:8000/pay", {
+        amount: totalAmount * 100,
+        token: token,
+      });
+
+      // Check if the payment was successful
+      if (response.status === 200 && response.data.success) {
+        toast.success("Payment successful!");
+        navigate("/order-completed"); // Redirect on success
+      } else {
+        toast.error("Payment failed. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred during payment. Please try again.");
     }
   };
 
@@ -88,9 +110,9 @@ const Cart = () => {
                   stripeKey="pk_test_51OmBj8GcPfJpi1e0eCSHHyxM3rjygJLC7LmM6X2dlJj2D1o1aYeRutuTSno97SkDTvvExzInPTkoHhIrSGxtVqqH00esPuLY5a"
                   name="Next E-Commerce"
                   amount={totalAmount * 100}
-                  label="Next Apparel Clothing"
+                  label="Confirm your payment"
                   description={`Your payment amount is $${totalAmount}`}
-                  // token={payment}
+                  token={payment}
                   email={userInfo.email}
                 />
               </div>

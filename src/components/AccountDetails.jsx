@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Edit2 } from "lucide-react";
 import { useSelector } from "react-redux";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { useNavigate } from "react-router-dom";
 
 const AccountDetails = () => {
   const userInfo = useSelector((state) => state.next.userInfo);
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [accountData, setAccountData] = useState({
-    phone: "+1 (555) 123-4567",
+    phone: "+359 888 12-45-67",
     firstName: "Lyubomir",
     lastName: "Iliev",
     birthday: "April 15, 1990",
@@ -19,7 +21,6 @@ const AccountDetails = () => {
     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
   );
 
-  // Load data from localStorage if available
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem("accountData"));
     if (savedData) {
@@ -32,7 +33,6 @@ const AccountDetails = () => {
     }
   }, []);
 
-  // Save to localStorage whenever accountData changes
   useEffect(() => {
     localStorage.setItem("accountData", JSON.stringify(accountData));
   }, [accountData]);
@@ -50,7 +50,23 @@ const AccountDetails = () => {
     setDisplayName(`${accountData.firstName} ${accountData.lastName}`);
   };
 
-  // Handle profile picture change
+  useEffect(() => {
+    if (!userInfo) {
+      // Redirect to home or login if user is not logged in
+      navigate("/");
+    }
+  }, [userInfo, navigate]);
+
+  if (!userInfo) {
+    return (
+      <div className="text-center p-6">
+        <h2 className="text-xl font-bold">
+          Please log in to view your account details.
+        </h2>
+      </div>
+    );
+  }
+
   const handleProfilePictureChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -63,7 +79,6 @@ const AccountDetails = () => {
     }
   };
 
-  // Trigger file input click
   const handleProfilePictureClick = () => {
     document.getElementById("profilePictureInput").click();
   };
@@ -94,7 +109,7 @@ const AccountDetails = () => {
         </div>
         <div>
           <h3 className="text-xl font-semibold">{displayName}</h3>
-          <p className="text-gray-600">{userInfo.email}</p>
+          <p className="text-gray-600">{userInfo?.email}</p>
           <button
             onClick={isEditing ? handleSave : handleEditToggle}
             className="mt-2 text-indigo-600 flex items-center text-sm hover:text-indigo-800"
@@ -111,12 +126,14 @@ const AccountDetails = () => {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-white p-4 rounded-lg shadow-sm">
+        <div className="flex flex-col p-4 rounded-lg shadow-sm">
           <h4 className="font-medium mb-2">Account Details</h4>
           <div className="space-y-2 text-sm">
-            <p className="flex justify-between">
-              <span className="text-gray-600">Member Since</span> March 2023
-            </p>
+            <div>
+              <p className="flex w-[69%] lg:w-[82%] justify-between">
+                <span className="text-gray-600">Member Since</span> March 2023
+              </p>
+            </div>
             <p className="flex justify-between">
               <span className="text-gray-600">Phone</span>
               <input
@@ -165,28 +182,6 @@ const AccountDetails = () => {
                 } focus:outline-none bg-transparent`}
               />
             </p>
-          </div>
-        </div>
-
-        <div className="bg-white p-4 rounded-lg shadow-sm">
-          <h4 className="font-medium mb-2">Preferences</h4>
-          <div className="space-y-2">
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                className="rounded text-indigo-600"
-                checked={userInfo.isSubscribed === true}
-              />
-              <span className="text-sm">Email notifications</span>
-            </label>
-            <label className="flex items-center space-x-2">
-              <input type="checkbox" className="rounded text-indigo-600" />
-              <span className="text-sm">SMS notifications</span>
-            </label>
-            <label className="flex items-center space-x-2">
-              <input type="checkbox" className="rounded text-indigo-600" />
-              <span className="text-sm">Marketing communications</span>
-            </label>
           </div>
         </div>
       </div>

@@ -1,21 +1,41 @@
 import { Gift } from "lucide-react";
-import React from "react";
+import React, { useRef } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const Refer = () => {
   const userInfo = useSelector((state) => state.next.userInfo);
-
-  const referralLink = `https://nextshop.vercel.app/referral/${userInfo.uid}`;
+  const inputRef = useRef();
+  const referralLink = `https://nxt.shop.app/${userInfo.uid}`;
 
   const handleCopy = () => {
-    navigator.clipboard
-      .writeText(referralLink)
-      .then(() => {
-        alert("Referral link copied to clipboard!");
-      })
-      .catch(() => {
-        alert("Failed to copy the referral link.");
-      });
+    // Try navigator.clipboard.writeText first
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText(referralLink)
+        .then(() => {
+          toast("Referral link copied to clipboard!");
+        })
+        .catch(() => {
+          fallbackCopy();
+        });
+    } else {
+      fallbackCopy();
+    }
+  };
+
+  const fallbackCopy = () => {
+    // Fallback method using input selection
+    if (inputRef.current) {
+      inputRef.current.select();
+      inputRef.current.setSelectionRange(0, 99999);
+      try {
+        document.execCommand("copy");
+        toast.success("Referral link copied to clipboard!");
+      } catch (err) {
+        toast.error("Failed to copy the referral link.");
+      }
+    }
   };
 
   return (
@@ -41,6 +61,7 @@ const Refer = () => {
             type="text"
             value={referralLink}
             readOnly
+            ref={inputRef}
             className="flex-1 px-4 py-2 border rounded-lg bg-gray-50"
           />
           <button
