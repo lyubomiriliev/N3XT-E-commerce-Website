@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { setHeaderSubmenu, setProductCategory } from "../redux/nextSlice";
 import { MdNavigateNext } from "react-icons/md";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 import useDeviceDetect from "../hooks/useDeviceDetect";
 import { setSexCategory } from "../redux/nextSlice";
@@ -138,10 +139,17 @@ const HeaderSubmenu = ({ closeMenu }) => {
         {currentCategory ? (
           <div className="w-[90%] mt-4 flex flex-col">
             <div
-              className="text-left pl-4 md:cursor-pointer group flex"
+              className="text-left pl-4 md:cursor-pointer group flex flex-col justify-start items-start"
               onMouseEnter={() => handleMouseEnter(null)}
               onMouseLeave={handleMouseLeave}
             >
+              <button
+                onClick={handleBackClick}
+                className="scale-75 p-2 lg:hidden flex items-center justify-center"
+              >
+                <ArrowBackIosIcon />
+              </button>
+
               <h1 className="py-2 md:hover:scale-110 font-bold mb-2 md:mb-1 md:bg-white w-full text-sm md:text-lg cursor-pointer duration-300 ease-out 0.3s">
                 <Link to={`${selectedSexCategory}/${currentCategory.name}`}>
                   <span
@@ -159,15 +167,15 @@ const HeaderSubmenu = ({ closeMenu }) => {
                   key={sublinkIndex}
                   className="px-2 text-left md:cursor-pointer group flex"
                 >
-                  <h1 className="py-4 md:hover:scale-110 font-bold mb-4 md:mb-1 md:bg-white w-full text-sm md:text-lg cursor-pointer duration-300 ease-out 0.3s">
-                    <Link
-                      to={`${selectedSexCategory}/${currentCategory.name.toLowerCase()}/${sublink.name.toLowerCase()}`}
-                      onClick={closeMenu}
-                      className="md:hover:text-indigo-600 px-2"
-                    >
+                  <Link
+                    to={`${selectedSexCategory}/${currentCategory.name.toLowerCase()}/${sublink.name.toLowerCase()}`}
+                    onClick={closeMenu}
+                    className="hover:text-indigo-600 w-full px2"
+                  >
+                    <h1 className="py-4 md:hover:scale-110 font-bold mb-4 md:mb-1 md:bg-white px-2 w-full text-sm md:text-lg cursor-pointer duration-300 ease-out 0.3s">
                       {sublink.name}
-                    </Link>
-                  </h1>
+                    </h1>
+                  </Link>
                 </div>
               )
             )}
