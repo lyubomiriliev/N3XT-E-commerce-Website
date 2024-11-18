@@ -157,14 +157,22 @@ export default function Header() {
               <ul className="w-full flex items-center">
                 <li
                   onClick={() => handleSexChange("women")}
-                  className={`text-black font-bold hover:text-indigo-600 duration-300 px-6 py-2 cursor-pointer`}
+                  className={`text-black font-bold hover:text-indigo-600 ${
+                    selectedSexCategory === "women"
+                      ? "text-indigo-600"
+                      : "text-black"
+                  } duration-300 px-6 py-2 cursor-pointer`}
                 >
                   Women
                 </li>
                 <div className="w-[2px] h-6 bg-black"></div>
                 <li
                   onClick={() => handleSexChange("men")}
-                  className={`text-black font-bold px-6 py-2 hover:text-indigo-600 duration-300 cursor-pointer`}
+                  className={`text-black font-bold px-6 py-2 hover:text-indigo-600 ${
+                    selectedSexCategory === "men"
+                      ? "text-indigo-600"
+                      : "text-black"
+                  } duration-300 cursor-pointer`}
                 >
                   Men
                 </li>
@@ -172,8 +180,8 @@ export default function Header() {
               <div
                 className={`absolute bottom-0 left-0 h-[2px] w-[20%] bg-black transition-transform duration-300 ease-in-out ${
                   selectedSexCategory === "women"
-                    ? "translate-x-9"
-                    : "translate-x-[350%]"
+                    ? "translate-x-9 bg-indigo-600"
+                    : "translate-x-[350%] bg-indigo-600"
                 }`}
               />
             </div>
@@ -286,7 +294,7 @@ export default function Header() {
           <Link to="/cart">
             <div className="hover:text-indigo-600 justify-center items-center hover:scale-110 hidden md:flex decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
               <ShoppingBagOutlinedIcon />
-              <div className="bg-gray-700 flex justify-center items-center p-3 rounded-full">
+              <div className="bg-indigo-600 flex justify-center items-center p-3 rounded-full">
                 <span className="text-sm absolute text-white ">
                   {productData.length}
                 </span>

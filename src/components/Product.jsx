@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, addToFavorites, setAllProducts } from "../redux/nextSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { addToCart } from "../redux/nextSlice";
+import { toast } from "react-toastify";
 import Breadcrumbs from "./pageProps/Breadcrumbs";
 import useFavorite from "../hooks/useFavorite";
 
@@ -73,7 +73,9 @@ const Product = (view) => {
           description: details.description,
         })
       );
-      toast.success(`${details.title} is added to the cart.`);
+      toast.success(`${details.title} is added to the cart.`, {
+        onClick: () => navigate("/cart"),
+      });
     }
   };
 
@@ -219,18 +221,6 @@ const Product = (view) => {
           </div>
         </div>
       </div>
-      <ToastContainer
-        position="top-left"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        onClick={() => navigate("/cart")}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </div>
   );
 };

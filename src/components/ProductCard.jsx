@@ -3,10 +3,9 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import { addToCart, removeFavorite } from "../redux/nextSlice";
-import { addToFavorites } from "../redux/nextSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { addToCart } from "../redux/nextSlice";
+import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import useFavorite from "../hooks/useFavorite";
 
@@ -100,7 +99,7 @@ const ProductCard = ({ product, view }) => {
               <p className="font-semibold">${product.price}</p>
             </div>
             <div
-              onClick={() =>
+              onClick={() => {
                 dispatch(
                   addToCart({
                     _id: product._id,
@@ -115,11 +114,11 @@ const ProductCard = ({ product, view }) => {
                     quantity: 1,
                     description: product.description,
                   })
-                ) &
-                toast.success(`${product.title} is added to the cart`, {
+                );
+                toast.success(`${product.title} is added to the cart.`, {
                   onClick: () => navigate("/cart"),
-                })
-              }
+                });
+              }}
               className={`${
                 view === "list"
                   ? "w-1/3 mt-2 justify-between text-gray-500 flex"
@@ -177,19 +176,6 @@ const ProductCard = ({ product, view }) => {
           </div>
         )}
       </div>
-
-      <ToastContainer
-        position="top-left"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </div>
   );
 };

@@ -8,7 +8,7 @@ import {
   removeFavorite,
   resetCart,
 } from "../redux/nextSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import KeyboardBackspaceOutlinedIcon from "@mui/icons-material/KeyboardBackspaceOutlined";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -219,17 +219,6 @@ const CartItem = () => {
           ) : null}
         </div>
       </div>
-      <ToastContainer
-        position="top-left"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </div>
   );
 };

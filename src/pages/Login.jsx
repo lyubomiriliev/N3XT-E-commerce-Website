@@ -1,5 +1,3 @@
-import { ToastContainer } from "react-toastify";
-
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useLogin from "../hooks/useLogin";
@@ -165,19 +163,6 @@ const Login = () => {
           </form>
         </div>
       </div>
-
-      <ToastContainer
-        position="top-left"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </div>
   );
 };

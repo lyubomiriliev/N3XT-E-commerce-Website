@@ -9,46 +9,50 @@ const useFavorite = (product) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Initialize favorite state from localStorage
   useEffect(() => {
     if (product && product._id) {
-        const storedFavoriteStatus = localStorage.getItem(`favorite-${product._id}`);
-        if (storedFavoriteStatus) {
-          setIsFavorite(JSON.parse(storedFavoriteStatus));
-        }
+      const storedFavoriteStatus = localStorage.getItem(
+        `favorite-${product._id}`
+      );
+      if (storedFavoriteStatus) {
+        setIsFavorite(JSON.parse(storedFavoriteStatus));
       }
-    }, [product]);
+    }
+  }, [product]);
 
-  // Handle the toggle of the favorite state
   const handleFavoriteItem = () => {
     if (!product) return;
-    
+
     const updatedIsFavorite = !isFavorite;
     setIsFavorite(updatedIsFavorite);
 
-    // Save the state to localStorage
-    localStorage.setItem(`favorite-${product._id}`, JSON.stringify(updatedIsFavorite));
+    localStorage.setItem(
+      `favorite-${product._id}`,
+      JSON.stringify(updatedIsFavorite)
+    );
 
     if (updatedIsFavorite) {
-      dispatch(addToFavorites({
-        _id: product._id,
-        title: product.title,
-        isNew: product.isNew,
-        brand: product.brand,
-        itemCategory: product.itemCategory,
-        type: product.type,
-        image: product.image,
-        price: product.price,
-        oldPrice: product.oldPrice,
-        quantity: 1,
-        description: product.description,
-      }));
+      dispatch(
+        addToFavorites({
+          _id: product._id,
+          title: product.title,
+          isNew: product.isNew,
+          brand: product.brand,
+          itemCategory: product.itemCategory,
+          type: product.type,
+          image: product.image,
+          price: product.price,
+          oldPrice: product.oldPrice,
+          quantity: 1,
+          description: product.description,
+        })
+      );
       toast.success(`${product.title} is added to favorites`, {
         onClick: () => navigate("/wishlist"),
       });
     } else {
       dispatch(removeFavorite(product._id));
-      toast.error(`${product.title} is removed from favorites`);
+      toast.error(`${product.title} is removed from favorites`, {});
     }
   };
 

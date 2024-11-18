@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CartItem from "../components/CartItem";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import StripeCheckout from "react-stripe-checkout";
 import { nextLogoWhite } from "../assets";
 import { Link } from "react-router-dom";
@@ -75,13 +75,13 @@ const Cart = () => {
               </p>
             </div>
             <Link to={userInfo == null ? "/register" : null}>
-            <button
-              onClick={handleCheckout}
-              className="text-base bg-black rounded-md text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300"
+              <button
+                onClick={handleCheckout}
+                className="text-base bg-black rounded-md text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300"
               >
-              Checkout
-            </button>
-              </Link>
+                Checkout
+              </button>
+            </Link>
             {payNow && (
               <div className="w-full mt-6 flex items-center justify-center">
                 <StripeCheckout
@@ -98,18 +98,6 @@ const Cart = () => {
           </div>
         ) : null}
       </div>
-      <ToastContainer
-        position="top-left"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </div>
   );
 };

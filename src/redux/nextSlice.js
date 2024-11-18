@@ -29,11 +29,12 @@ export const nextSlice = createSlice({
     },
     addToFavorites: (state, action) => {
       const item = state.favoriteProductData.find(
-        (item) => item._id === action.payload._id);
+        (item) => item._id === action.payload._id
+      );
       if (item) {
         item.quantity += action.payload.quantity;
       } else {
-        state.favoriteProductData.push(action.payload)
+        state.favoriteProductData.push(action.payload);
       }
     },
     deleteItem: (state, action) => {
@@ -65,7 +66,9 @@ export const nextSlice = createSlice({
         (item) => item._id === action.payload._id
       );
       if (item.quantity === 1) {
-        state.productData = state.productData.filter((item) => item._id !== action.payload._id);
+        state.productData = state.productData.filter(
+          (item) => item._id !== action.payload._id
+        );
       } else {
         item.quantity--;
       }
@@ -122,7 +125,7 @@ export const nextSlice = createSlice({
     },
     setAllProducts: (state, action) => {
       state.allProducts = action.payload;
-    }
+    },
   },
 });
 
