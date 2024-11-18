@@ -8,7 +8,7 @@ const Brand = () => {
   const [showBrands, setShowBrands] = useState(true);
 
   const checkedBrands = useSelector((state) => state.next.checkedBrands);
-  const selectedSexCategory = useSelector((state) => state.next.sexCategory)
+  const selectedSexCategory = useSelector((state) => state.next.sexCategory);
 
   const dispatch = useDispatch();
 
@@ -16,9 +16,9 @@ const Brand = () => {
 
   useEffect(() => {
     if (isMobile) {
-      setShowBrands(false)
+      setShowBrands(false);
     }
-  }, [isMobile])
+  }, [isMobile]);
 
   const menBrands = [
     {
@@ -74,49 +74,48 @@ const Brand = () => {
     <div className="flex justify-center md:flex-col">
       <div
         className="cursor-pointer"
-        onClick={() => setShowBrands(!showBrands)}>
+        onClick={() => setShowBrands(!showBrands)}
+      >
         <div className="flex items-center">
-          <h1 className="font-bold text-sm md:text-2xl w-28 md:w-48 my-2">Filter by Brand</h1>
+          <h1 className="font-bold text-sm md:text-xl w-28 md:w-48 my-2">
+            Filter by Brand
+          </h1>
           <RiArrowDropDownLine className="font-bold text-4xl" />
         </div>
       </div>
       {showBrands && (
         <ul className="flex md:flex-col gap-4 text-sm lg:text-base">
-          {selectedSexCategory === "women" ?
-            womenBrands.map((item) => (
-              <li
-                key={item._id}
-                className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300"
-              >
-                <input
-                  type="checkbox"
-                  id={item._id}
-                  checked={checkedBrands.some((b) => b.title === item.title)}
-                  onChange={() => handleToggleBrand(item.title)}
-                />
-                {item.title}
-              </li>
-            ))
+          {selectedSexCategory === "women"
+            ? womenBrands.map((item) => (
+                <li
+                  key={item._id}
+                  className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300"
+                >
+                  <input
+                    type="checkbox"
+                    id={item._id}
+                    checked={checkedBrands.some((b) => b.title === item.title)}
+                    onChange={() => handleToggleBrand(item.title)}
+                  />
+                  {item.title}
+                </li>
+              ))
             : menBrands.map((item) => (
-              <li
-                key={item._id}
-                className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300"
-              >
-                <input
-                  type="checkbox"
-                  id={item._id}
-                  checked={checkedBrands.some((b) => b.title === item.title)}
-                  onChange={() => handleToggleBrand(item.title)}
-                />
-                {item.title}
-              </li>
-
-            ))
-          }
+                <li
+                  key={item._id}
+                  className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300"
+                >
+                  <input
+                    type="checkbox"
+                    id={item._id}
+                    checked={checkedBrands.some((b) => b.title === item.title)}
+                    onChange={() => handleToggleBrand(item.title)}
+                  />
+                  {item.title}
+                </li>
+              ))}
         </ul>
       )}
-
-
     </div>
   );
 };

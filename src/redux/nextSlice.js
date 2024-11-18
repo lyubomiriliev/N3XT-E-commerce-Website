@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   productData: [],
   favoriteProductData: [],
+  filteredProducts: [],
   checkedBrands: [],
   checkedCategorys: [],
   userInfo: null,
@@ -126,6 +127,9 @@ export const nextSlice = createSlice({
     setAllProducts: (state, action) => {
       state.allProducts = action.payload;
     },
+    setFilteredProducts(state, action) {
+      state.filteredProducts = action.payload;
+    },
   },
 });
 
@@ -146,6 +150,7 @@ export const {
   setProductCategory,
   setHeaderSubmenu,
   setAllProducts,
+  setFilteredProducts,
   setError,
   clearError,
 } = nextSlice.actions;

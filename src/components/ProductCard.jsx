@@ -64,15 +64,15 @@ const ProductCard = ({ product, view }) => {
               : "flex flex-col items-center justify-center"
           }`}
         >
-          <div className="w-full flex flex-col justify-center items-center">
-            <h2 className="text-sm md:text-base w-full px-4 h-16 items-center flex font-bold text-center">
+          <div className="w-full flex flex-col">
+            <h2 className="text-sm md:text-base w-full px-4 h-16 md:h-20 items-start flex font-bold text-center">
               {product.title}
             </h2>
-            <div className="w-full hidden md:flex text-base justify-center items-center mb-5 flex-col">
+            <div className="w-full hidden md:flex text-base justify-center items-center flex-col">
               <p className="text-sm font-bold text-black">
                 {selectedSexCategory.toUpperCase()}
               </p>
-              <p className="text-sm text-gray-600">Category:{product.type}</p>
+              <p className="text-sm text-gray-600">{product.type}</p>
             </div>
             {view === "list" ? (
               <div className="w-full mt-4">
@@ -125,9 +125,9 @@ const ProductCard = ({ product, view }) => {
                   : "w-full justify-between text-gray-500 text-md flex items-center top-0"
               }`}
             >
-              <div className="px-2 bg-gray-200 hover:bg-stone-300 duration-300 ease-in-out rounded-md mb-2 items-center justify-center flex w-full gap-2 py-2">
-                <span className="font-light text-black">Add to cart</span>
-                <button className="text-2xl text-black">
+              <div className="px-2 bg-indigo-600 hover:bg-indigo-800 rounded-lg cursor-pointer duration-300 ease-in-out mb-2 items-center justify-center flex w-full gap-2 py-2">
+                <span className="font-light text-white">Add to cart</span>
+                <button className="text-2xl text-white">
                   <AiOutlineShoppingCart />
                 </button>
               </div>

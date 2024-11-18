@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 import { RiArrowDropDownLine } from "react-icons/ri";
 import useDeviceDetect from "../../../hooks/useDeviceDetect";
+import { setFilteredProducts } from "../../../redux/nextSlice";
 
+const Price = () => {
+  const dispatch = useDispatch();
+  const selectedSexCategory = useSelector((state) => state.next.sexCategory);
+  const products = useSelector((state) => state.next.allProducts);
 
-const Price = ({ products, setFilteredProducts }) => {
+  console.log(products);
+
   const priceList = [
     {
       _id: 950,
@@ -40,9 +46,9 @@ const Price = ({ products, setFilteredProducts }) => {
     },
   ];
 
-  const location = useLocation()
+  const location = useLocation();
   const pathname = location.pathname;
-  const lastSegment = pathname.substring(pathname.lastIndexOf("/") + 1)
+  const lastSegment = pathname.substring(pathname.lastIndexOf("/") + 1);
 
   const [showPrices, setShowPrices] = useState(true);
   const [activePrice, setActivePrice] = useState(null);
@@ -51,40 +57,46 @@ const Price = ({ products, setFilteredProducts }) => {
 
   useEffect(() => {
     if (isMobile) {
-      setShowPrices(false)
+      setShowPrices(false);
     }
-  }, [isMobile])
+  }, [isMobile]);
 
-  const selectedSexCategory = useSelector((state) => state.next.sexCategory)
-  const selectedSubheaderMenu = useSelector((state) => state.next.headerSubmenu)
+  const sortProducts = (products, option = "low-to-high") => {
+    const sortedProducts = [...products];
+    if (option === "high-to-low") {
+      sortedProducts.sort((a, b) => b.price - a.price);
+    } else if (option === "low-to-high") {
+      sortedProducts.sort((a, b) => a.price - b.price);
+    }
+    return sortedProducts;
+  };
 
   const filteredProductsByPriceRange = (priceOne, priceTwo, id) => {
-
     if (activePrice === id) {
-      setFilteredProducts(products.filter((product) => product.type === lastSegment && product.category === selectedSexCategory.toLowerCase()))
-      setActivePrice(null)
+      const sorted = sortProducts(products);
+      dispatch(setFilteredProducts(products));
+      setActivePrice(null);
     } else {
-      const filteredProducts = products.filter
-        ((product) =>
+      const filtered = products.filter(
+        (product) =>
           product.price >= priceOne &&
           product.price <= priceTwo &&
           product.category === selectedSexCategory.toLowerCase()
-          && product.type === lastSegment
-        );
-      setFilteredProducts(filteredProducts)
-      setActivePrice(id)
+      );
+      const sortedFiltered = sortProducts(filtered);
+      dispatch(setFilteredProducts(sortedFiltered));
+      setActivePrice(id);
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
-
     <div className="cursor-pointer">
       <div onClick={() => setShowPrices(!showPrices)}>
         <div className="flex items-center">
-          <h1 className="font-bold text-sm md:text-2xl w-28 md:w-48 my-2">Filter By Price</h1>
+          <h1 className="font-bold text-sm md:text-xl w-28 md:w-48 my-2">
+            Filter By Price
+          </h1>
           <RiArrowDropDownLine className="font-bold text-4xl" />
         </div>
       </div>
@@ -94,9 +106,18 @@ const Price = ({ products, setFilteredProducts }) => {
             {priceList.map((item) => (
               <li
                 key={item._id}
-                className={`border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-gray-800 hover:border-gray-600 duration-300 ${activePrice === item._id ? ' text-red-600 border-gray-400' : ''
-                  }`}
-                onClick={() => filteredProductsByPriceRange(item.priceOne, item.priceTwo, item._id)}
+                className={`border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-gray-800 hover:border-gray-600 duration-300 ${
+                  activePrice === item._id
+                    ? " text-indigo-600 border-indigo-600"
+                    : ""
+                }`}
+                onClick={() =>
+                  filteredProductsByPriceRange(
+                    item.priceOne,
+                    item.priceTwo,
+                    item._id
+                  )
+                }
               >
                 ${item.priceOne.toFixed(2)} - ${item.priceTwo.toFixed(2)}
               </li>

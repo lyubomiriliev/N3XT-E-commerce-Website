@@ -14,13 +14,15 @@ import {
   setProductCategory,
   setHeaderSubmenu,
   setAllProducts,
+  setFilteredProducts,
 } from "../../redux/nextSlice";
 import useDeviceDetect from "../../hooks/useDeviceDetect";
 import { FaSort } from "react-icons/fa";
 import { bagsSubmenus } from "./Submenus/bagsSubmenus";
+import ShopSideNav from "../../components/Shop/ShopSideNav";
 
 const Clothing = () => {
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const filteredProducts = useSelector((state) => state.next.filteredProducts);
   const [view, setView] = useState("grid");
   const [sortOption, setSortOption] = useState("high-to-low");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -81,7 +83,7 @@ const Clothing = () => {
     } else if (option === "low-to-high") {
       sortedProducts.sort((a, b) => a.price - b.price);
     }
-    setFilteredProducts(sortedProducts);
+    dispatch(setFilteredProducts(sortedProducts));
   };
 
   const toggleSortDropdown = () => {
@@ -154,7 +156,7 @@ const Clothing = () => {
       );
     }
 
-    setFilteredProducts(filtered);
+    dispatch(setFilteredProducts(filtered));
   };
 
   // Safely retrieve submenus based on selectedSubheaderMenu
@@ -183,10 +185,12 @@ const Clothing = () => {
   const toggleSubMenu = (selectedProductCategory) => {
     if (activeSubMenu === selectedProductCategory) {
       setActiveSubMenu(null);
-      setFilteredProducts(
-        allProducts.filter(
-          (item) =>
-            item.type.toLowerCase() === selectedSubheaderMenu.toLowerCase()
+      dispatch(
+        setFilteredProducts(
+          allProducts.filter(
+            (item) =>
+              item.type.toLowerCase() === selectedSubheaderMenu.toLowerCase()
+          )
         )
       );
     } else {
@@ -202,11 +206,13 @@ const Clothing = () => {
   };
 
   const closeSubMenu = () => {
-    setFilteredProducts(
-      allProducts.filter(
-        (product) =>
-          product.type === selectedSubheaderMenu &&
-          product.category === selectedSexCategory
+    dispatch(
+      setFilteredProducts(
+        allProducts.filter(
+          (product) =>
+            product.type === selectedSubheaderMenu &&
+            product.category === selectedSexCategory
+        )
       )
     );
     setSelectedCategory(null);
@@ -242,10 +248,12 @@ const Clothing = () => {
 
   const resetSubmenu = () => {
     setActiveSubMenu(null);
-    setFilteredProducts(
-      allProducts.filter(
-        (item) =>
-          item.type.toLowerCase() === selectedSubheaderMenu.toLowerCase()
+    dispatch(
+      setFilteredProducts(
+        allProducts.filter(
+          (item) =>
+            item.type.toLowerCase() === selectedSubheaderMenu.toLowerCase()
+        )
       )
     );
   };
@@ -261,6 +269,9 @@ const Clothing = () => {
       </div>
 
       <div className="w-full px-4 md:px-0 flex flex-col py-6 md:flex-row">
+        <div className="w-1/3 hidden md:flex">
+          <ShopSideNav />
+        </div>
         <div className="w-full flex flex-col justify-start">
           <div className="w-full flex items-center mb-4">
             <h1 className="font-light text-lg md:text-3xl uppercase">
