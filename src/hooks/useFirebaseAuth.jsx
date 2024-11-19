@@ -3,6 +3,7 @@ import {
   GoogleAuthProvider,
   getAuth,
   signInWithPopup,
+  signInWithRedirect,
   signOut,
 } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,16 +18,22 @@ const useFirebaseAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const auth = getAuth();
-  const provider = new GoogleAuthProvider();
+  const googleProvider = new GoogleAuthProvider();
+  const facebookProvider = new FacebookAuthProvider();
   const [isSigningIn, setIsSigningIn] = useState(false);
   const selectedSexCategory = useSelector((state) => state.next.sexCategory);
+
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   const handleGoogleLogin = (e) => {
     e.preventDefault();
     if (isSigningIn) return;
 
     setIsSigningIn(true);
-    signInWithPopup(auth, provider)
+
+    const loginMethod = isMobile ? signInWithRedirect : signInWithPopup;
+
+    loginMethod(auth, googleProvider)
       .then((result) => {
         const user = result.user;
         dispatch(
@@ -42,35 +49,18 @@ const useFirebaseAuth = () => {
         }, 600);
       })
       .catch((error) => {
-        console.log(error);
-        setIsSigningIn(false);
+        console.error("Login error:", error);
+        toast.error("Login failed. Please try again.");
       })
       .finally(() => {
-        setIsSigningIn(flase);
-      });
-  };
-
-  const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        dispatch(removeUser());
-        dispatch(resetCart());
-
-        localStorage.removeItem("user-info");
-
-        toast.success("Log Out Successfully");
-        navigate(`/${selectedSexCategory}`);
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("Failed to log out. Please try again.");
+        setIsSigningIn(false);
       });
   };
 
   const signInWithFacebook = async () => {
-    const provider = new FacebookAuthProvider();
+    const loginMethod = isMobile ? signInWithRedirect : signInWithPopup;
 
-    signInWithPopup(auth, provider)
+    loginMethod(auth, facebookProvider)
       .then((result) => {
         const user = result.user;
         const userDoc = {
@@ -88,7 +78,23 @@ const useFirebaseAuth = () => {
         }, 600);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
+        toast.error("Login failed. Please try again.");
+      });
+  };
+
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch(removeUser());
+        dispatch(resetCart());
+        localStorage.removeItem("user-info");
+        toast.success("Log Out Successfully");
+        navigate(`/${selectedSexCategory}`);
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Failed to log out. Please try again.");
       });
   };
 

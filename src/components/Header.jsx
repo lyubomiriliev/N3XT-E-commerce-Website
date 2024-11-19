@@ -276,20 +276,12 @@ export default function Header() {
             </div>
           </Link>
           <div className="items-center hidden md:flex">
-            {userInfo === null ? (
-              <Link to="/register">
-                <div className=" hover:text-black text-gray-700 hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
-                  <FavoriteBorderOutlinedIcon />
-                </div>
-              </Link>
-            ) : (
-              <Link to="/wishlist">
-                <div className="hover:text-indigo-600 justify-center items-center hidden md:flex text-gray-700 hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
-                  <FavoriteBorderOutlinedIcon />
-                  <span className="text-xs">{favoriteProductData.length}</span>
-                </div>
-              </Link>
-            )}
+            <Link to="/wishlist">
+              <div className="hover:text-indigo-600 justify-center items-center hidden md:flex text-gray-700 hover:scale-110 decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
+                <FavoriteBorderOutlinedIcon />
+                <span className="text-xs">{favoriteProductData.length}</span>
+              </div>
+            </Link>
           </div>
           <Link to="/cart">
             <div className="hover:text-indigo-600 justify-center items-center hover:scale-110 hidden md:flex decoration-[1px] cursor-pointer duration-300 ease-out 0.3s">
