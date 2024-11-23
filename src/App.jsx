@@ -64,13 +64,11 @@ function App() {
       <AppRouter />
       <ToastContainer
         position="top-right"
-        autoClose={2000}
+        autoClose={800}
         hideProgressBar={false}
         newestOnTop={false}
         rtl={false}
-        pauseOnFocusLoss
         draggable
-        pauseOnHover
         theme="dark"
         toastStyle={{
           backgroundColor: "#333333",

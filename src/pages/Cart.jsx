@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CartItem from "../components/CartItem";
 import { toast } from "react-toastify";
 import StripeCheckout from "react-stripe-checkout";
 import { nextLogoWhite } from "../assets";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { collection, addDoc } from "firebase/firestore";
+import { firestore } from "../firebase.config";
+import { resetCart } from "../redux/nextSlice";
 
 const Cart = () => {
   const productData = useSelector((state) => state.next.productData);
   const userInfo = useSelector((state) => state.next.userInfo);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [totalAmount, setTotalAmount] = useState("");
   const [payNow, setPayNow] = useState(false);
@@ -40,7 +44,17 @@ const Cart = () => {
       });
 
       // Check if the payment was successful
+
       if (response.status === 200 && response.data.success) {
+        console.log("Saving order with userId:", userInfo._id);
+        await addDoc(collection(firestore, "orders"), {
+          userId: userInfo._id,
+          items: productData,
+          total: totalAmount,
+          date: new Date().toISOString(),
+          status: "Processing",
+        });
+        dispatch(resetCart());
         toast.success("Payment successful!");
         navigate("/order-completed"); // Redirect on success
       } else {

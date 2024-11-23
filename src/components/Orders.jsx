@@ -1,32 +1,56 @@
-import { ChevronRight, Package, X } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { Package, ChevronRight, X } from "lucide-react";
+import { toast } from "react-toastify";
+import { firestore } from "../firebase.config";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Orders = () => {
+  const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const userInfo = useSelector((state) => state.next.userInfo);
+  const navigate = useNavigate();
 
-  const mockOrders = [
-    {
-      id: "1",
-      date: "2024-03-15",
-      status: "Delivered",
-      items: 2,
-      total: "$129.99",
-    },
-    {
-      id: "2",
-      date: "2024-03-10",
-      status: "In Transit",
-      items: 1,
-      total: "$79.99",
-    },
-    {
-      id: "3",
-      date: "2024-03-05",
-      status: "Processing",
-      items: 3,
-      total: "$199.99",
-    },
-  ];
+  useEffect(() => {
+    const fetchOrders = async () => {
+      if (!userInfo) {
+        toast.error("Please log in to view your orders.");
+        return;
+      }
+
+      try {
+        const ordersRef = collection(firestore, "orders");
+        const q = query(ordersRef, where("userId", "==", userInfo._id));
+        const querySnapshot = await getDocs(q);
+
+        const fetchedOrders = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setOrders(fetchedOrders);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to fetch orders.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, [userInfo]);
+
+  const handleOpenItem = (item) => {
+    const _id = item.title;
+    const idString = (_id) => {
+      return String(_id).toLowerCase().split(" ").join("");
+    };
+    const rootId = idString(_id);
+
+    navigate(`/product/${rootId}`);
+  };
 
   const openModal = (order) => {
     setSelectedOrder(order);
@@ -36,9 +60,17 @@ const Orders = () => {
     setSelectedOrder(null);
   };
 
+  if (loading) {
+    return <div>Loading your orders...</div>;
+  }
+
+  if (orders.length === 0) {
+    return <div>No orders found.</div>;
+  }
+
   return (
     <div className="space-y-4">
-      {mockOrders.map((order) => (
+      {orders.map((order) => (
         <div
           key={order.id}
           className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow"
@@ -46,11 +78,13 @@ const Orders = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Order #{order.id}</p>
-              <p className="font-medium">{order.date}</p>
+              <p className="font-medium">
+                {new Date(order.date).toDateString()}
+              </p>
             </div>
             <div className="text-right">
-              <p className="font-semibold">{order.total}</p>
-              <p className="text-sm">{order.items} items</p>
+              <p className="font-semibold">${order.total}</p>
+              <p className="text-sm">{order.items.length} items</p>
             </div>
           </div>
           <div className="mt-4 flex items-center justify-between">
@@ -99,17 +133,40 @@ const Orders = () => {
                 <strong>Order ID:</strong> {selectedOrder.id}
               </p>
               <p>
-                <strong>Date:</strong> {selectedOrder.date}
+                <strong>Date:</strong>{" "}
+                {new Date(selectedOrder.date).toDateString()}
               </p>
               <p>
                 <strong>Status:</strong> {selectedOrder.status}
               </p>
               <p>
-                <strong>Total:</strong> {selectedOrder.total}
+                <strong>Total:</strong> ${selectedOrder.total}
               </p>
-              <p>
-                <strong>Items:</strong> {selectedOrder.items}
-              </p>
+              <div>
+                <strong>Products:</strong>
+                <div className="grid grid-cols-3 gap-4 mt-2">
+                  {selectedOrder.items.map((item, index) => (
+                    <div
+                      onClick={() => handleOpenItem(item)}
+                      key={index}
+                      className="text-center"
+                    >
+                      <img
+                        src={item.image}
+                        className="w-24 h-24 object-cover rounded-lg shadow-md mx-auto cursor-pointer"
+                        alt={item.title}
+                      />
+                      <p className="text-sm font-medium mt-2">{item.title}</p>
+                      <p className="text-sm text-gray-600">
+                        {item.quantity} pcs.
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Price: ${item.price}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
             <button
               onClick={closeModal}
