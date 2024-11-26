@@ -224,7 +224,7 @@ const Clothing = () => {
       return !submenu.name.toLowerCase().includes("mocassins");
     } else if (selectedSexCategory === "men") {
       return (
-        !submenu.name.toLowerCase().includes("skirts") &&
+        !submenu.name.toLowerCase().includes("skirt") &&
         !submenu.name.toLowerCase().includes("necklaces") &&
         !submenu.name.toLowerCase().includes("earrings")
       );

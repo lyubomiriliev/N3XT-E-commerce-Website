@@ -22,7 +22,7 @@ export const links = [
       { name: "Boots", link: "/products/boots" },
       { name: "Mocassins", link: "/products/loafers" },
       { name: "Sandals", link: "/products/sandals" },
-      { name: "Running", link: "/products/running"}
+      { name: "Running", link: "/products/running" },
     ],
   },
   {
@@ -56,15 +56,9 @@ export const links = [
   },
   {
     name: "Brands",
-    submenu: true,
+    submenu: false,
     dir: "/brands",
-    sublinks: [
-      { name: "Louis Vuitton", link: "/brands/louis-vutiton" },
-      { name: "Balenciaga", link: "/brands/balenciaga" },
-      { name: "Versace", link: "/brands/versace" },
-      { name: "Balmain", link: "/brands/balmain" },
-      { name: "Dsquared2", link: "/brands/" },
-    ],
+    sublinks: [],
   },
   {
     name: "SALE",

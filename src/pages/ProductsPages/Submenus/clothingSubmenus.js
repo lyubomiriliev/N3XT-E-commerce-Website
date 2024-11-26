@@ -20,6 +20,10 @@ export const clothingSubmenu = [
     submenu: true,
   },
   {
+    name: "Top",
+    submenu: true,
+  },
+  {
     name: "Formal",
     submenu: true,
   },
