@@ -5,9 +5,8 @@ import { auth, firestore } from "../firebase.config";
 import { useDispatch } from "react-redux";
 
 const useSignUpWithEmailAndPassword = () => {
-
-const dispatch = useDispatch()
-const auth = getAuth();
+  const dispatch = useDispatch();
+  const auth = getAuth();
 
   const signUp = async (email, password, userDetails) => {
     try {
@@ -18,12 +17,14 @@ const auth = getAuth();
       );
       const user = userCredential.user;
 
+      const currentDate = new Date().toISOString();
       const userData = {
         uid: user.uid,
-        email: user.email,                      
+        email: user.email,
+        memberSince: currentDate,
         ...userDetails,
       };
-      
+
       await setDoc(doc(firestore, "users", user.uid), userData);
       dispatch(addUser(userData));
       localStorage.setItem("user-info", JSON.stringify(userData));

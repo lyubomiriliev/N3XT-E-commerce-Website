@@ -38,8 +38,16 @@ const Brand = () => {
       title: "Off-White",
     },
     {
-      _id: 5900,
+      _id: 6000,
       title: "Givenchy",
+    },
+    {
+      _id: 6100,
+      title: "Dsquared2",
+    },
+    {
+      _id: 6200,
+      title: "VETEMENTS",
     },
   ];
 
@@ -61,8 +69,20 @@ const Brand = () => {
       title: "Balmain",
     },
     {
-      _id: 6900,
+      _id: 7000,
+      title: "Pinko",
+    },
+    {
+      _id: 7100,
+      title: "Prada",
+    },
+    {
+      _id: 7200,
       title: "Dsquared2",
+    },
+    {
+      _id: 7300,
+      title: "Burberry",
     },
   ];
 

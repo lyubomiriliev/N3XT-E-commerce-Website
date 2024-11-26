@@ -37,6 +37,13 @@ const AccountDetails = () => {
     localStorage.setItem("accountData", JSON.stringify(accountData));
   }, [accountData]);
 
+  const formattedDate = userInfo?.memberSince
+    ? new Date(userInfo.memberSince).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+      })
+    : "2024";
+
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
@@ -130,8 +137,9 @@ const AccountDetails = () => {
           <h4 className="font-medium mb-2">Account Details</h4>
           <div className="space-y-2 text-sm">
             <div>
-              <p className="flex w-[69%] lg:w-[82%] justify-between">
-                <span className="text-gray-600">Member Since</span> March 2023
+              <p className="flex w-[69%] lg:w-[88%] justify-between">
+                <span className="text-gray-600">Member Since</span>
+                {formattedDate}
               </p>
             </div>
             <p className="flex justify-between">
