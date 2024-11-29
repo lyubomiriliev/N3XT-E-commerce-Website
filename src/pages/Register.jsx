@@ -28,15 +28,6 @@ const Register = () => {
 
   const { signUp } = useSignUpWithEmailAndPassword();
 
-  // useEffect(() => {
-  //     const storedUser = JSON.parse(localStorage.getItem("user-info"))
-  //         if(storedUser) {
-  //             dispatch(addUser(storedUser));
-  //         } else {
-  //             navigate(`/${selectedSexCategory}`);
-  //         }
-  // },[dispatch, navigate])
-
   const [isRendered, setIsRendered] = useState(false);
 
   useEffect(() => {
