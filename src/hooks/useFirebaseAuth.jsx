@@ -36,17 +36,21 @@ const useFirebaseAuth = () => {
     loginMethod(auth, googleProvider)
       .then((result) => {
         const user = result.user;
-        dispatch(
-          addUser({
-            _id: user.uid,
-            name: user.displayName,
-            email: user.email,
-            image: user.photoURL,
-          })
-        );
+        const currentDate = new Date().toISOString();
+        const userDoc = {
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          image: user.photoURL,
+          memberSince: currentDate,
+        };
+        setDoc(doc(firestore, "users", user.uid), userDoc);
+        dispatch(addUser(userDoc));
+        localStorage.setItem("user-info", JSON.stringify(userDoc));
         setTimeout(() => {
           navigate(`/${selectedSexCategory}`);
         }, 600);
+        toast.success("Logged In Successfully");
       })
       .catch((error) => {
         console.error("Login error:", error);
@@ -89,6 +93,8 @@ const useFirebaseAuth = () => {
         dispatch(removeUser());
         dispatch(resetCart());
         localStorage.removeItem("user-info");
+        localStorage.removeItem("profilePicture");
+        localStorage.removeItem("accountData");
         toast.success("Log Out Successfully");
         navigate(`/${selectedSexCategory}`);
       })

@@ -3,6 +3,8 @@ import { Edit2 } from "lucide-react";
 import { useSelector } from "react-redux";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { useNavigate } from "react-router-dom";
+import { doc, updateDoc } from "firebase/firestore";
+import { firestore } from "../firebase.config";
 
 const AccountDetails = () => {
   const userInfo = useSelector((state) => state.next.userInfo);
@@ -14,11 +16,13 @@ const AccountDetails = () => {
     lastName: "Iliev",
     birthday: "April 15, 1990",
   });
+
   const [displayName, setDisplayName] = useState(
     `${accountData.firstName} ${accountData.lastName}`
   );
   const [profilePicture, setProfilePicture] = useState(
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
+    userInfo?.image ||
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
   );
 
   useEffect(() => {
@@ -31,7 +35,7 @@ const AccountDetails = () => {
     if (savedProfilePicture) {
       setProfilePicture(savedProfilePicture);
     }
-  }, []);
+  }, [profilePicture]);
 
   useEffect(() => {
     localStorage.setItem("accountData", JSON.stringify(accountData));
@@ -74,13 +78,24 @@ const AccountDetails = () => {
     );
   }
 
-  const handleProfilePictureChange = (event) => {
+  const handleProfilePictureChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => {
-        setProfilePicture(reader.result);
-        localStorage.setItem("profilePicture", reader.result);
+      reader.onload = async () => {
+        const newProfilePicture = reader.result;
+        setProfilePicture(newProfilePicture);
+        localStorage.setItem("profilePicture", newProfilePicture);
+
+        if (userInfo?.uid) {
+          try {
+            const userRef = doc(firestore, "users", userInfo.uid);
+            await updateDoc(userRef, { image: newProfilePicture });
+            console.log("Profile picture updated successfully in Firestore!");
+          } catch (error) {
+            console.error("Failed to update profile picture", error);
+          }
+        }
       };
       reader.readAsDataURL(file);
     }

@@ -6,8 +6,10 @@ import Orders from "../components/Orders";
 import Address from "../components/Address";
 import Refer from "../components/Refer";
 import useFirebaseAuth from "../hooks/useFirebaseAuth";
+import { useSelector } from "react-redux";
 
 const UserProfile = () => {
+  const userInfo = useSelector((state) => state.next.userInfo);
   const [activeTab, setActiveTab] = useState("profile");
 
   const { handleSignOut } = useFirebaseAuth();
