@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { collection, addDoc } from "firebase/firestore";
 import { firestore } from "../firebase.config";
-import { resetCart } from "../redux/nextSlice";
+import { resetCart, setOrderId } from "../redux/nextSlice";
 
 const Cart = () => {
   const productData = useSelector((state) => state.next.productData);
@@ -46,14 +46,14 @@ const Cart = () => {
       // Check if the payment was successful
 
       if (response.status === 200 && response.data.success) {
-        console.log("Saving order with userId:", userInfo._id);
-        await addDoc(collection(firestore, "orders"), {
-          userId: userInfo._id,
+        const orderDoc = await addDoc(collection(firestore, "orders"), {
+          userId: userInfo?.uid,
           items: productData,
           total: totalAmount,
           date: new Date().toISOString(),
           status: "Processing",
         });
+        dispatch(setOrderId(orderDoc.id));
         dispatch(resetCart());
         toast.success("Payment successful!");
         navigate("/order-completed"); // Redirect on success

@@ -11,6 +11,7 @@ const initialState = {
   sexCategory: "women",
   productCategory: "",
   headerSubmenu: "",
+  orderId: null,
   allProducts: [],
 };
 
@@ -130,6 +131,9 @@ export const nextSlice = createSlice({
     setFilteredProducts(state, action) {
       state.filteredProducts = action.payload;
     },
+    setOrderId: (state, action) => {
+      state.orderId = action.payload;
+    },
   },
 });
 
@@ -153,5 +157,6 @@ export const {
   setFilteredProducts,
   setError,
   clearError,
+  setOrderId,
 } = nextSlice.actions;
 export default nextSlice.reducer;

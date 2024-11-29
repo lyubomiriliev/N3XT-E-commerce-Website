@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { Package, ChevronRight, X } from "lucide-react";
 import { toast } from "react-toastify";
 import { firestore } from "../firebase.config";
@@ -22,7 +22,11 @@ const Orders = () => {
 
       try {
         const ordersRef = collection(firestore, "orders");
-        const q = query(ordersRef, where("userId", "==", userInfo._id));
+        const q = query(
+          ordersRef,
+          where("userId", "==", userInfo.uid),
+          orderBy("date", "desc")
+        );
         const querySnapshot = await getDocs(q);
 
         const fetchedOrders = querySnapshot.docs.map((doc) => ({
@@ -30,7 +34,11 @@ const Orders = () => {
           ...doc.data(),
         }));
 
-        setOrders(fetchedOrders);
+        if (fetchedOrders.length > 0) {
+          setOrders(fetchedOrders);
+        } else {
+          console.log("No orders found.");
+        }
       } catch (error) {
         console.error(error);
         toast.error("Failed to fetch orders.");

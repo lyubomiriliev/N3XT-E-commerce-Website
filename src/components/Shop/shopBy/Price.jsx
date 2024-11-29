@@ -11,8 +11,6 @@ const Price = () => {
   const selectedSexCategory = useSelector((state) => state.next.sexCategory);
   const products = useSelector((state) => state.next.allProducts);
 
-  console.log(products);
-
   const priceList = [
     {
       _id: 950,
