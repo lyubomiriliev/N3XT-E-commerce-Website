@@ -11,6 +11,7 @@ import Home from "../pages/Home";
 import Wishlist from "../pages/Wishlist";
 import UserProfile from "../pages/UserProfile";
 import Completed from "../components/Completed";
+import ForgotPassword from "../components/ForgotPassword";
 
 // Dynamic Submenu Routes
 export const generateSubmenuRoutes = (selectedSexCategory) => {
@@ -54,5 +55,6 @@ export const generateStaticRoutes = (selectedSexCategory) => [
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
   { path: "/order-completed", element: <Completed /> },
+  { path: "/forgot-password", element: <ForgotPassword /> },
   { path: `/${selectedSexCategory}/sale`, element: <Sale /> },
 ];
